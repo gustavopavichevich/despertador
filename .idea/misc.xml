@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/gmam_/AndroidStudioProjects/despertador/app/src/main/res/drawable/ic_launcher_background.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/gmam_/AndroidStudioProjects/despertador/app/src/main/res/layout/activity_listado_contactos.xml" value="0.33" />
         <entry key="..\:/Users/gmam_/AndroidStudioProjects/despertador/app/src/main/res/layout/activity_maps.xml" value="0.20520833333333333" />
       </map>
     </option>
