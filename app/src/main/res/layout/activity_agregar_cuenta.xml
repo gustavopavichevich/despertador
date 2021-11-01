@@ -10,8 +10,8 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="52dp"
-        android:layout_marginTop="52dp"
+        android:layout_marginStart="44dp"
+        android:layout_marginTop="28dp"
         android:text="Crear Cuenta"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -77,8 +77,8 @@
         android:id="@+id/textView11"
         android:layout_width="130dp"
         android:layout_height="23dp"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="16dp"
         android:text="Ya tenes cuenta?"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -88,11 +88,11 @@
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="Iniciar sesion"
         android:textStyle="normal|bold|italic"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.682"
+        app:layout_constraintHorizontal_bias="0.665"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button" />
 
@@ -137,7 +137,7 @@
 
     <EditText
         android:id="@+id/editTextPhone"
-        android:layout_width="271"
+        android:layout_width="271dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="52dp"
         android:layout_marginTop="4dp"
@@ -149,7 +149,7 @@
 
     <EditText
         android:id="@+id/editTextTextPassword"
-        android:layout_width="271"
+        android:layout_width="271dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="52dp"
         android:layout_marginTop="4dp"
@@ -161,13 +161,14 @@
 
     <CheckBox
         android:id="@+id/checkBox"
-        android:layout_width="271"
+        android:layout_width="271dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginStart="52dp"
+        android:layout_marginTop="16dp"
         android:text="Acepto los terminos de servicio y politicas de privacidad"
         android:textSize="10sp"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword"
-        tools:layout_editor_absoluteX="52dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextTextPassword" />
 
     <Button
         android:id="@+id/button"
