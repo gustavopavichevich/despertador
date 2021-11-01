@@ -62,7 +62,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(bsas));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(bsas,8));
         LatLng unicenter = new LatLng(-34.5086111, -58.52388888888889);
-        mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_llegada_poi_foreground)).anchor(0.0f, 1.04f).position(unicenter).title("Unicenter"));
+        mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.logo2)).anchor(0.0f, 1.04f).position(unicenter).title("Unicenter"));
     }
 
     public void AbrirDialogoCofContacto()
