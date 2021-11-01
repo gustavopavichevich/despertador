@@ -56,19 +56,35 @@
 
     <Button
         android:id="@+id/login2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="179dp"
+        android:layout_height="52dp"
         android:layout_gravity="start"
+        android:layout_marginEnd="5dp"
         android:layout_marginBottom="64dp"
         android:background="@drawable/boton_redondeado_borde"
         android:enabled="false"
         android:text="@string/action_sign_in_short"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.156"
+        app:layout_constraintTop_toBottomOf="@+id/login"
+        app:layout_constraintVertical_bias="0.333" />
+
+    <Button
+        android:id="@+id/login3"
+        android:layout_width="179dp"
+        android:layout_height="52dp"
+        android:layout_gravity="start"
+        android:layout_marginStart="5dp"
+        android:layout_marginBottom="64dp"
+        android:background="@drawable/boton_redondeado_borde"
+        android:enabled="false"
+        android:text="@string/action_sign_in_rem"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/login2"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/login"
-        app:layout_constraintVertical_bias="0.127" />
+        app:layout_constraintVertical_bias="0.274" />
 
     <ProgressBar
         android:id="@+id/loading"
