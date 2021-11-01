@@ -23,7 +23,6 @@ import ar.com.despertador.R;
  * create an instance of this fragment.
  */
 public class DialogoConfigurarContactoFragment extends DialogFragment {
-
     Activity actividad;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -44,7 +43,7 @@ public class DialogoConfigurarContactoFragment extends DialogFragment {
         return CrearDialogoConfigurarContacto();
     }
 
-    private Dialog CrearDialogoConfigurarContacto() {
+    private AlertDialog CrearDialogoConfigurarContacto() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater= getActivity().getLayoutInflater();
@@ -63,7 +62,6 @@ public class DialogoConfigurarContactoFragment extends DialogFragment {
             throw new RuntimeException(context.toString() + "");
         }
     }
-
     /**
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.

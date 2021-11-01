@@ -24,7 +24,6 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
         android:contentDescription="Avisar a Contacto"
-        android:onClick="AbrirDialogoCofContacto"
         android:src="@drawable/plusgreen" />
 
 </fragment>
