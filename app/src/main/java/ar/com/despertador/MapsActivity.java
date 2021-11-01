@@ -3,6 +3,7 @@ package ar.com.despertador;
 import androidx.fragment.app.FragmentActivity;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -11,8 +12,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import ar.com.despertador.databinding.ActivityMapsBinding;
+import ar.com.despertador.dialogos.DialogoConfigurarContactoFragment;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -30,6 +33,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        FloatingActionButton AvisaraContacto = (FloatingActionButton) findViewById(R.id.AvisaraContacto);
+        AvisaraContacto.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                AbrirDialogoCofContacto();
+            }
+        });
     }
 
     /**
@@ -53,5 +63,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng unicenter = new LatLng(-34.5086111, -58.52388888888889);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(unicenter,16));
         mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_leollegando_foreground)).anchor(0.0f, 1.04f).position(unicenter).title("Unicenter"));
+    }
+
+    public void AbrirDialogoCofContacto()
+    {
+
+        DialogoConfigurarContactoFragment dialogoTipoJuego=new DialogoConfigurarContactoFragment();
+        dialogoTipoJuego.show(getSupportFragmentManager(),"Dialogo Configurar Contacto");
     }
 }
