@@ -137,7 +137,7 @@
 
     <EditText
         android:id="@+id/editTextPhone"
-        android:layout_width="271"
+        android:layout_width="271dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="52dp"
         android:layout_marginTop="4dp"
@@ -149,7 +149,7 @@
 
     <EditText
         android:id="@+id/editTextTextPassword"
-        android:layout_width="271"
+        android:layout_width="271dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="52dp"
         android:layout_marginTop="4dp"
@@ -161,7 +161,7 @@
 
     <CheckBox
         android:id="@+id/checkBox"
-        android:layout_width="271"
+        android:layout_width="271dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="Acepto los terminos de servicio y politicas de privacidad"
