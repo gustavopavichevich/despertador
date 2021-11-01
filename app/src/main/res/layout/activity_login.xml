@@ -42,7 +42,7 @@
         app:layout_constraintTop_toBottomOf="@+id/username" />
 
     <Button
-        android:id="@+id/login"
+        android:id="@+id/btnAceptar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
@@ -68,7 +68,7 @@
         android:enabled="false"
         android:text="@string/action_sign_in_short"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login" />
+        app:layout_constraintTop_toBottomOf="@+id/btnAceptar" />
 
     <Button
         android:id="@+id/login3"
@@ -83,7 +83,7 @@
         app:layout_constraintEnd_toStartOf="@+id/login2"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login" />
+        app:layout_constraintTop_toBottomOf="@+id/btnAceptar" />
 
     <ProgressBar
         android:id="@+id/loading"

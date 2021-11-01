@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import ar.com.despertador.ListadoContactos;
 import ar.com.despertador.R;
 
 /**
@@ -94,5 +96,10 @@ public class DialogoConfigurarContactoFragment extends DialogFragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_dialogo_configurar_contacto, container, false);
+    }
+    public void ElegirContacto()
+    {
+        /*Intent intent=new Intent(this, ListadoContactos.class);
+        startActivity(intent);*/
     }
 }

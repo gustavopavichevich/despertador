@@ -22,7 +22,7 @@
         android:textStyle="bold" />
 
     <ListView
-        android:id="@+id/lvContactos"
+        android:id="@+id/lvAlarmas"
         android:layout_width="wrap_content"
         android:layout_height="543dp"
         android:layout_below="@+id/txtSeleccionar"
@@ -39,7 +39,7 @@
         android:id="@+id/btnEnviar"
         android:layout_width="341dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/lvContactos"
+        android:layout_below="@+id/lvAlarmas"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
@@ -48,6 +48,7 @@
         android:layout_marginEnd="33dp"
         android:layout_marginBottom="65dp"
         android:background="@color/colorRojo"
+        android:onClick="EnviarContacto"
         android:text="@string/btnEnviar"
         android:textColor="#000000" />
 

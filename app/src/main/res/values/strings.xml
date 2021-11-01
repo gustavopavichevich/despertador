@@ -15,4 +15,6 @@
     <string name="login_failed">"Fallo al ingresar"</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="btnAceptar" >Aceptar</string>
+    <string name="txtAlarma" >Seleccionar Alarma</string>
 </resources>

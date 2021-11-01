@@ -69,6 +69,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:background="@color/colorRojo"
+            android:onClick="ElegirContacto"
             android:text="Aceptar" />
     </LinearLayout>
 </LinearLayout>
