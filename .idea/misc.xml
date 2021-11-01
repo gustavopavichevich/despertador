@@ -6,8 +6,11 @@
         <entry key="..\:/GitHub/facultad/despertador/app/src/main/res/drawable/ic_llegada_poi_background.xml" value="0.22135416666666666" />
         <entry key="..\:/GitHub/facultad/despertador/app/src/main/res/layout/activity_maps.xml" value="0.20520833333333333" />
         <entry key="..\:/Users/gmam_/AndroidStudioProjects/despertador/app/src/main/res/drawable/ic_launcher_background.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/gmam_/AndroidStudioProjects/despertador/app/src/main/res/layout/activity_agregar_cuenta.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/gmam_/AndroidStudioProjects/despertador/app/src/main/res/layout/activity_listado_contactos.xml" value="0.33" />
+        <entry key="..\:/Users/gmam_/AndroidStudioProjects/despertador/app/src/main/res/layout/activity_login.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/gmam_/AndroidStudioProjects/despertador/app/src/main/res/layout/activity_maps.xml" value="0.20520833333333333" />
+        <entry key="..\:/Users/gmam_/AndroidStudioProjects/despertador/app/src/main/res/layout/fragment_dialogo_configurar_contacto.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/u583011/AndroidStudioProjects/despertador/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.23177083333333334" />
         <entry key="..\:/Users/u583011/AndroidStudioProjects/despertador/app/src/main/res/drawable/boton_redondeado.xml" value="0.23177083333333334" />
         <entry key="..\:/Users/u583011/AndroidStudioProjects/despertador/app/src/main/res/drawable/boton_redondedo_borde.xml" value="0.1203125" />
@@ -21,7 +24,7 @@
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
