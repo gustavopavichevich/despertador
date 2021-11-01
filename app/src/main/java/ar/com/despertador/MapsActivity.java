@@ -2,12 +2,14 @@ package ar.com.despertador;
 
 import androidx.fragment.app.FragmentActivity;
 
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -49,5 +51,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(bsas).title("Buenos Aires, Argentina"));
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(bsas));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(bsas,8));
+        LatLng unicenter = new LatLng(-34.5086111, -58.52388888888889);
+        mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_llegada_poi_foreground)).anchor(0.0f, 1.04f).position(unicenter).title("Unicenter"));
     }
 }
