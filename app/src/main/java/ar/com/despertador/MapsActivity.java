@@ -19,6 +19,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import ar.com.despertador.databinding.ActivityMapsBinding;
 import ar.com.despertador.dialogos.DialogoConfigurarContactoFragment;
+import ar.com.despertador.dialogos.DialogoConfigurarRadioFragment;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -41,6 +42,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         AvisaraContacto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 AbrirDialogoCofContacto();
+            }
+        });
+        FloatingActionButton aplicarRadio = (FloatingActionButton) findViewById(R.id.DefinirDistancia);
+        aplicarRadio.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                AbrirDialogoConfigRadio();
             }
         });
     }
@@ -72,11 +79,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .radius(300)
                 .strokeColor(Color.GRAY)
                 .fillColor(Color.CYAN));
+
     }
 
     public void AbrirDialogoCofContacto() {
 
         DialogoConfigurarContactoFragment dialogoTipoJuego = new DialogoConfigurarContactoFragment();
         dialogoTipoJuego.show(getSupportFragmentManager(), "Dialogo Configurar Contacto");
+    }
+
+    public void AbrirDialogoConfigRadio() {
+
+        DialogoConfigurarRadioFragment dialogoRadio = new DialogoConfigurarRadioFragment();
+        dialogoRadio.show(getSupportFragmentManager(), "Dialogo Configurar Radio");
     }
 }
