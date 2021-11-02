@@ -24,11 +24,12 @@
         <entry key="..\:/Users/u583011/AndroidStudioProjects/despertador/app/src/main/res/layout/activity_listado_contactos.xml" value="0.18" />
         <entry key="..\:/Users/u583011/AndroidStudioProjects/despertador/app/src/main/res/layout/activity_login.xml" value="0.25" />
         <entry key="..\:/Users/u583011/AndroidStudioProjects/despertador/app/src/main/res/layout/activity_maps.xml" value="0.14175724637681159" />
+        <entry key="..\:/Users/u583011/AndroidStudioProjects/despertador2/app/src/main/res/layout/activity_maps.xml" value="0.1408514492753623" />
       </map>
     </option>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

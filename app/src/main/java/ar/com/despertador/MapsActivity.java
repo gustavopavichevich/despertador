@@ -10,6 +10,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -55,14 +56,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+      //  mMap.setPadding(28,80,4,67);
         // Add a marker in Buenos Aires and move the camera
         LatLng bsas = new LatLng(-34.6075682, -58.4370894);
         mMap.addMarker(new MarkerOptions().position(bsas).title("Buenos Aires, Argentina"));
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(bsas));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(bsas,8));
+     //   mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(bsas,12));
         LatLng unicenter = new LatLng(-34.5086111, -58.52388888888889);
         mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.logo2)).anchor(0.0f, 1.04f).position(unicenter).title("Unicenter"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(unicenter,11));
     }
 
     public void AbrirDialogoCofContacto()
