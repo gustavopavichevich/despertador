@@ -2,7 +2,6 @@ package ar.com.despertador.data.model;
 
 public class Alarma {
     private int idAlarma;
-
     private int idPersona;
     private String nombre;
     private String urlTono;
@@ -20,6 +19,15 @@ public class Alarma {
         this.mensaje = mensaje;
         this.distanciaActivacion = distanciaActivacion;
     }
+
+    public int getIdAlarma() {
+        return idAlarma;
+    }
+
+    public void setIdAlarma(int idAlarma) {
+        this.idAlarma = idAlarma;
+    }
+
 
     public int getIdPersona() {
         return idPersona;
