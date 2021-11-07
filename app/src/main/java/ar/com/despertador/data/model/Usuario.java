@@ -1,12 +1,11 @@
 package ar.com.despertador.data.model;
 
 public class Usuario {
+
     private int idUsuario;
-
-    private int idPersona;
-
     private String email;
     private String contrasena;
+    private int idPersona;
 
     public Usuario() {
     }
@@ -15,6 +14,14 @@ public class Usuario {
         this.idPersona = idPersona;
         this.email = email;
         this.contrasena = contrasena;
+    }
+
+    public int getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(int idUsuario) {
+        this.idUsuario = idUsuario;
     }
 
     public int getIdPersona() {
