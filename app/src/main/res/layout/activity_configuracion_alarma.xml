@@ -6,39 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".ConfiguracionAlarmaActivity">
 
-    <ListView
-        android:id="@+id/lvAlarmas"
-        android:layout_width="344dp"
-        android:layout_height="135dp"
-        android:layout_below="@+id/txtSeleccionar"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="100dp"
-        android:background="#C9CCD5"
+    <Button
+        android:id="@+id/btnAceptar"
+        android:layout_width="343dp"
+        android:layout_height="54dp"
+        android:layout_gravity="start"
+        android:layout_marginBottom="64dp"
+        android:background="@color/colorRojo"
+        android:enabled="false"
+        android:text="@string/btnAceptar"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.477"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtSeleccionar2">
-
-    </ListView>
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="348dp"
-        android:layout_height="18dp"
-        android:text="Mensaje"
-        android:textColor="@color/colorNaranja"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextMultiLine2"
-        tools:layout_editor_absoluteX="32dp" />
-
-    <SeekBar
-        android:id="@+id/seekBarVolumen"
-        android:layout_width="342dp"
-        android:layout_height="35dp"
-        android:layout_marginBottom="32dp"
-        app:layout_constraintBottom_toTopOf="@+id/textView6"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.478"
+        app:layout_constraintHorizontal_bias="0.47"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
@@ -55,47 +35,25 @@
         app:layout_constraintHorizontal_bias="0.468"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/btnAceptar"
-        android:layout_width="343dp"
-        android:layout_height="54dp"
-        android:layout_gravity="start"
-        android:layout_marginBottom="64dp"
-        android:background="@color/colorRojo"
-        android:enabled="false"
-        android:text="@string/btnAceptar"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.47"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="348dp"
-        android:layout_height="18dp"
-        android:text="Volumen"
-        android:textColor="@color/colorNaranja"
-        app:layout_constraintBottom_toTopOf="@+id/seekBarVolumen"
-        app:layout_constraintTop_toBottomOf="@+id/lvAlarmas"
-        app:layout_constraintVertical_bias="1.0"
+    <EditText
+        android:id="@+id/etNombreAlarma"
+        android:layout_width="345dp"
+        android:layout_height="45dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Ingrese el Nombre"
+        app:layout_constraintTop_toBottomOf="@+id/lblNombre"
         tools:layout_editor_absoluteX="33dp" />
 
-    <TextView
-        android:id="@+id/txtSeleccionar2"
-        android:layout_width="345dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="16dp"
-        android:text="@string/txtAlarma"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:textStyle="bold"
+    <ListView
+        android:id="@+id/lvAlarmas"
+        android:layout_width="337dp"
+        android:layout_height="156dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorGris"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/etNombreAlarma" />
 
     <ProgressBar
         android:id="@+id/loading"
@@ -109,17 +67,50 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3" />
 
-    <EditText
-        android:id="@+id/etNombreAlarma"
-        android:layout_width="345dp"
-        android:layout_height="45dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:text="Ingrese el Nombre"
-        app:layout_constraintBottom_toTopOf="@+id/lvAlarmas"
-        app:layout_constraintTop_toBottomOf="@+id/lblNombre"
-        app:layout_constraintVertical_bias="0.0"
+    <SeekBar
+        android:id="@+id/seekBarVolumen"
+        android:layout_width="342dp"
+        android:layout_height="35dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/textView6"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.478"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="348dp"
+        android:layout_height="18dp"
+        android:text="Mensaje"
+        android:textColor="@color/colorNaranja"
+        app:layout_constraintBottom_toTopOf="@+id/editTextTextMultiLine2"
+        tools:layout_editor_absoluteX="32dp" />
+
+    <TextView
+        android:id="@+id/textView13"
+        android:layout_width="348dp"
+        android:layout_height="18dp"
+        android:text="Volumen"
+        android:textColor="@color/colorNaranja"
+        app:layout_constraintBottom_toTopOf="@+id/seekBarVolumen"
         tools:layout_editor_absoluteX="33dp" />
+
+    <TextView
+        android:id="@+id/txtSeleccionar2"
+        android:layout_width="345dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="24dp"
+        android:text="@string/txtAlarma"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.454"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/lblNombre"
