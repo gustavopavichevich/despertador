@@ -4,29 +4,27 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.ListView;
 
-import com.example.myapplication.adapter.ArticuloAdapter;
-import com.example.myapplication.entidad.Articulos;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
+
+import ar.com.despertador.data.model.Alarma;
 
 
-public class DataMainActivity extends AsyncTask<String, Void, String> {
+public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
 
 
     private ListView lvArticulo;
     private Context context;
 
     private static String result2;
-//    private static ArrayList<Articulos> listaArticulos = new ArrayList<Articulos>();
+    private static ArrayList<Alarma> listaAlarma = new ArrayList<Alarma>();
 
     //Recibe por constructor el textview
     //Constructor
-    public DataMainActivity(ListView lv, Context ct) {
-        lvArticulo = lv;
+    public DataAlarmaActivity(ListView lv, Context ct) {
+        lvAlarma = lv;
         context = ct;
     }
 

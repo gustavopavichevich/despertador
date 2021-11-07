@@ -7,14 +7,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.myapplication.R;
-import com.example.myapplication.entidad.Articulos;
-
 import java.util.List;
 
-//public class ArticuloAdapter extends ArrayAdapter<Articulos> {
+import ar.com.despertador.R;
+import ar.com.despertador.data.model.Alarma;
+
+//public class AlarmaAdapter extends ArrayAdapter<Alarma> {
 //
-//    public ArticuloAdapter(Context context, List<Articulos> objetos) {
+//    public AlarmaAdapter(Context context, List<Alarma> objetos) {
 //        super(context, R.layout.list_template, objetos);
 //    }
 //
@@ -32,4 +32,4 @@ import java.util.List;
 //
 //        return item;
 //    }
-}
+//}
