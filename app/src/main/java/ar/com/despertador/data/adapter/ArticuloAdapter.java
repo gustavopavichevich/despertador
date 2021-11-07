@@ -7,12 +7,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import com.example.myapplication.R;
-import com.example.myapplication.entidad.Articulos;
+//import com.example.myapplication.R;
+//import com.example.myapplication.entidad.Articulos;
 
 import java.util.List;
 
-//public class ArticuloAdapter extends ArrayAdapter<Articulos> {
+public class ArticuloAdapter {//extends ArrayAdapter<Articulos> {
 //
 //    public ArticuloAdapter(Context context, List<Articulos> objetos) {
 //        super(context, R.layout.list_template, objetos);

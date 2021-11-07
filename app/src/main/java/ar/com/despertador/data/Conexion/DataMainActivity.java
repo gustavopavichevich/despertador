@@ -4,8 +4,8 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.ListView;
 
-import com.example.myapplication.adapter.ArticuloAdapter;
-import com.example.myapplication.entidad.Articulos;
+//import com.example.myapplication.adapter.ArticuloAdapter;
+//import com.example.myapplication.entidad.Articulos;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

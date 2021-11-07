@@ -1,9 +1,15 @@
 package ar.com.despertador;
 
+import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.View;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -22,6 +28,8 @@ import ar.com.despertador.dialogos.DialogoConfigurarContactoFragment;
 import ar.com.despertador.dialogos.DialogoConfigurarRadioFragment;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+
+    static final int PICK_CONTACT_REQUEST=1;
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
@@ -83,9 +91,42 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void AbrirDialogoCofContacto() {
+        //comoento para probar activity seleecionar contactos
+        //DialogoConfigurarContactoFragment dialogo = new DialogoConfigurarContactoFragment();
+        //dialogo.show(getSupportFragmentManager(), "Dialogo Configurar Contacto");
 
-        DialogoConfigurarContactoFragment dialogoTipoJuego = new DialogoConfigurarContactoFragment();
-        dialogoTipoJuego.show(getSupportFragmentManager(), "Dialogo Configurar Contacto");
+        //prueba
+        Intent selectContactoIntent = new Intent(Intent.ACTION_PICK, Uri.parse("content://contactas"));
+        selectContactoIntent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
+        startActivityForResult(selectContactoIntent,PICK_CONTACT_REQUEST);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        //super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode ==PICK_CONTACT_REQUEST) {
+            if (resultCode == RESULT_OK)
+            {
+                Uri uri = data.getData();
+
+                Cursor cursor= getContentResolver().query(uri,null,null,null,null);
+
+                if (cursor.moveToFirst()){
+                    int columnaNombre=cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
+                    int columnaNumero=cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
+                    String nombre = cursor.getString(columnaNombre);
+                    String numero = cursor.getString(columnaNumero);
+                    Toast.makeText(this,"Registro Seleccionado: " + nombre + " Celular: " + numero, Toast.LENGTH_SHORT).show();
+                    //grabar los datos del contacto seleccionado en la base
+
+
+                    //Voy a configurar Alarma
+                    Intent intent=new Intent(this, ConfiguracionAlarmaActivity.class);
+                    startActivity(intent);
+
+                }
+            }
+        }
     }
 
     public void AbrirDialogoConfigRadio() {
