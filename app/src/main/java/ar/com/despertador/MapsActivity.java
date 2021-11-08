@@ -24,12 +24,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import ar.com.despertador.databinding.ActivityMapsBinding;
+import ar.com.despertador.dialogos.Configurar_ContactoActivity;
 import ar.com.despertador.dialogos.DialogoConfigurarContactoFragment;
 import ar.com.despertador.dialogos.DialogoConfigurarRadioFragment;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
-    static final int PICK_CONTACT_REQUEST=1;
+//    static final int PICK_CONTACT_REQUEST=1;
 
     private GoogleMap mMap;
     private ActivityMapsBinding binding;
@@ -92,15 +93,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void AbrirDialogoCofContacto() {
         //comoento para probar activity seleecionar contactos
-        //DialogoConfigurarContactoFragment dialogo = new DialogoConfigurarContactoFragment();
-        //dialogo.show(getSupportFragmentManager(), "Dialogo Configurar Contacto");
+        /*DialogoConfigurarContactoFragment dialogo = new DialogoConfigurarContactoFragment();
+        dialogo.show(getSupportFragmentManager(), "Dialogo Configurar Contacto");*/
+        Intent intent=new Intent(this, Configurar_ContactoActivity.class);
+        startActivity(intent);
 
+
+        /*
         //prueba
         Intent selectContactoIntent = new Intent(Intent.ACTION_PICK, Uri.parse("content://contactas"));
         selectContactoIntent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
         startActivityForResult(selectContactoIntent,PICK_CONTACT_REQUEST);
+         */
     }
-
+    /*
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         //super.onActivityResult(requestCode, resultCode, data);
@@ -128,7 +134,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         }
     }
-
+    */
     public void AbrirDialogoConfigRadio() {
 
         DialogoConfigurarRadioFragment dialogoRadio = new DialogoConfigurarRadioFragment();

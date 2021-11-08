@@ -97,9 +97,9 @@ public class DialogoConfigurarContactoFragment extends DialogFragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_dialogo_configurar_contacto, container, false);
     }
-    public void ElegirContacto()
+    public void ElegirContacto(View v)
     {
-        /*Intent intent=new Intent(this, ListadoContactos.class);
-        startActivity(intent);*/
+        //Intent intent=new Intent(this, ListadoContactos.class);
+        //startActivity(intent);
     }
 }
