@@ -10,6 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
+            android:name=".dialogos.Configurar_ContactoActivity"
+            android:exported="false" />
+        <activity
             android:name=".ConfiguracionAlarmaActivity"
             android:exported="false" />
         <activity
