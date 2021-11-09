@@ -55,10 +55,10 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String response) {
-        AlarmaAdapter adapter = new AlarmaAdapter(context, listaAlarmas);
-        lvAlarma.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-        ((AlarmaAdapter) lvAlarma.getAdapter()).notifyDataSetChanged();
+//        AlarmaAdapter adapter = new AlarmaAdapter(context, listaAlarmas);
+//        lvAlarma.setAdapter(adapter);
+//        adapter.notifyDataSetChanged();
+//        ((AlarmaAdapter) lvAlarma.getAdapter()).notifyDataSetChanged();
     }
 }
 
