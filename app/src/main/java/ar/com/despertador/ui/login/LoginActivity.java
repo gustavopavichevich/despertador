@@ -5,6 +5,7 @@ import android.app.Activity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -22,15 +23,19 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import ar.com.despertador.AgregarCuentaActivity;
 import ar.com.despertador.R;
+
+import ar.com.despertador.databinding.ActivityLoginBinding;
 import ar.com.despertador.ui.login.LoginViewModel;
 import ar.com.despertador.ui.login.LoginViewModelFactory;
-import ar.com.despertador.databinding.ActivityLoginBinding;
+
 
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
     private ActivityLoginBinding binding;
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,7 +49,9 @@ public class LoginActivity extends AppCompatActivity {
 
         final EditText usernameEditText = binding.username;
         final EditText passwordEditText = binding.password;
-        final Button loginButton = binding.login2;
+        final Button loginButton = binding.btnAceptar;
+
+                //findViewById(R.id.login2);
         final ProgressBar loadingProgressBar = binding.loading;
 
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
@@ -114,6 +121,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+
+        
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,4 +143,13 @@ public class LoginActivity extends AppCompatActivity {
     private void showLoginFailed(@StringRes Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }
+
+    public void AbrirAgregarCuenta(View v)
+    {
+        Intent intent=new Intent(this, AgregarCuentaActivity.class);
+        startActivity(intent);
+
+    }
+
+
 }
