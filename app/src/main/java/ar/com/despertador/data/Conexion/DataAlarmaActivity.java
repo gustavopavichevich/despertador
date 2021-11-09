@@ -10,60 +10,55 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import ar.com.despertador.data.adapter.AlarmaAdapter;
 import ar.com.despertador.data.model.Alarma;
+import ar.com.despertador.data.model.Persona;
 
 
 public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
 
 
-    private ListView lvAlarma;
-    private Context context;
+    private final ListView lvAlarma;
+    private final Context context;
+    private final Alarma alarma;
+    private final Persona persona;
 
-    private static String result2;
-    private static ArrayList<Alarma> listaAlarma = new ArrayList<Alarma>();
-
-    //Recibe por constructor el textview
-    //Constructor
-    public DataAlarmaActivity(ListView lv, Context ct) {
+    public DataAlarmaActivity(Persona pe, Alarma al, ListView lv, Context ct) {
         lvAlarma = lv;
         context = ct;
+        alarma = al;
+        persona = pe;
     }
 
     @Override
     protected String doInBackground(String... urls) {
-        String response = "";
-
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(DataBD.urlMySQL, DataBD.user, DataBD.pass);
             Statement st = con.createStatement();
-            ResultSet rs = st.executeQuery("SELECT * FROM alarmas");
-            result2 = " ";
-
-            Alarma alarma;
-            while (rs.next()) {
-                alarma = new Alarma();
-                alarma.setIdAlarma(rs.getInt("idAlarma"));
-                alarma.setIdPersona(rs.getInt("idPersona"));
-                alarma.setNombre(rs.getString("nombre"));
-                alarma.setUrlTono(rs.getString("urlTono"));
-                alarma.setMensaje(rs.getString("mensaje"));
-                alarma.setDistanciaActivacion(rs.getInt(rs.getString("distanciaActivacion")));
-            }
-            response = "Conexion exitosa";
+            st.executeUpdate("INSERT INTO personas VALUES ("
+                    + persona.getApellido() + ","
+                    + persona.getNombre() + ","
+                    + persona.getTelefono() + ","
+                    + persona.getTelefono() + ","
+                    + persona.getTipo());
+            st.executeUpdate("INSERT INTO alarmas VALUES ("
+                    + alarma.getNombre() + ","
+                    + alarma.getUrlTono() + ","
+                    + alarma.getMensaje() + ","
+                    + alarma.getDistanciaActivacion());
         } catch (Exception e) {
             e.printStackTrace();
-            result2 = "Conexion no exitosa";
         }
-        return response;
+        return "ok";
     }
 
     @Override
     protected void onPostExecute(String response) {
-        AlarmaAdapter adapter = new AlarmaAdapter(context, listaAlarma);
-        lvAlarma.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-        ((AlarmaAdapter)lvAlarma.getAdapter()).notifyDataSetChanged();
+//        AlarmaAdapter adapter = new AlarmaAdapter(context, listaAlarmas);
+//        lvAlarma.setAdapter(adapter);
+//        adapter.notifyDataSetChanged();
+//        ((AlarmaAdapter) lvAlarma.getAdapter()).notifyDataSetChanged();
     }
 }
 
