@@ -43,7 +43,6 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
                     + persona.getTelefono() + ","
                     + persona.getTipo());
             st.executeUpdate("INSERT INTO alarmas VALUES ("
-                    + alarma.getIdPersona() + ","
                     + alarma.getNombre() + ","
                     + alarma.getUrlTono() + ","
                     + alarma.getMensaje() + ","
