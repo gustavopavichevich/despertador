@@ -6,16 +6,37 @@ public class Persona {
     private String nombre;
     private String telefono;
     private String tipo;
+    private String email;
 
-    public Persona() {
-    }
 
-    public Persona(String apellido, String nombre, String telefono, String tipo) {
+    public Persona(int idPersona, String apellido, String nombre, String telefono, String tipo, String email) {
+        this.idPersona = idPersona;
         this.apellido = apellido;
         this.nombre = nombre;
         this.telefono = telefono;
         this.tipo = tipo;
+        this.email = email;
     }
+
+    public int getIdPersona() {
+        return idPersona;
+    }
+
+    public void setIdPersona(int idPersona) {
+        this.idPersona = idPersona;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Persona() {
+    }
+
 
     public String getApellido() {
         return apellido;

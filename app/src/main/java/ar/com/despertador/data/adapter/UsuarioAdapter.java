@@ -17,7 +17,7 @@ import ar.com.despertador.data.model.Usuario;
 public class UsuarioAdapter extends ArrayAdapter<Usuario> {
 
     public UsuarioAdapter(Context context, ArrayList<Usuario> objetos) {
-        super(context, R.layout.activity_listado_contactos, objetos);
+        super(context, R.layout.activity_agregar_cuenta, objetos);
     }
 
     @Override

@@ -5,13 +5,11 @@ public class Usuario {
     private int idUsuario;
     private String email;
     private String contrasena;
-    private int idPersona;
 
     public Usuario() {
     }
 
-    public Usuario(int idPersona, String email, String contrasena) {
-        this.idPersona = idPersona;
+    public Usuario(String email, String contrasena) {
         this.email = email;
         this.contrasena = contrasena;
     }
@@ -24,14 +22,6 @@ public class Usuario {
         this.idUsuario = idUsuario;
     }
 
-    public int getIdPersona() {
-        return idPersona;
-    }
-
-    public void setIdPersona(int idPersona) {
-        this.idPersona = idPersona;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -40,11 +30,11 @@ public class Usuario {
         this.email = email;
     }
 
-    public String getContrasena() {
+    public String getContrasenia() {
         return contrasena;
     }
 
-    public void setContrasena(String contrasena) {
+    public void setContrasenia(String contrasena) {
         this.contrasena = contrasena;
     }
 }

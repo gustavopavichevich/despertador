@@ -1,7 +1,10 @@
 package ar.com.despertador;
 
+import static java.security.AccessController.getContext;
+
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,8 +12,15 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import ar.com.despertador.data.Conexion.DataUsuarioActivity;
+import ar.com.despertador.data.model.Persona;
+import ar.com.despertador.data.model.Usuario;
+
 public class AgregarCuentaActivity extends AppCompatActivity {
     Button boton_continuar;
+    private Persona persona;
+    private Usuario usuario;
+    private Context con;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,17 +33,23 @@ public class AgregarCuentaActivity extends AppCompatActivity {
         final EditText texto_email = findViewById(R.id.editTextTextPersonName3);
         final EditText texto_contrasena = findViewById(R.id.editTextTextPassword);
         final CheckBox texto_casilla = findViewById(R.id.checkBox);
-
+        con = this;
         boton_continuar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String nombre = texto_nombre.getText().toString();
-                String apellido = texto_apellido.getText().toString();
-                String telefono = texto_telefono.getText().toString();
-                String email = texto_email.getText().toString();
-                String contrasena = texto_contrasena.getText().toString();
                 String acepta = texto_casilla.isChecked() ? "si" : "no";
-                Toast.makeText(AgregarCuentaActivity.this,"Nombre: "+nombre+" Apellido: "+apellido+" Telefono: "+telefono+" Email: "+email+" Pass "+contrasena+" Acepta?: "+acepta, Toast.LENGTH_SHORT).show();
+                String prueba = texto_apellido.getText().toString();
+                persona = new Persona();
+                usuario = new Usuario();
+                persona.setApellido(prueba);
+                persona.setNombre(texto_nombre.getText().toString());
+                persona.setTelefono(texto_telefono.getText().toString());
+                persona.setTipo("usuario");
+                persona.setEmail(texto_email.getText().toString());
+                usuario.setContrasenia(texto_contrasena.getText().toString());
+                usuario.setEmail(texto_email.getText().toString());
+                DataUsuarioActivity task = new DataUsuarioActivity(persona, usuario, con);
+                task.execute();
             }
         });
     }
