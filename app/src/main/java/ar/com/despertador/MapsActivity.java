@@ -92,7 +92,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .strokeColor(Color.GRAY)
                 .fillColor(Color.CYAN));
 
-    }
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+                mMap.addMarker(new MarkerOptions()
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.logo2))
+                        .anchor(0.0f, 1.0f)
+                        .position(latLng));
+            }  });
+
+
+
 
     public void AbrirDialogoCofContacto() {
         //comoento para probar activity seleecionar contactos
