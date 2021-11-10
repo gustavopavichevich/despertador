@@ -45,7 +45,8 @@ public class LoginActivity extends AppCompatActivity {
   //  private LoginViewModel loginViewModel;
  //   private Button agregar;
   private Context con;
-    Button boton_ingresar;
+    private Button boton_ingresar;
+    private Button boton_recordar;
     private Usuario usuario;
 
     //   private ActivityLoginBinding binding;
@@ -56,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         boton_ingresar = (Button) findViewById(R.id.btnAceptar);
-
+        boton_recordar = (Button) findViewById(R.id.login3);
 
         final  EditText texto_email = findViewById(R.id.username);
         final EditText texto_contrasenia = findViewById(R.id.password);
@@ -76,6 +77,33 @@ public class LoginActivity extends AppCompatActivity {
                 usuario.setEmail(texto_email.getText().toString());
                 DataUsuarioActivity task = new DataUsuarioActivity("select", usuario, con);
                 task.execute();
+            }
+        });
+
+        boton_recordar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //             persona = new Persona();
+    //            usuario = new Usuario();
+    //            String textoPass = texto_contrasenia.getText().toString();
+               String textoUser = texto_email.getText().toString();
+               if (textoUser.isEmpty()){
+                    Toast.makeText(con, "Completa el campo mail para recordarte la contraseña", Toast.LENGTH_SHORT).show();
+                }else
+               {
+                   DataUsuarioActivity task = new DataUsuarioActivity("select", usuario, con);
+                   task.execute();
+               }
+
+
+  /*              persona.setApellido(texto_apellido.getText().toString());
+                persona.setNombre(texto_nombre.getText().toString());
+                persona.setTelefono(texto_telefono.getText().toString());
+                persona.setTipo("usuario");
+                persona.setEmail(texto_email.getText().toString());*/
+      //          usuario.setContrasenia(texto_contrasenia.getText().toString());
+        //        usuario.setEmail(texto_email.getText().toString());
+
             }
         });
 
@@ -209,6 +237,14 @@ public class LoginActivity extends AppCompatActivity {
         Intent agregar = new Intent( this, AgregarCuentaActivity.class);
         startActivity(agregar);
     }
+
+/*    public void Recordar (View view)
+    {
+        String textoUser = texto_email.getText().toString();
+        String textoPass =  texto_contrasenia.getText().toString();
+       // Intent agregar = new Intent( this, AgregarCuentaActivity.class);
+       // startActivity(agregar);
+    }*/
     //Método para el inicio de sesion
 /*    public void IniciarSesion(View view){
 
