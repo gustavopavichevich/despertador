@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import ar.com.despertador.MapsActivity;
 import ar.com.despertador.data.adapter.UsuarioAdapter;
 import ar.com.despertador.data.model.Persona;
 import ar.com.despertador.data.model.Usuario;
@@ -25,10 +26,10 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
     private Persona persona;
     private Usuario usuario;
     private String accion;
-    private ListView lvUsuarios;
-
     private static String result2;
-    private static final ArrayList<Usuario> listaUsuarios = new ArrayList<Usuario>();
+    private int total;
+    private int iduser;
+
 
     //Recibe por constructor el textview
     //Constructor para el insert
@@ -40,10 +41,10 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
 
     }
 //constructor para el select
-    public DataUsuarioActivity(String accion, Usuario usuario, ListView lvUsuarios, Context ct) {
+    public DataUsuarioActivity(String accion, Usuario usuario, Context ct) {
         this.usuario = usuario;
-        this.lvUsuarios = lvUsuarios;
         this.context = ct;
+        this.accion = accion;
     }
 
     public DataUsuarioActivity(Context ct) {
@@ -71,18 +72,31 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
                             + usuario.getContrasenia() + "')");
                     break;
                 case "select":
-                    ResultSet rs = st.executeQuery("SELECT * FROM usuarios where email = "); // falta terminar
-                    result2 = " ";
+                    ResultSet rs = st.executeQuery("SELECT idUsuario FROM usuarios where email = '" + usuario.getEmail() +
+                            "' and contrasenia = '" + usuario.getContrasenia() + "' ");
 
-                    Usuario usuario;
-                    while (rs.next()) {
-                        usuario = new Usuario(rs.getInt("idUsuario"), rs.getString("email"), rs.getString("contrasena"));
+                 //   String sql = "SELECT idUsuario FROM usuarios where email = '" + usuario.getEmail() +
+               //             "' and contrasenia = '" + usuario.getContrasenia() + "' ";
+
+
+                   result2 = " ";
+                  total = 0;
+                    while (rs.next()){
+                     iduser = rs.getInt("idUsuario");
+                        total++;
                     }
+
+         // Terminamos de cargar el objet
+                    //
+                if (total == 1){
+                       usuario.setIdUsuario(iduser);
+                }
                     break;
                 default:
                     break;
             }
             response = "Conexion exitosa";
+
         } catch (Exception e) {
             e.printStackTrace();
             result2 = "Conexion no exitosa";
@@ -98,10 +112,18 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
                 context.startActivity(new Intent(context, LoginActivity.class));
                 break;
             case "select":
-                UsuarioAdapter adapter = new UsuarioAdapter(context, listaUsuarios);
-                lvUsuarios.setAdapter(adapter);
-                adapter.notifyDataSetChanged();
-                ((UsuarioAdapter)lvUsuarios.getAdapter()).notifyDataSetChanged();
+           //     UsuarioAdapter adapter = new UsuarioAdapter(context, listaUsuarios);
+         //       lvUsuarios.setAdapter(adapter);
+         //       adapter.notifyDataSetChanged();
+         //       ((UsuarioAdapter)lvUsuarios.getAdapter()).notifyDataSetChanged();
+                if (usuario.getIdUsuario() > 0) {
+                    Toast.makeText(context, "Logueado con exito", Toast.LENGTH_LONG).show();
+                    context.startActivity(new Intent(context, MapsActivity.class));
+                }else
+                {
+                    Toast.makeText(context, "Usuario o contraseña incorrectos", Toast.LENGTH_LONG).show();
+                    context.startActivity(new Intent(context, LoginActivity.class));
+                }
                 break;
             default:
                 break;

@@ -5,6 +5,7 @@ import android.app.Activity;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -32,6 +33,9 @@ import ar.com.despertador.MapsActivity;
 import ar.com.despertador.R;
 
 //import ar.com.despertador.databinding.ActivityLoginBinding;
+import ar.com.despertador.data.Conexion.DataUsuarioActivity;
+import ar.com.despertador.data.model.Persona;
+import ar.com.despertador.data.model.Usuario;
 import ar.com.despertador.ui.login.LoginViewModel;
 import ar.com.despertador.ui.login.LoginViewModelFactory;
 
@@ -40,18 +44,54 @@ public class LoginActivity extends AppCompatActivity {
 
   //  private LoginViewModel loginViewModel;
  //   private Button agregar;
-  private EditText _email, _contrasenia;
- //   private ActivityLoginBinding binding;
+  private Context con;
+    Button boton_ingresar;
+    private Usuario usuario;
 
+    //   private ActivityLoginBinding binding;
 
+   // btnAceptar
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_login);
+        boton_ingresar = (Button) findViewById(R.id.btnAceptar);
+
+
+        final  EditText texto_email = findViewById(R.id.username);
+        final EditText texto_contrasenia = findViewById(R.id.password);
+        con = this;
+
+        boton_ingresar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+   //             persona = new Persona();
+                usuario = new Usuario();
+  /*              persona.setApellido(texto_apellido.getText().toString());
+                persona.setNombre(texto_nombre.getText().toString());
+                persona.setTelefono(texto_telefono.getText().toString());
+                persona.setTipo("usuario");
+                persona.setEmail(texto_email.getText().toString());*/
+                usuario.setContrasenia(texto_contrasenia.getText().toString());
+                usuario.setEmail(texto_email.getText().toString());
+                DataUsuarioActivity task = new DataUsuarioActivity("select", usuario, con);
+                task.execute();
+            }
+        });
+
+
+
 
         // binding = ActivityLoginBinding.inflate(getLayoutInflater());
-        setContentView(R.layout.activity_login);
-        _email = (EditText)findViewById(R.id.username);
-        _contrasenia = (EditText)findViewById(R.id.password);
+
+
+
+
+     //   Intent principal = new Intent( this, MapsActivity.class);
+      //  principal.putExtra("email",_email.getText().toString());
+
+
+
       //  this.setTitle("llega");
      /*   agregar = (Button) findViewById(R.id.login2);
 
@@ -170,10 +210,18 @@ public class LoginActivity extends AppCompatActivity {
         startActivity(agregar);
     }
     //Método para el inicio de sesion
-    public void IniciarSesion(View view){
-        Intent principal = new Intent( this, MapsActivity.class);
-        principal.putExtra("email",_email.getText().toString());
-        startActivity(principal);
+/*    public void IniciarSesion(View view){
+
+        Usuario usuario = new Usuario();
+
+        usuario.setEmail(texto_email.getText().toString());
+        usuario.setContrasenia(texto_contrasenia.getText().toString());
+        DataUsuarioActivity task = new DataUsuarioActivity("select", usuario, this);
+        task.execute();
+    }*/
+        //    Intent principal = new Intent( this, MapsActivity.class);
+   //     principal.putExtra("email",_email.getText().toString());
+    //    startActivity(principal);
         /*AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "administracion", null, 1);
         SQLiteDatabase BaseDeDatabase = admin.getWritableDatabase();
 
@@ -202,5 +250,5 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Debes introducir los datos, son obligatorios", Toast.LENGTH_SHORT).show();
         }*/
-    }
+
 }
