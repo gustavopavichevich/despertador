@@ -1,40 +1,42 @@
 package ar.com.despertador.data.Conexion;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import ar.com.despertador.AgregarCuentaActivity;
 import ar.com.despertador.data.adapter.UsuarioAdapter;
-import ar.com.despertador.data.model.Alarma;
+import ar.com.despertador.data.model.Persona;
 import ar.com.despertador.data.model.Usuario;
+import ar.com.despertador.ui.login.LoginActivity;
 
 
 public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
 
 
-    private ListView lvUsuarios;
     private Context context;
-    private String sentenciaSQL= null;
+    private Persona persona;
+    private Usuario usuario;
 
     private static String result2;
-    private static ArrayList<Usuario> listaUsuarios = new ArrayList<Usuario>();
 
     //Recibe por constructor el textview
     //Constructor
-    public DataUsuarioActivity(ListView lvUsuarios, Context ct) {
-        this.lvUsuarios = lvUsuarios;
+    public DataUsuarioActivity(Persona persona, Usuario usuario, Context ct) {
         this.context = ct;
+        this.persona = persona;
+        this.usuario = usuario;
+
     }
-    public DataUsuarioActivity(ListView lvUsuarios, Context ct, String sentenciaSQL) {
-        this.lvUsuarios = lvUsuarios;
+    public DataUsuarioActivity(Context ct) {
         this.context = ct;
-        this.sentenciaSQL = sentenciaSQL;
     }
 
     @Override
@@ -45,19 +47,17 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(DataBD.urlMySQL, DataBD.user, DataBD.pass);
             Statement st = con.createStatement();
-            if(sentenciaSQL.equals(null))
-                sentenciaSQL = "SELECT * FROM usuarios";
-            ResultSet rs = st.executeQuery(sentenciaSQL);
-            result2 = " ";
 
-            Usuario usuario;
-            while (rs.next()) {
-                usuario = new Usuario();
-                usuario.setIdUsuario(rs.getInt("idUsuario"));
-                usuario.setIdPersona(rs.getInt("idPersona"));
-                usuario.setEmail(rs.getString("email"));
-                usuario.setContrasena(rs.getString("contrasena"));
-            }
+            st.executeUpdate("INSERT INTO personas(apellido, nombre, telefono, tipo, email) VALUES ('"
+                    + persona.getApellido() + "','"
+                    + persona.getNombre() + "','"
+                    + persona.getTelefono() + "','"
+                    + persona.getTipo()+ "','"
+                    + persona.getEmail()+"')");
+            st.executeUpdate("INSERT INTO usuarios(email, contrasenia) VALUES('"
+                    + persona.getEmail() +"','"
+                    + usuario.getContrasenia()+"')");
+
             response = "Conexion exitosa";
         } catch (Exception e) {
             e.printStackTrace();
@@ -68,10 +68,8 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String response) {
-        UsuarioAdapter adapter = new UsuarioAdapter(context, listaUsuarios);
-        lvUsuarios.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
-        ((UsuarioAdapter)lvUsuarios.getAdapter()).notifyDataSetChanged();
+        Toast.makeText(context, "insertamos el usuario!!!", Toast.LENGTH_SHORT).show();
+        context.startActivity(new Intent(context, LoginActivity.class));
     }
 }
 
