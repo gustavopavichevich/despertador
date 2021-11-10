@@ -21,6 +21,7 @@
         android:autofillHints="@string/prompt_user"
         android:hint="@string/prompt_user"
         android:inputType="textEmailAddress"
+        android:minHeight="48dp"
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,6 +37,7 @@
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionDone"
         android:inputType="textPassword"
+        android:minHeight="48dp"
         android:selectAllOnFocus="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -48,7 +50,7 @@
         android:layout_gravity="start"
         android:layout_marginTop="32dp"
         android:background="@drawable/boton_redondeado"
-        android:enabled="false"
+        android:enabled="true"
         android:text="@string/action_sign_in"
         android:textColor="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -59,26 +61,28 @@
 
     <Button
         android:id="@+id/login2"
-        android:layout_width="179dp"
-        android:layout_height="52dp"
+        android:layout_width="166dp"
+        android:layout_height="55dp"
         android:layout_gravity="start"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="4dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/boton_redondeado_borde"
-        android:enabled="false"
+        android:enabled="true"
+
+        android:onClick="Agregar"
         android:text="@string/action_sign_in_short"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnAceptar" />
 
     <Button
         android:id="@+id/login3"
-        android:layout_width="179dp"
-        android:layout_height="52dp"
+        android:layout_width="166dp"
+        android:layout_height="55dp"
         android:layout_gravity="start"
         android:layout_marginStart="5dp"
         android:layout_marginTop="32dp"
         android:background="@drawable/boton_redondeado_borde"
-        android:enabled="false"
+        android:enabled="true"
         android:text="@string/action_sign_in_rem"
         app:layout_constraintEnd_toStartOf="@+id/login2"
         app:layout_constraintHorizontal_bias="0.0"
@@ -108,6 +112,7 @@
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logopng" />
+        app:srcCompat="@drawable/logopng"
+        tools:ignore="ImageContrastCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,20 +15,20 @@ import ar.com.despertador.data.model.Alarma;
 public class AlarmaAdapter extends ArrayAdapter<Alarma> {
 
     public AlarmaAdapter(Context context, List<Alarma> objetos) {
-        super(context, R.layout.list_template, objetos);
+        super(context, R.layout.activity_agregar_cuenta, objetos);
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
 
         LayoutInflater inflater = LayoutInflater.from(getContext());
-        View item = inflater.inflate(R.layout.list_template, null);
+        View item = inflater.inflate(R.layout.activity_agregar_cuenta, null);
 
-        TextView tvNombre = (TextView) item.findViewById(R.id.nombreLT);
+  /*      TextView tvNombre = (TextView) item.findViewById(R.id.nombreLT);
         TextView tvStock = (TextView) item.findViewById(R.id.stockLT);
 
         tvNombre.setText(getItem(position).getNombre()+"");
-        tvStock.setText(getItem(position).getStock());
+        tvStock.setText(getItem(position).getStock());*/
 
         return item;
     }
