@@ -31,7 +31,7 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
     private static final ArrayList<Usuario> listaUsuarios = new ArrayList<Usuario>();
 
     //Recibe por constructor el textview
-    //Constructor
+    //Constructor para el insert
     public DataUsuarioActivity(String accion, Persona persona, Usuario usuario, Context ct) {
         this.context = ct;
         this.persona = persona;
@@ -39,7 +39,7 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
         this.accion = accion;
 
     }
-
+//constructor para el select
     public DataUsuarioActivity(String accion, Usuario usuario, ListView lvUsuarios, Context ct) {
         this.usuario = usuario;
         this.lvUsuarios = lvUsuarios;
@@ -71,7 +71,7 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
                             + usuario.getContrasenia() + "')");
                     break;
                 case "select":
-                    ResultSet rs = st.executeQuery("SELECT * FROM usuarios where email = ");
+                    ResultSet rs = st.executeQuery("SELECT * FROM usuarios where email = "); // falta terminar
                     result2 = " ";
 
                     Usuario usuario;
