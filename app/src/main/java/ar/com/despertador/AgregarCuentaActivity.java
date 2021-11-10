@@ -38,17 +38,16 @@ public class AgregarCuentaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String acepta = texto_casilla.isChecked() ? "si" : "no";
-                String prueba = texto_apellido.getText().toString();
                 persona = new Persona();
                 usuario = new Usuario();
-                persona.setApellido(prueba);
+                persona.setApellido(texto_apellido.getText().toString());
                 persona.setNombre(texto_nombre.getText().toString());
                 persona.setTelefono(texto_telefono.getText().toString());
                 persona.setTipo("usuario");
                 persona.setEmail(texto_email.getText().toString());
                 usuario.setContrasenia(texto_contrasena.getText().toString());
                 usuario.setEmail(texto_email.getText().toString());
-                DataUsuarioActivity task = new DataUsuarioActivity(persona, usuario, con);
+                DataUsuarioActivity task = new DataUsuarioActivity("insert",persona, usuario, con);
                 task.execute();
             }
         });
