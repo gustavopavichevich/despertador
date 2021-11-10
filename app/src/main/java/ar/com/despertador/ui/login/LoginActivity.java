@@ -6,6 +6,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 
@@ -26,6 +28,7 @@ import android.widget.Toast;
 
 //import ar.com.despertador.AgregarCuentaActivity;
 import ar.com.despertador.AgregarCuentaActivity;
+import ar.com.despertador.MapsActivity;
 import ar.com.despertador.R;
 
 //import ar.com.despertador.databinding.ActivityLoginBinding;
@@ -37,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
 
   //  private LoginViewModel loginViewModel;
  //   private Button agregar;
-
+  private EditText _email, _contrasenia;
  //   private ActivityLoginBinding binding;
 
 
@@ -47,6 +50,8 @@ public class LoginActivity extends AppCompatActivity {
 
         // binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(R.layout.activity_login);
+        _email = (EditText)findViewById(R.id.username);
+        _contrasenia = (EditText)findViewById(R.id.password);
       //  this.setTitle("llega");
      /*   agregar = (Button) findViewById(R.id.login2);
 
@@ -164,6 +169,38 @@ public class LoginActivity extends AppCompatActivity {
         Intent agregar = new Intent( this, AgregarCuentaActivity.class);
         startActivity(agregar);
     }
+    //Método para el inicio de sesion
+    public void IniciarSesion(View view){
+        Intent principal = new Intent( this, MapsActivity.class);
+        principal.putExtra("email",_email.getText().toString());
+        startActivity(principal);
+        /*AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "administracion", null, 1);
+        SQLiteDatabase BaseDeDatabase = admin.getWritableDatabase();
 
+        String usuario = _usuario.getText().toString();
+        String contrasenia = _contrasenia.getText().toString();
 
+        boolean result = false;
+
+        if(!usuario.isEmpty() && !contrasenia.isEmpty()){
+            Cursor fila = BaseDeDatabase.rawQuery
+                    ("select nombre, usuario from usuarios where usuario ='" + usuario + "' and contrasenia='" + contrasenia + "'", null);
+
+            if(fila.moveToFirst()){
+                //aca abro la pantalla del menu "Mi cuenta" y "Parqueos"
+                //Toast.makeText(this, "Sesion Exitosa", Toast.LENGTH_SHORT).show();
+                BaseDeDatabase.close();
+                Intent principal = new Intent( this, Principal.class);
+                principal.putExtra("nombre",fila.getString(0));
+                principal.putExtra("email",fila.getString(1));
+                startActivity(principal);
+            } else {
+                Toast.makeText(this, "Usuario o Contaseña erroneos", Toast.LENGTH_SHORT).show();
+                BaseDeDatabase.close();
+            }
+
+        } else {
+            Toast.makeText(this, "Debes introducir los datos, son obligatorios", Toast.LENGTH_SHORT).show();
+        }*/
+    }
 }

@@ -42,6 +42,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         binding = ActivityMapsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        String emailU=getIntent().getStringExtra("email");
+        Toast.makeText(this, "Usuario logueado " + emailU, Toast.LENGTH_SHORT).show();
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
