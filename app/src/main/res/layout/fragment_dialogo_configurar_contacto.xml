@@ -18,13 +18,13 @@
         android:layout_height="82dp">
 
         <RadioButton
-            android:id="@+id/radioButton"
+            android:id="@+id/radioWhatsApp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Whatsapp" />
 
         <RadioButton
-            android:id="@+id/radioButton2"
+            android:id="@+id/radioSMS"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Mensaje de Texto" />
@@ -37,7 +37,7 @@
         android:text="Escriba el mensaje de aviso de llegada" />
 
     <EditText
-        android:id="@+id/editTextTextMultiLine"
+        android:id="@+id/txtMensaje"
         android:layout_width="match_parent"
         android:layout_height="249dp"
         android:ems="10"
@@ -56,7 +56,7 @@
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/btnCancelarConfCont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -64,7 +64,7 @@
             android:text="Cancelar" />
 
         <Button
-            android:id="@+id/button5"
+            android:id="@+id/btnAceptarConfCont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
