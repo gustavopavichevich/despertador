@@ -80,14 +80,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 //        GoogleMap
 //        mMap=GoogleMap;
-//        btnGPSShowLocation = (Button) findViewById(R.id.btnGPSShowLocation);
-//        btnGPSShowLocation.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                miUbucacion();
-//            }
-//        });
+        btnGPSShowLocation = (Button) findViewById(R.id.btnGPSShowLocation);
+        btnGPSShowLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                miUbucacion();
+            }
+        });
 
     }
 
