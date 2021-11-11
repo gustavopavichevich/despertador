@@ -84,14 +84,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //             persona = new Persona();
-    //            usuario = new Usuario();
+               usuario = new Usuario();
     //            String textoPass = texto_contrasenia.getText().toString();
                String textoUser = texto_email.getText().toString();
+               usuario.setEmail(textoUser);
                if (textoUser.isEmpty()){
                     Toast.makeText(con, "Completa el campo mail para recordarte la contraseña", Toast.LENGTH_SHORT).show();
                 }else
                {
-                   DataUsuarioActivity task = new DataUsuarioActivity("select", usuario, con);
+                   DataUsuarioActivity task = new DataUsuarioActivity("selectRecordar", usuario, con);
                    task.execute();
                }
 
