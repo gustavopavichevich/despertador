@@ -8,6 +8,17 @@
     android:layout_height="match_parent"
     tools:context=".MapsActivity" >
 
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Show Location"
+        android:id="@+id/btnGPSShowLocation"
+        android:layout_toRightOf="@+id/textView"
+        android:layout_marginTop="53dp"
+        android:layout_below="@+id/textView"
+        android:layout_alignParentLeft="true" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/DefinirDistancia"
         android:layout_width="wrap_content"

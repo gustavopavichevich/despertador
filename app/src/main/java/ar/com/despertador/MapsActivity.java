@@ -1,17 +1,27 @@
 package ar.com.despertador;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -20,6 +30,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -33,16 +44,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //    static final int PICK_CONTACT_REQUEST=1;
 
     private GoogleMap mMap;
-    private ActivityMapsBinding binding;
+    private Marker marcador;
+    Button btnGPSShowLocation;
+    double lat = 0.0;
+    double log = 0.0;
+    //private ActivityMapsBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_maps);
 
-        binding = ActivityMapsBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        //binding = ActivityMapsBinding.inflate(getLayoutInflater());
+        //setContentView(binding.getRoot());
 
-        String emailU=getIntent().getStringExtra("email");
+        String emailU = getIntent().getStringExtra("email");
         Toast.makeText(this, "Usuario logueado " + emailU, Toast.LENGTH_SHORT).show();
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -62,6 +78,69 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 AbrirDialogoConfigRadio();
             }
         });
+//        GoogleMap
+//        mMap=GoogleMap;
+        btnGPSShowLocation = (Button) findViewById(R.id.btnGPSShowLocation);
+        btnGPSShowLocation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                miUbucacion();
+            }
+        });
+
+    }
+
+    private void agregarMarcador(double lat, double log) {
+        LatLng coordenadas = new LatLng(lat, log);
+        CameraUpdate miUbucacion = CameraUpdateFactory.newLatLngZoom(coordenadas, 16);
+        if (marcador != null) marcador.remove();
+        marcador = mMap.addMarker(new MarkerOptions()
+                .position(coordenadas)
+                .title("Mi Posicion Actual")
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.logo2)).anchor(0.0f, 1.04f));
+        mMap.animateCamera(miUbucacion);
+    }
+
+    private void actualizarUbicacion(Location location) {
+        if (location != null) {
+            lat = location.getLatitude();
+            log = location.getLongitude();
+            agregarMarcador(lat, log);
+        }
+    }
+
+    LocationListener locListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            actualizarUbicacion(location);
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+
+        }
+
+        @Override
+        public void onProviderEnabled(@NonNull String provider) {
+
+        }
+
+        @Override
+        public void onProviderDisabled(@NonNull String provider) {
+
+        }
+    };
+
+    private void miUbucacion() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        actualizarUbicacion(location);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 15000, 0, locListener);
+
     }
 
     /**
@@ -75,23 +154,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        mMap.getUiSettings().setZoomControlsEnabled(true);
-        //  mMap.setPadding(28,80,4,67);
-        // Add a marker in Buenos Aires and move the camera
-//        LatLng bsas = new LatLng(-34.6075682, -58.4370894);
-//        mMap.addMarker(new MarkerOptions().position(bsas).title("Buenos Aires, Argentina"));
-        //mMap.moveCamera(CameraUpdateFactory.newLatLng(bsas));
-        //   mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(bsas,12));
-        LatLng unicenter = new LatLng(-34.5086111, -58.52388888888889);
-        mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.logo2)).anchor(0.0f, 1.04f).position(unicenter).title("Unicenter"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(unicenter, 16));
-        Circle circle = mMap.addCircle(new CircleOptions()
-                .center(unicenter)
-                .radius(300)
-                .strokeColor(Color.GRAY)
-                .fillColor(Color.CYAN));
 
+
+        mMap = googleMap;
+//        mMap.getUiSettings().setZoomControlsEnabled(true);
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            return;
+//        }
+//        mMap.setMyLocationEnabled(true);
+//        mMap.getUiSettings().setMyLocationButtonEnabled(true);
+//        CameraUpdate center=
+//                CameraUpdateFactory.newLatLng(new LatLng(40.76793169992044,
+//                        -73.98180484771729));
+//        CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
+//        mMap.moveCamera(center);
+//        mMap.animateCamera(zoom);
+        miUbucacion();
     }
 
     public void AbrirDialogoCofContacto() {
