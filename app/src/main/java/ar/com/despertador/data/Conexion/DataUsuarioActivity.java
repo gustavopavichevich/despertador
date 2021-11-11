@@ -3,17 +3,14 @@ package ar.com.despertador.data.Conexion;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 import ar.com.despertador.MapsActivity;
-import ar.com.despertador.data.adapter.UsuarioAdapter;
 import ar.com.despertador.data.model.Persona;
 import ar.com.despertador.data.model.Usuario;
 import ar.com.despertador.ui.login.LoginActivity;
@@ -40,7 +37,8 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
         this.accion = accion;
 
     }
-//constructor para el select
+
+    //constructor para el select
     public DataUsuarioActivity(String accion, Usuario usuario, Context ct) {
         this.usuario = usuario;
         this.context = ct;
@@ -71,27 +69,37 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
                             + persona.getEmail() + "','"
                             + usuario.getContrasenia() + "')");
                     break;
+
                 case "select":
+
                     ResultSet rs = st.executeQuery("SELECT idUsuario FROM usuarios where email = '" + usuario.getEmail() +
                             "' and contrasenia = '" + usuario.getContrasenia() + "' ");
 
-                 //   String sql = "SELECT idUsuario FROM usuarios where email = '" + usuario.getEmail() +
-               //             "' and contrasenia = '" + usuario.getContrasenia() + "' ";
-
-
-                   result2 = " ";
-                  total = 0;
-                    while (rs.next()){
-                     iduser = rs.getInt("idUsuario");
+                    result2 = " ";
+                    total = 0;
+                    while (rs.next()) {
+                        iduser = rs.getInt("idUsuario");
                         total++;
                     }
 
-         // Terminamos de cargar el objet
-                    //
-                if (total == 1){
-                       usuario.setIdUsuario(iduser);
-                }
+                    if (total == 1) {
+                        usuario.setIdUsuario(iduser);
+                    }
                     break;
+
+                case "selectRecordar":
+
+                    ResultSet rs2 = st.executeQuery("SELECT idUsuario, contrasenia FROM usuarios where email = '" + usuario.getEmail() + "'");
+
+                    result2 = " ";
+                    while (rs2.next()) {
+                        if(rs2.getRow()>0)
+                        usuario.setIdUsuario(rs2.getInt("idUsuario"));
+                        usuario.setContrasenia(rs2.getString("contrasenia"));
+                    }
+
+                    break;
+
                 default:
                     break;
             }
@@ -112,15 +120,14 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
                 context.startActivity(new Intent(context, LoginActivity.class));
                 break;
             case "select":
-           //     UsuarioAdapter adapter = new UsuarioAdapter(context, listaUsuarios);
-         //       lvUsuarios.setAdapter(adapter);
-         //       adapter.notifyDataSetChanged();
-         //       ((UsuarioAdapter)lvUsuarios.getAdapter()).notifyDataSetChanged();
+                //     UsuarioAdapter adapter = new UsuarioAdapter(context, listaUsuarios);
+                //       lvUsuarios.setAdapter(adapter);
+                //       adapter.notifyDataSetChanged();
+                //       ((UsuarioAdapter)lvUsuarios.getAdapter()).notifyDataSetChanged();
                 if (usuario.getIdUsuario() > 0) {
                     Toast.makeText(context, "Logueado con exito", Toast.LENGTH_LONG).show();
                     context.startActivity(new Intent(context, MapsActivity.class));
-                }else
-                {
+                } else {
                     Toast.makeText(context, "Usuario o contraseña incorrectos", Toast.LENGTH_LONG).show();
                     context.startActivity(new Intent(context, LoginActivity.class));
                 }

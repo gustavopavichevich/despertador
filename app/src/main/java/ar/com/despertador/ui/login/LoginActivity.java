@@ -1,78 +1,43 @@
 package ar.com.despertador.ui.login;
 
-import android.app.Activity;
-
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
-
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
-
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-//import ar.com.despertador.AgregarCuentaActivity;
-import ar.com.despertador.AgregarCuentaActivity;
-import ar.com.despertador.MapsActivity;
-import ar.com.despertador.R;
+import androidx.appcompat.app.AppCompatActivity;
 
-//import ar.com.despertador.databinding.ActivityLoginBinding;
+import ar.com.despertador.AgregarCuentaActivity;
+import ar.com.despertador.R;
 import ar.com.despertador.data.Conexion.DataUsuarioActivity;
-import ar.com.despertador.data.model.Persona;
 import ar.com.despertador.data.model.Usuario;
-import ar.com.despertador.ui.login.LoginViewModel;
-import ar.com.despertador.ui.login.LoginViewModelFactory;
 
 
 public class LoginActivity extends AppCompatActivity {
 
-  //  private LoginViewModel loginViewModel;
- //   private Button agregar;
-  private Context con;
+    private Context con;
     private Button boton_ingresar;
     private Button boton_recordar;
     private Usuario usuario;
 
-    //   private ActivityLoginBinding binding;
-
-   // btnAceptar
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        boton_ingresar = (Button) findViewById(R.id.btnAceptar);
-        boton_recordar = (Button) findViewById(R.id.login3);
+        boton_ingresar = findViewById(R.id.btnAceptar);
+        boton_recordar = findViewById(R.id.login3);
 
-        final  EditText texto_email = findViewById(R.id.username);
+        final EditText texto_email = findViewById(R.id.username);
         final EditText texto_contrasenia = findViewById(R.id.password);
         con = this;
 
         boton_ingresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-   //             persona = new Persona();
                 usuario = new Usuario();
-  /*              persona.setApellido(texto_apellido.getText().toString());
-                persona.setNombre(texto_nombre.getText().toString());
-                persona.setTelefono(texto_telefono.getText().toString());
-                persona.setTipo("usuario");
-                persona.setEmail(texto_email.getText().toString());*/
                 usuario.setContrasenia(texto_contrasenia.getText().toString());
                 usuario.setEmail(texto_email.getText().toString());
                 DataUsuarioActivity task = new DataUsuarioActivity("select", usuario, con);
@@ -83,47 +48,15 @@ public class LoginActivity extends AppCompatActivity {
         boton_recordar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //             persona = new Persona();
-    //            usuario = new Usuario();
-    //            String textoPass = texto_contrasenia.getText().toString();
-               String textoUser = texto_email.getText().toString();
-               if (textoUser.isEmpty()){
+                usuario = new Usuario();
+                usuario.setEmail(texto_email.getText().toString());
+                if (usuario.getEmail().isEmpty()) {
                     Toast.makeText(con, "Completa el campo mail para recordarte la contraseña", Toast.LENGTH_SHORT).show();
-                }else
-               {
-                   DataUsuarioActivity task = new DataUsuarioActivity("select", usuario, con);
-                   task.execute();
-               }
-
-
-  /*              persona.setApellido(texto_apellido.getText().toString());
-                persona.setNombre(texto_nombre.getText().toString());
-                persona.setTelefono(texto_telefono.getText().toString());
-                persona.setTipo("usuario");
-                persona.setEmail(texto_email.getText().toString());*/
-      //          usuario.setContrasenia(texto_contrasenia.getText().toString());
-        //        usuario.setEmail(texto_email.getText().toString());
-
-            }
-        });
-
-
-
-
-        // binding = ActivityLoginBinding.inflate(getLayoutInflater());
-
-
-
-
-     //   Intent principal = new Intent( this, MapsActivity.class);
-      //  principal.putExtra("email",_email.getText().toString());
-
-
-
-      //  this.setTitle("llega");
-     /*   agregar = (Button) findViewById(R.id.login2);
-
-        agregar.setOnClickListener(new View.OnClickListener() {
+                } else {
+                    DataUsuarioActivity task = new DataUsuarioActivity("select2", usuario, con);
+                    task.execute();
+                }
+/*        agregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(LoginActivity.this, AgregarCuentaActivity.class);
@@ -131,54 +64,55 @@ public class LoginActivity extends AppCompatActivity {
             }
         });*/
 
-    }
-      /*  loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
-                .get(LoginViewModel.class);
-
-       // final EditText usernameEditText = binding.username;
-        //final EditText passwordEditText = binding.password;
-        //final Button loginButton = binding.btnAceptar;
-
-                //findViewById(R.id.login2);
-        //final ProgressBar loadingProgressBar = binding.loading;
-
-        loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
-            @Override
-            public void onChanged(@Nullable LoginFormState loginFormState) {
-                if (loginFormState == null) {
-                    return;
-                }
-          //      loginButton.setEnabled(loginFormState.isDataValid());
-                if (loginFormState.getUsernameError() != null) {
-          //          usernameEditText.setError(getString(loginFormState.getUsernameError()));
-                }
-                if (loginFormState.getPasswordError() != null) {
-            //        passwordEditText.setError(getString(loginFormState.getPasswordError()));
-                }
             }
-        });
 
-        loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
-            @Override
-            public void onChanged(@Nullable LoginResult loginResult) {
-                if (loginResult == null) {
-                    return;
-                }
-                //loadingProgressBar.setVisibility(View.GONE);
-                if (loginResult.getError() != null) {
-                    showLoginFailed(loginResult.getError());
-                }
-                if (loginResult.getSuccess() != null) {
-                    updateUiWithUser(loginResult.getSuccess());
-                }
-                setResult(Activity.RESULT_OK);
+            /*  loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
+                      .get(LoginViewModel.class);
 
-                //Complete and destroy login activity once successful
-                finish();
-            }
-        });
+             // final EditText usernameEditText = binding.username;
+              //final EditText passwordEditText = binding.password;
+              //final Button loginButton = binding.btnAceptar;
 
-*//*        TextWatcher afterTextChangedListener = new TextWatcher() {
+                      //findViewById(R.id.login2);
+              //final ProgressBar loadingProgressBar = binding.loading;
+
+              loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
+                  @Override
+                  public void onChanged(@Nullable LoginFormState loginFormState) {
+                      if (loginFormState == null) {
+                          return;
+                      }
+                //      loginButton.setEnabled(loginFormState.isDataValid());
+                      if (loginFormState.getUsernameError() != null) {
+                //          usernameEditText.setError(getString(loginFormState.getUsernameError()));
+                      }
+                      if (loginFormState.getPasswordError() != null) {
+                  //        passwordEditText.setError(getString(loginFormState.getPasswordError()));
+                      }
+                  }
+              });
+
+              loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
+                  @Override
+                  public void onChanged(@Nullable LoginResult loginResult) {
+                      if (loginResult == null) {
+                          return;
+                      }
+                      //loadingProgressBar.setVisibility(View.GONE);
+                      if (loginResult.getError() != null) {
+                          showLoginFailed(loginResult.getError());
+                      }
+                      if (loginResult.getSuccess() != null) {
+                          updateUiWithUser(loginResult.getSuccess());
+                      }
+                      setResult(Activity.RESULT_OK);
+
+                      //Complete and destroy login activity once successful
+                      finish();
+                  }
+              });
+
+      *//*        TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 // ignore
@@ -215,7 +149,7 @@ public class LoginActivity extends AppCompatActivity {
         //loginButton.setOnClickListener(new View.OnClickListener() {
             //@Override
         *//*    public void onClick(View v) {
-              *//**//*  loadingProgressBar.setVisibility(View.VISIBLE);
+             *//**//*  loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());*//**//*
             }*//*
@@ -232,11 +166,10 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }
 */
-    public void Agregar (View view)
-    {
-        Intent agregar = new Intent( this, AgregarCuentaActivity.class);
-        startActivity(agregar);
-    }
+            public void Agregar(View view) {
+                Intent agregar = new Intent(this, AgregarCuentaActivity.class);
+                startActivity(agregar);
+            }
 
 /*    public void Recordar (View view)
     {
@@ -245,7 +178,7 @@ public class LoginActivity extends AppCompatActivity {
        // Intent agregar = new Intent( this, AgregarCuentaActivity.class);
        // startActivity(agregar);
     }*/
-    //Método para el inicio de sesion
+            //Método para el inicio de sesion
 /*    public void IniciarSesion(View view){
 
         Usuario usuario = new Usuario();
@@ -255,9 +188,9 @@ public class LoginActivity extends AppCompatActivity {
         DataUsuarioActivity task = new DataUsuarioActivity("select", usuario, this);
         task.execute();
     }*/
-        //    Intent principal = new Intent( this, MapsActivity.class);
-   //     principal.putExtra("email",_email.getText().toString());
-    //    startActivity(principal);
+            //    Intent principal = new Intent( this, MapsActivity.class);
+            //     principal.putExtra("email",_email.getText().toString());
+            //    startActivity(principal);
         /*AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "administracion", null, 1);
         SQLiteDatabase BaseDeDatabase = admin.getWritableDatabase();
 
@@ -287,4 +220,4 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "Debes introducir los datos, son obligatorios", Toast.LENGTH_SHORT).show();
         }*/
 
-}
+        }
