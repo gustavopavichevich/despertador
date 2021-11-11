@@ -12,6 +12,7 @@ import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
 
+import ar.com.despertador.MailJob;
 import ar.com.despertador.MapsActivity;
 import ar.com.despertador.data.adapter.UsuarioAdapter;
 import ar.com.despertador.data.model.Persona;
@@ -29,6 +30,7 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
     private static String result2;
     private int total;
     private int iduser;
+    private String contrasena ;
 
 
     //Recibe por constructor el textview
@@ -92,6 +94,28 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
                        usuario.setIdUsuario(iduser);
                 }
                     break;
+                case "selectRecordar":
+                    ResultSet rs2 = st.executeQuery("SELECT idUsuario, contrasenia FROM usuarios where email = '" + usuario.getEmail() + "' ");
+
+                    //   String sql = "SELECT idUsuario FROM usuarios where email = '" + usuario.getEmail() +
+                    //             "' and contrasenia = '" + usuario.getContrasenia() + "' ";
+
+
+                    result2 = " ";
+                    total = 0;
+                    while (rs2.next()){
+                        contrasena = rs2.getString("contrasenia");
+                        iduser = rs2.getInt("idUsuario");
+                        total++;
+                    }
+
+                    // Terminamos de cargar el objet
+                    //
+                    if (total == 1){
+                        usuario.setIdUsuario(iduser);
+                        usuario.setContrasenia(contrasena);
+                    }
+                    break;
                 default:
                     break;
             }
@@ -123,6 +147,18 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
                 {
                     Toast.makeText(context, "Usuario o contraseña incorrectos", Toast.LENGTH_LONG).show();
                     context.startActivity(new Intent(context, LoginActivity.class));
+                }
+                break;
+            case "selectRecordar":
+
+                if (usuario.getIdUsuario() > 0) {
+              /*      Toast.makeText(context, "Logueado con exito", Toast.LENGTH_LONG).show();
+                    context.startActivity(new Intent(context, MapsActivity.class));*/
+                    new MailJob("appdespertador@gmail.com", "utn123456").execute(new MailJob.Mail("appdespertador@gmail.com", "leo.yermoli@gmail.com", "Contraseña de app Despertador UTN", "La contraseña del usuario "+ usuario.getEmail().toString() + " es: "+ usuario.getContrasenia().toString()));
+                    Toast.makeText(context, "Contraseña enviada, revise su casilla de correo", Toast.LENGTH_LONG).show();
+//usuario.getEmail().toString()
+                }else{
+                    Toast.makeText(context, "Usuario inexistente", Toast.LENGTH_LONG).show();
                 }
                 break;
             default:
