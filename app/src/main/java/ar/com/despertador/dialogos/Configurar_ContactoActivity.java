@@ -34,11 +34,17 @@ public class Configurar_ContactoActivity extends AppCompatActivity {
     }
     public void ElegirContacto(View v)
     {
-        /*Intent intent=new Intent(this, ListadoContactos.class);
-        startActivity(intent);*/
-        Intent selectContactoIntent = new Intent(Intent.ACTION_PICK, Uri.parse("content://contactas"));
-        selectContactoIntent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
-        startActivityForResult(selectContactoIntent,PICK_CONTACT_REQUEST);
+
+        //validacion de carga de datos
+        if (_radiow.isChecked() && _txtmensaje.getText().toString()!="" || _radiosms.isChecked() && _txtmensaje.getText().toString()!=""){
+            Intent selectContactoIntent = new Intent(Intent.ACTION_PICK, Uri.parse("content://contactas"));
+            selectContactoIntent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
+            startActivityForResult(selectContactoIntent,PICK_CONTACT_REQUEST);
+        }
+        else
+        {
+            Toast.makeText(this, "Verifique que tenga selleccion y mensaje asigano", Toast.LENGTH_SHORT).show();
+        }
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -59,9 +65,14 @@ public class Configurar_ContactoActivity extends AppCompatActivity {
 
 
                     //Voy a configurar Alarma
-                    //paso los valores al siguiente activity
-
                     Intent intent = new Intent(this, ConfiguracionAlarmaActivity.class);
+                    //paso los valores al siguiente activity
+                    intent.putExtra("email",_emailU);
+                    intent.putExtra("radiow",_radiow.getText().toString());
+                    intent.putExtra("radiosms",_radiosms.getText().toString());
+                    intent.putExtra("txtmensaje",_txtmensaje.toString());
+                    intent.putExtra("nombre",nombre);
+                    intent.putExtra("numero",numero);
                     startActivity(intent);
 
                 }

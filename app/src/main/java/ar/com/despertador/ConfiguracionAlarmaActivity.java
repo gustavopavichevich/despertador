@@ -6,7 +6,10 @@ import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.SeekBar;
 
 public class ConfiguracionAlarmaActivity extends AppCompatActivity {
     MediaPlayer mp = new MediaPlayer();
@@ -30,10 +33,25 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
             "samsung_galaxy_s3",
             "vampire_call"};
 
+    EditText _txtbusqueda;
+    ListView _lvalarma;
+    SeekBar _volalarma;
+    EditText _txtmensajealarma;
+
+    String _emailU,_radiow, _radiosms,_txtmensaje,_nombre,_numero;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuracion_alarma);
+
+        _emailU=getIntent().getStringExtra("email");
+        _radiow = getIntent().getStringExtra("radiow");
+        _radiosms = getIntent().getStringExtra("_adiosms");
+        _txtmensaje = getIntent().getStringExtra("txtmensaje");
+        _nombre = getIntent().getStringExtra("nombre");
+        _numero = getIntent().getStringExtra("numero");
 
         //Inicio Agrego
         final ListView list30 = (ListView) findViewById(R.id.lvAlarmas);
