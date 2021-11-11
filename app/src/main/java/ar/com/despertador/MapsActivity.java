@@ -3,6 +3,7 @@ package ar.com.despertador;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -20,10 +21,11 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import ar.com.despertador.databinding.ActivityMapsBinding;
+
 import ar.com.despertador.dialogos.Configurar_ContactoActivity;
 import ar.com.despertador.dialogos.DialogoConfigurarContactoFragment;
 import ar.com.despertador.dialogos.DialogoConfigurarRadioFragment;
@@ -33,14 +35,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //    static final int PICK_CONTACT_REQUEST=1;
 
     private GoogleMap mMap;
-    private ActivityMapsBinding binding;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        binding = ActivityMapsBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+
 
         String emailU=getIntent().getStringExtra("email");
         Toast.makeText(this, "Usuario logueado " + emailU, Toast.LENGTH_SHORT).show();
@@ -82,8 +83,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //        LatLng bsas = new LatLng(-34.6075682, -58.4370894);
 //        mMap.addMarker(new MarkerOptions().position(bsas).title("Buenos Aires, Argentina"));
         //mMap.moveCamera(CameraUpdateFactory.newLatLng(bsas));
-        //   mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(bsas,12));
-        LatLng unicenter = new LatLng(-34.5086111, -58.52388888888889);
+        //  mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(bsas,12));
+       // Location location = mMap.getMyLocation();
+      //  LatLng unicenter = new LatLng(location.getLongitude(), location.getLongitude());
+       LatLng unicenter = new LatLng(-34.5086111, -58.52388888888889);
         mMap.addMarker(new MarkerOptions().icon(BitmapDescriptorFactory.fromResource(R.drawable.logo2)).anchor(0.0f, 1.04f).position(unicenter).title("Unicenter"));
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(unicenter, 16));
         Circle circle = mMap.addCircle(new CircleOptions()
@@ -91,6 +94,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .radius(300)
                 .strokeColor(Color.GRAY)
                 .fillColor(Color.CYAN));
+
         mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
             @Override
             public void onMapLongClick(LatLng latLng) {
@@ -101,8 +105,45 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
             }
         });
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Toast.makeText(getApplicationContext(),"Has pulsado una marca", Toast.LENGTH_LONG).show();
+                return false;
+            }
+        });
 
     }
+
+
+
+ /*   private boolean checkLocation() {
+        if (!isLocationEnabled())
+            showAlert();
+        return isLocationEnabled();
+    }
+
+    private boolean isLocationEnabled() {
+        return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
+                locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+
+    public void toggleGPSUpdates(View view) {
+        if (!checkLocation())
+            return;
+        Button button = (Button) view;
+        if (button.getText().equals(getResources().getString(R.string.pause))) {
+            locationManager.removeUpdates(locationListenerGPS);
+            button.setText(R.string.resume);
+        } else {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            }
+            locationManager.requestLocationUpdates(
+                    LocationManager.GPS_PROVIDER, 2 * 20 * 1000, 10, locationListenerGPS);
+            button.setText(R.string.pause);
+        }
+    }*/
 
     public void AbrirDialogoCofContacto() {
         //comoento para probar activity seleecionar contactos
