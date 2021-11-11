@@ -91,6 +91,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .radius(300)
                 .strokeColor(Color.GRAY)
                 .fillColor(Color.CYAN));
+        mMap.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
+            @Override
+            public void onMapLongClick(LatLng latLng) {
+                mMap.addMarker(new MarkerOptions()
+                        .icon(BitmapDescriptorFactory.fromResource(R.drawable.logo2))
+                        .anchor(0.0f, 1.0f)
+                        .position(latLng));
+
+            }
+        });
 
     }
 
@@ -143,4 +153,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         DialogoConfigurarRadioFragment dialogoRadio = new DialogoConfigurarRadioFragment();
         dialogoRadio.show(getSupportFragmentManager(), "Dialogo Configurar Radio");
     }
+
+
+
 }
