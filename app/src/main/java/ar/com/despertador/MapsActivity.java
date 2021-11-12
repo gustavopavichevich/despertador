@@ -46,11 +46,10 @@ import java.util.List;
 import ar.com.despertador.data.Conexion.DataUsuarioActivity;
 import ar.com.despertador.data.model.Usuario;
 import ar.com.despertador.dialogos.Configurar_ContactoActivity;
-import ar.com.despertador.dialogos.DialogoConfigurarRadioFragment;
+
+import ar.com.despertador.dialogos.Configurar_RadioActivity;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
-
-//    static final int PICK_CONTACT_REQUEST=1;
 
     private GoogleMap mMap;
     private Marker marcador;
@@ -180,7 +179,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         emailU= getIntent().getStringExtra("email");
        
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -197,7 +195,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 AbrirDialogoConfigRadio();
             }
         });
-
         btnGPSShowLocation = (Button) findViewById(R.id.btnGPSShowLocation);
         btnGPSShowLocation.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -205,7 +202,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 miUbucacion();
             }
         });
-
     }
 
     private void agregarMarcador(double lat, double log) {
@@ -374,26 +370,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
-
         mMap = googleMap;
         miUbucacion();
     }
 
     public void AbrirDialogoCofContacto() {
-        //comoento para probar activity seleecionar contactos
-        /*DialogoConfigurarContactoFragment dialogo = new DialogoConfigurarContactoFragment();
-        dialogo.show(getSupportFragmentManager(), "Dialogo Configurar Contacto");*/
         Intent intent = new Intent(this, Configurar_ContactoActivity.class);
         startActivity(intent);
-
     }
 
     public void AbrirDialogoConfigRadio() {
-
-        DialogoConfigurarRadioFragment dialogoRadio = new DialogoConfigurarRadioFragment();
-        dialogoRadio.show(getSupportFragmentManager(), "Dialogo Configurar Radio");
-    }
+        Intent intent = new Intent(this, Configurar_RadioActivity.class);
+        startActivity(intent);
 
     public void IniciarRecorrido() {
 
