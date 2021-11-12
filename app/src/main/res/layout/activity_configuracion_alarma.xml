@@ -72,6 +72,8 @@
         android:layout_width="342dp"
         android:layout_height="35dp"
         android:layout_marginBottom="32dp"
+        android:max="10"
+        android:scaleX="1"
         app:layout_constraintBottom_toTopOf="@+id/textView6"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.478"

@@ -3,25 +3,21 @@ package ar.com.despertador.data.Conexion;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 import ar.com.despertador.MailJob;
 import ar.com.despertador.MapsActivity;
-import ar.com.despertador.data.adapter.UsuarioAdapter;
 import ar.com.despertador.data.model.Persona;
 import ar.com.despertador.data.model.Usuario;
-import ar.com.despertador.dialogos.Configurar_ContactoActivity;
 import ar.com.despertador.ui.login.LoginActivity;
 
 
-public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
+public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
 
 
     private final Context context;
@@ -36,7 +32,7 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
 
     //Recibe por constructor el textview
     //Constructor para el insert
-    public DataUsuarioActivity(String accion, Persona persona, Usuario usuario, Context ct) {
+    public DataAlarmaActivity(String accion, Persona persona, Usuario usuario, Context ct) {
         this.context = ct;
         this.persona = persona;
         this.usuario = usuario;
@@ -44,13 +40,13 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
 
     }
 //constructor para el select
-    public DataUsuarioActivity(String accion, Usuario usuario, Context ct) {
+    public DataAlarmaActivity(String accion, Usuario usuario, Context ct) {
         this.usuario = usuario;
         this.context = ct;
         this.accion = accion;
     }
 
-    public DataUsuarioActivity(Context ct) {
+    public DataAlarmaActivity(Context ct) {
         this.context = ct;
     }
 
@@ -93,7 +89,6 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
                     //
                 if (total == 1){
                        usuario.setIdUsuario(iduser);
-                       usuario.setEmail(usuario.getEmail());
                 }
                     break;
                 case "selectRecordar":
@@ -144,12 +139,7 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
          //       ((UsuarioAdapter)lvUsuarios.getAdapter()).notifyDataSetChanged();
                 if (usuario.getIdUsuario() > 0) {
                     Toast.makeText(context, "Logueado con exito", Toast.LENGTH_LONG).show();
-                    Intent intent=new Intent(context, MapsActivity.class);
-                    intent.putExtra("email",usuario.getEmail());
-
-                    context.startActivity(intent);
-
-                    //context.startActivity(new Intent(context, MapsActivity.class));
+                    context.startActivity(new Intent(context, MapsActivity.class));
                 }else
                 {
                     Toast.makeText(context, "Usuario o contraseña incorrectos", Toast.LENGTH_LONG).show();
