@@ -1,27 +1,27 @@
 package ar.com.despertador;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.location.Address;
+import android.location.Criteria;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
 import com.google.android.gms.maps.CameraUpdate;
@@ -30,59 +30,74 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.Circle;
 import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-//import ar.com.despertador.databinding.ActivityMapsBinding;
 import java.io.IOException;
 import java.util.List;
 
 import ar.com.despertador.dialogos.Configurar_ContactoActivity;
-import ar.com.despertador.dialogos.DialogoConfigurarContactoFragment;
 import ar.com.despertador.dialogos.DialogoConfigurarRadioFragment;
 
-public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback,LocationListener {
 
 //    static final int PICK_CONTACT_REQUEST=1;
 
     private GoogleMap mMap;
     private Marker marcador;
+    LocationManager locationManager;
+    String provider;
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     Button btnGPSShowLocation;
     double lat = 0.0;
     double log = 0.0;
     //private ActivityMapsBinding binding;
     SupportMapFragment mapFragment;
     SearchView searchView;
+  //  LatLng posactual = new LatLng(lat,log);
+    Location posactual = new Location("localizacion Usuario");
+    Location posdestino = new Location("localizacion Destino");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+        checkLocationPermission();
 
-        searchView=findViewById(R.id.sv_ubicacion);
-        mapFragment=(SupportMapFragment)  getSupportFragmentManager().findFragmentById(R.id.map);
+        searchView = findViewById(R.id.sv_ubicacion);
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 String location = searchView.getQuery().toString();
-                List<Address> addressList=null;
+                List<Address> addressList = null;
 
-                if (location != null || !location.equals("")){
-                    Geocoder geocoder = new Geocoder (MapsActivity.this);
+                if (location != null || !location.equals("")) {
+                    Geocoder geocoder = new Geocoder(MapsActivity.this);
                     try {
-                        addressList = geocoder.getFromLocationName(location,1  );
+                        addressList = geocoder.getFromLocationName(location, 1);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                     Address address = addressList.get(0);
-                    LatLng latLng = new LatLng(address.getLatitude(),address.getLongitude());
+                    LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
+                    posdestino.setLatitude(address.getLatitude());
+                    posdestino.setLongitude(address.getLongitude());
+                    float dist = posactual.distanceTo(posdestino);
+                    mMap.clear();
                     mMap.addMarker(new MarkerOptions().position(latLng).title(location));
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));                }
-
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+                    mMap.addCircle(new CircleOptions()
+                            .center(latLng)
+                            .radius(300)
+                            .strokeColor(Color.GRAY)
+                            .fillColor(Color.CYAN));
+                    Toast.makeText(MapsActivity.this, "LA DISTANCIA AL DESTINO ES: " + dist + " Metros.", Toast.LENGTH_SHORT).show();
+                }
                 return false;
             }
 
@@ -96,7 +111,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //setContentView(binding.getRoot());
 
         String emailU = getIntent().getStringExtra("email");
-        Toast.makeText(this, "Usuario logueado " + emailU, Toast.LENGTH_SHORT).show();
+        //  Toast.makeText(this, "Usuario logueado " + emailU, Toast.LENGTH_SHORT).show();
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -132,17 +147,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         LatLng coordenadas = new LatLng(lat, log);
         CameraUpdate miUbucacion = CameraUpdateFactory.newLatLngZoom(coordenadas, 16);
         if (marcador != null) marcador.remove();
+        mMap.clear();
         marcador = mMap.addMarker(new MarkerOptions()
                 .position(coordenadas)
                 .title("Mi Posicion Actual")
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.logo2)).anchor(0.0f, 1.04f));
         mMap.animateCamera(miUbucacion);
+
     }
 
     private void actualizarUbicacion(Location location) {
         if (location != null) {
             lat = location.getLatitude();
             log = location.getLongitude();
+posactual.setLongitude(log);
+posactual.setLatitude(lat);
+          //  posactual.se = new LatLng(lat,log);
             agregarMarcador(lat, log);
         }
     }
@@ -170,16 +190,106 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     };
 
     private void miUbucacion() {
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        provider = locationManager.getBestProvider(new Criteria(), false);
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
+
+            new AlertDialog.Builder(this)
+                    .setTitle("Aprobacion de permisos de ubicacion")
+                    .setMessage("Por favor habilite el permiso de ubicacion para la aplicacion")
+                    .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //Prompt the user once explanation has been shown
+                            ActivityCompat.requestPermissions(MapsActivity.this,
+                                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                    MY_PERMISSIONS_REQUEST_LOCATION);
+                        }
+                    })
+                    .create()
+                    .show();
+
+           return;
         }
-        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+
         Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         actualizarUbicacion(location);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 15000, 0, locListener);
 
     }
+    public boolean checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
 
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                new AlertDialog.Builder(this)
+                        .setTitle("Aprobacion de permisos de ubicacion")
+                        .setMessage("Por favor habilite el permiso de ubicacion para la aplicacion")
+                        .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Prompt the user once explanation has been shown
+                                ActivityCompat.requestPermissions(MapsActivity.this,
+                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                        MY_PERMISSIONS_REQUEST_LOCATION);
+                            }
+                        })
+                        .create()
+                        .show();
+
+
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+            }
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+                    // permission was granted, yay! Do the
+                    // location-related task you need to do.
+                    if (ContextCompat.checkSelfPermission(this,
+                            Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED) {
+
+                        //Request location updates:
+                        locationManager.requestLocationUpdates(provider, 400, 1, this);
+                    }
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+
+                }
+                return;
+            }
+
+        }
+    }
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -213,7 +323,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         //comoento para probar activity seleecionar contactos
         /*DialogoConfigurarContactoFragment dialogo = new DialogoConfigurarContactoFragment();
         dialogo.show(getSupportFragmentManager(), "Dialogo Configurar Contacto");*/
-        Intent intent=new Intent(this, Configurar_ContactoActivity.class);
+        Intent intent = new Intent(this, Configurar_ContactoActivity.class);
         startActivity(intent);
 
 
@@ -224,6 +334,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         startActivityForResult(selectContactoIntent,PICK_CONTACT_REQUEST);
          */
     }
+
     /*
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -257,5 +368,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         DialogoConfigurarRadioFragment dialogoRadio = new DialogoConfigurarRadioFragment();
         dialogoRadio.show(getSupportFragmentManager(), "Dialogo Configurar Radio");
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location) {
+
     }
 }
