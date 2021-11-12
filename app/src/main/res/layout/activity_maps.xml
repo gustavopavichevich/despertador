@@ -9,15 +9,27 @@
     tools:context=".MapsActivity" >
 
     <Button
+        android:id="@+id/btnGPSShowLocation"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Show Location"
-        android:id="@+id/btnGPSShowLocation"
-        android:layout_toRightOf="@+id/textView"
-        android:layout_marginTop="53dp"
         android:layout_below="@+id/textView"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="60dp"
+        android:layout_toRightOf="@+id/textView"
+        android:text="Show Location" />
+
+    <SearchView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sv_ubicacion"
+        android:queryHint="Buscar..."
+        android:iconifiedByDefault="false"
+        android:layout_margin="10dp"
+        android:elevation="5dp"
+        android:background="@drawable/bg_round"
+
+        />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/DefinirDistancia"
