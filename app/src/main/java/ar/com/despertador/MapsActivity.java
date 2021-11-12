@@ -61,6 +61,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Button btn_iniciar;
     double lat = 0.0;
     double log = 0.0;
+    private int radio = 300;
     SupportMapFragment mapFragment;
     SearchView searchView;
     Location posactual = new Location("localizacion Usuario");
@@ -157,7 +158,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
                     mMap.addCircle(new CircleOptions()
                             .center(latLng)
-                            .radius(300)
+                            .radius(radio)
                             .strokeColor(Color.GRAY)
                             .fillColor(Color.CYAN));
                     Toast.makeText(MapsActivity.this, "LA DISTANCIA AL DESTINO ES: " + distFormateada + " Metros.", Toast.LENGTH_SHORT).show();
@@ -186,6 +187,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 AbrirDialogoCofContacto();
             }
         });
+        radio = getIntent().getIntExtra("radio",radio);
         FloatingActionButton aplicarRadio = (FloatingActionButton) findViewById(R.id.DefinirDistancia);
         aplicarRadio.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -206,12 +208,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         CameraUpdate miUbucacion = CameraUpdateFactory.newLatLngZoom(coordenadas, 16);
         if (marcador != null) marcador.remove();
         mMap.clear();
-/*        marcador = mMap.addMarker(new MarkerOptions()
-                .position(coordenadas)
-                .title("Mi Posicion Actual")
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.logo2)).anchor(0.0f, 1.04f));*/
         mMap.addMarker(new MarkerOptions().position(coordenadas).title("Mi Posicion Actual"));
         mMap.animateCamera(miUbucacion);
+        mMap.addCircle(new CircleOptions()
+                .center(coordenadas)
+                .radius(300)
+                .strokeColor(Color.GRAY)
+                .fillColor(Color.CYAN));
 
     }
 
@@ -389,7 +392,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onLocationChanged(@NonNull Location location) {
         Toast.makeText(MapsActivity.this, "Entra a onlocationchanged", Toast.LENGTH_LONG).show();
-
         dist = posactual.distanceTo(posdestino);
         DecimalFormat df = new DecimalFormat("#.00");
         distFormateada = df.format(dist);

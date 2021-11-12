@@ -18,6 +18,7 @@ public class Configurar_RadioActivity extends AppCompatActivity implements SeekB
     private TextView mTrackingText;
     private Button btnCancelarConfRadio;
     private Button btn_AceptarConfRadio;
+    private int radio = 300;
 
 
     @Override
@@ -32,14 +33,14 @@ public class Configurar_RadioActivity extends AppCompatActivity implements SeekB
         btnCancelarConfRadio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                volver(mProgressText.getText().toString());
+                volver();
             }
         });
         btn_AceptarConfRadio = (Button) findViewById(R.id.btnAceptarConfRadio);
         btn_AceptarConfRadio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                volver(null);
+                volver();
             }
         });
     }
@@ -64,9 +65,11 @@ public class Configurar_RadioActivity extends AppCompatActivity implements SeekB
         mTrackingText.setText("ajuste de parada xh");
     }
 
-    public void volver(String respuesta) {
+    public void volver() {
         Intent intent = new Intent(this, MapsActivity.class);
-        intent.putExtra("progress", respuesta);
+        if (radio != 300)
+            radio = Integer.parseUnsignedInt(mProgressText.getText().toString());
+        intent.putExtra("radio", radio);
         startActivity(intent);
     }
 }
