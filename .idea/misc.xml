@@ -4,6 +4,8 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/GitHub/facultad/despertador/app/src/main/res/drawable/ic_llegada_poi_background.xml" value="0.22135416666666666" />
+        <entry key="..\:/GitHub/facultad/despertador/app/src/main/res/layout/activity_configurar_contacto.xml" value="0.246875" />
+        <entry key="..\:/GitHub/facultad/despertador/app/src/main/res/layout/activity_configurar_radio.xml" value="0.246875" />
         <entry key="..\:/GitHub/facultad/despertador/app/src/main/res/layout/activity_listado_contactos.xml" value="0.12006079027355623" />
         <entry key="..\:/GitHub/facultad/despertador/app/src/main/res/layout/activity_maps.xml" value="0.20520833333333333" />
         <entry key="..\:/GitHub/facultad/despertador/app/src/main/res/layout/fragment_dialogo_configurar_contacto.xml" value="0.246875" />
