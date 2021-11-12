@@ -30,7 +30,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-//import ar.com.despertador.databinding.ActivityMapsBinding;
 import java.io.IOException;
 import java.util.List;
 
@@ -39,14 +38,11 @@ import ar.com.despertador.dialogos.Configurar_RadioActivity;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
-//    static final int PICK_CONTACT_REQUEST=1;
-
     private GoogleMap mMap;
     private Marker marcador;
     Button btnGPSShowLocation;
     double lat = 0.0;
     double log = 0.0;
-    //private ActivityMapsBinding binding;
     SupportMapFragment mapFragment;
     SearchView searchView;
 
@@ -55,26 +51,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        searchView=findViewById(R.id.sv_ubicacion);
-        mapFragment=(SupportMapFragment)  getSupportFragmentManager().findFragmentById(R.id.map);
+        searchView = findViewById(R.id.sv_ubicacion);
+        mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 String location = searchView.getQuery().toString();
-                List<Address> addressList=null;
+                List<Address> addressList = null;
 
-                if (location != null || !location.equals("")){
-                    Geocoder geocoder = new Geocoder (MapsActivity.this);
+                if (location != null || !location.equals("")) {
+                    Geocoder geocoder = new Geocoder(MapsActivity.this);
                     try {
-                        addressList = geocoder.getFromLocationName(location,1  );
+                        addressList = geocoder.getFromLocationName(location, 1);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
                     Address address = addressList.get(0);
-                    LatLng latLng = new LatLng(address.getLatitude(),address.getLongitude());
+                    LatLng latLng = new LatLng(address.getLatitude(), address.getLongitude());
                     mMap.addMarker(new MarkerOptions().position(latLng).title(location));
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng,10));                }
-
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+                }
                 return false;
             }
 
@@ -84,13 +80,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
         mapFragment.getMapAsync(this);
-        //binding = ActivityMapsBinding.inflate(getLayoutInflater());
-        //setContentView(binding.getRoot());
 
         String emailU = getIntent().getStringExtra("email");
         Toast.makeText(this, "Usuario logueado " + emailU, Toast.LENGTH_SHORT).show();
 
-        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -107,17 +100,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 AbrirDialogoConfigRadio();
             }
         });
-//        GoogleMap
-//        mMap=GoogleMap;
         btnGPSShowLocation = (Button) findViewById(R.id.btnGPSShowLocation);
         btnGPSShowLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 miUbucacion();
             }
         });
-
     }
 
     private void agregarMarcador(double lat, double log) {
@@ -172,82 +161,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-
-
         mMap = googleMap;
-//        mMap.getUiSettings().setZoomControlsEnabled(true);
-//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-//            return;
-//        }
-//        mMap.setMyLocationEnabled(true);
-//        mMap.getUiSettings().setMyLocationButtonEnabled(true);
-//        CameraUpdate center=
-//                CameraUpdateFactory.newLatLng(new LatLng(40.76793169992044,
-//                        -73.98180484771729));
-//        CameraUpdate zoom=CameraUpdateFactory.zoomTo(15);
-//        mMap.moveCamera(center);
-//        mMap.animateCamera(zoom);
         miUbucacion();
     }
 
     public void AbrirDialogoCofContacto() {
-        //comoento para probar activity seleecionar contactos
-        /*DialogoConfigurarContactoFragment dialogo = new DialogoConfigurarContactoFragment();
-        dialogo.show(getSupportFragmentManager(), "Dialogo Configurar Contacto");*/
-        Intent intent=new Intent(this, Configurar_ContactoActivity.class);
+        Intent intent = new Intent(this, Configurar_ContactoActivity.class);
         startActivity(intent);
-
-
-        /*
-        //prueba
-        Intent selectContactoIntent = new Intent(Intent.ACTION_PICK, Uri.parse("content://contactas"));
-        selectContactoIntent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
-        startActivityForResult(selectContactoIntent,PICK_CONTACT_REQUEST);
-         */
     }
-    /*
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        //super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode ==PICK_CONTACT_REQUEST) {
-            if (resultCode == RESULT_OK)
-            {
-                Uri uri = data.getData();
 
-                Cursor cursor= getContentResolver().query(uri,null,null,null,null);
-
-                if (cursor.moveToFirst()){
-                    int columnaNombre=cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME);
-                    int columnaNumero=cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
-                    String nombre = cursor.getString(columnaNombre);
-                    String numero = cursor.getString(columnaNumero);
-                    Toast.makeText(this,"Registro Seleccionado: " + nombre + " Celular: " + numero, Toast.LENGTH_SHORT).show();
-                    //grabar los datos del contacto seleccionado en la base
-
-
-                    //Voy a configurar Alarma
-                    Intent intent=new Intent(this, ConfiguracionAlarmaActivity.class);
-                    startActivity(intent);
-
-                }
-            }
-        }
-    }
-    */
     public void AbrirDialogoConfigRadio() {
-
-        Intent intent=new Intent(this, Configurar_RadioActivity.class);
+        Intent intent = new Intent(this, Configurar_RadioActivity.class);
         startActivity(intent);
     }
 }
