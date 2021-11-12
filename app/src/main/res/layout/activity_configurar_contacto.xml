@@ -20,12 +20,14 @@
             android:id="@+id/radioWhatsApp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Whatsapp" />
+            android:text="Whatsapp"
+            android:visibility="invisible" />
 
         <RadioButton
             android:id="@+id/radioSMS"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:text="Mensaje de Texto" />
     </RadioGroup>
 

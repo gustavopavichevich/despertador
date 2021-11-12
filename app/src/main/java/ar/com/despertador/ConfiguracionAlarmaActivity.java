@@ -2,14 +2,22 @@ package ar.com.despertador;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
+
+import ar.com.despertador.data.Conexion.DataAlarmaActivity;
+import ar.com.despertador.data.Conexion.DataUsuarioActivity;
+import ar.com.despertador.data.model.Persona;
+import ar.com.despertador.data.model.Usuario;
 
 public class ConfiguracionAlarmaActivity extends AppCompatActivity {
     MediaPlayer mp = new MediaPlayer();
@@ -38,6 +46,11 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
     SeekBar _volalarma;
     EditText _txtmensajealarma;
 
+    Button boton_aceptar;
+    private Persona persona;
+    private Usuario usuario;
+    private Context con;
+
     String _emailU,_radiow, _radiosms,_txtmensaje,_nombre,_numero;
 
 
@@ -45,6 +58,7 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuracion_alarma);
+        boton_aceptar = (Button) findViewById(R.id.btnAceptar);
 
         _emailU=getIntent().getStringExtra("email");
         _radiow = getIntent().getStringExtra("radiow");
@@ -53,12 +67,39 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
         _nombre = getIntent().getStringExtra("nombre");
         _numero = getIntent().getStringExtra("numero");
 
+        if (_txtmensaje!="") {
+            _txtmensajealarma.setText(_txtmensaje);//pongo el mensaje que agrego el usuario
+        }
+        else{
+            _txtmensajealarma.setText(_emailU +  " esta llegando al destino seleccionado, usted es su contacto de aviso.");//pongo el mensaje predeterminado
+        }
+
         //Inicio Agrego
         final ListView list30 = (ListView) findViewById(R.id.lvAlarmas);
 
         ArrayAdapter adaptador = new ArrayAdapter(this, android.R.layout.simple_list_item_1, title);
-
         list30.setAdapter(adaptador);
+
+
+
+        con = this;
+        boton_aceptar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*String acepta = texto_casilla.isChecked() ? "si" : "no";
+                persona = new Persona();
+                usuario = new Usuario();
+                persona.setApellido(texto_apellido.getText().toString());
+                persona.setNombre(texto_nombre.getText().toString());
+                persona.setTelefono(texto_telefono.getText().toString());
+                persona.setTipo("usuario");
+                persona.setEmail(texto_email.getText().toString());
+                usuario.setContrasenia(texto_contrasena.getText().toString());
+                usuario.setEmail(texto_email.getText().toString());*/
+                DataAlarmaActivity task = new DataAlarmaActivity("insert",persona, usuario, con);
+                task.execute();
+            }
+        });
 
 
         /*list30.setOnItemClickListener(new AdapterView.OnItemClickListener() {
