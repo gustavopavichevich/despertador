@@ -8,16 +8,34 @@
     android:layout_height="match_parent"
     tools:context=".MapsActivity" >
 
+    <TextView
+        android:id="@+id/txvcalculo"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="120dp"
+         android:textSize="17dp"
+        android:gravity="center"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textAllCaps="true"
+        android:background="@drawable/bg_round"
+        />
+
+
     <Button
         android:id="@+id/btnGPSShowLocation"
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
+        android:layout_width="110dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/textView"
         android:layout_alignParentLeft="true"
-        android:layout_marginTop="60dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="62dp"
         android:layout_toRightOf="@+id/textView"
-        android:text="Show Location" />
+
+        android:background="@drawable/bg_round"
+        android:text="Mi ubicacion"
+        android:textAllCaps="false" />
 
     <SearchView
         android:layout_width="match_parent"
@@ -38,14 +56,26 @@
         android:layout_gravity="bottom|left"
         android:src="@drawable/distancia"
         android:contentDescription="Definir Distancia"
-        android:layout_margin="60dp" />
+        android:layout_marginBottom="35dp"
+        android:layout_marginLeft="20dp" />
+
+    <Button
+        android:id="@+id/btn_iniciar"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|center"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/bg_round"
+        android:contentDescription="Iniciar"
+        android:text="INICIAR Alarma" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/AvisaraContacto"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:layout_margin="60dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="35dp"
         android:contentDescription="Avisar a Contacto"
         android:src="@drawable/plusgreen" />
 

@@ -57,6 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         boton_ingresar = (Button) findViewById(R.id.btnAceptar);
+
         boton_recordar = (Button) findViewById(R.id.login3);
 
         final  EditText texto_email = findViewById(R.id.username);
