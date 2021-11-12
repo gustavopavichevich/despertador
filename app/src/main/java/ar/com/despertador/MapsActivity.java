@@ -43,10 +43,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
 
-import ar.com.despertador.data.Conexion.DataUsuarioActivity;
-import ar.com.despertador.data.model.Usuario;
 import ar.com.despertador.dialogos.Configurar_ContactoActivity;
-
 import ar.com.despertador.dialogos.Configurar_RadioActivity;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
@@ -84,29 +81,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         btn_iniciar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            if (dist <= 300){
-                Toast.makeText(MapsActivity.this, "Ya estas dentro del radio seleccionado", Toast.LENGTH_LONG).show();
+                if (dist <= 300) {
+                    Toast.makeText(MapsActivity.this, "Ya estas dentro del radio seleccionado", Toast.LENGTH_LONG).show();
 
-            }else {
-                if (btn_iniciar.getText() == "Iniciar Alarma") {
-                    if (posdestino.getLatitude() == 0.0 && posdestino.getLongitude() == 0.0) {
-                        Toast.makeText(MapsActivity.this, "Inicialmente por favor defina un destino", Toast.LENGTH_SHORT).show();
-                    } else {
-                        txvcalculo.setText("La distancia actual es: " + distFormateada + " Metros.");
-                        txvcalculo.setVisibility(View.VISIBLE);
-                        btn_iniciar.setText("CANCELAR Alarma");
-                    }
                 } else {
-                    miUbucacion();
-                    txvcalculo.setVisibility(View.INVISIBLE);
-                    txvcalculo.setText("");
-                    svbuscar.setQuery("", false);
-                    svbuscar.clearFocus();
-                    posdestino.setLatitude(0.0);
-                    posdestino.setLongitude(0.0);
-                    btn_iniciar.setText("Iniciar Alarma");
+                    if (btn_iniciar.getText() == "Iniciar Alarma") {
+                        if (posdestino.getLatitude() == 0.0 && posdestino.getLongitude() == 0.0) {
+                            Toast.makeText(MapsActivity.this, "Inicialmente por favor defina un destino", Toast.LENGTH_SHORT).show();
+                        } else {
+                            txvcalculo.setText("La distancia actual es: " + distFormateada + " Metros.");
+                            txvcalculo.setVisibility(View.VISIBLE);
+                            btn_iniciar.setText("CANCELAR Alarma");
+                        }
+                    } else {
+                        miUbucacion();
+                        txvcalculo.setVisibility(View.INVISIBLE);
+                        txvcalculo.setText("");
+                        svbuscar.setQuery("", false);
+                        svbuscar.clearFocus();
+                        posdestino.setLatitude(0.0);
+                        posdestino.setLongitude(0.0);
+                        btn_iniciar.setText("Iniciar Alarma");
+                    }
                 }
-            }
             }
         });
         LocationServices.getFusedLocationProviderClient(MapsActivity.this).getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
@@ -147,7 +144,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     posdestino.setLongitude(address.getLongitude());
                     dist = posactual.distanceTo(posdestino);
                     DecimalFormat df = new DecimalFormat("#.00");
-                    distFormateada=df.format(dist);
+                    distFormateada = df.format(dist);
 
                     mMap.clear();
 
@@ -176,8 +173,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
         String emailU;
-        emailU= getIntent().getStringExtra("email");
-       
+        emailU = getIntent().getStringExtra("email");
+
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -224,7 +221,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             log = location.getLongitude();
             posactual.setLongitude(log);
             posactual.setLatitude(lat);
-          //  posactual.se = new LatLng(lat,log);
+            //  posactual.se = new LatLng(lat,log);
             agregarMarcador(lat, log);
         }
     }
@@ -233,23 +230,23 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         @Override
         public void onLocationChanged(Location location) {
             //actualizarUbicacion(location);
-            if(btn_iniciar.getText() != "Iniciar Alarma") {
+            if (btn_iniciar.getText() != "Iniciar Alarma") {
 
-     //           Toast.makeText(MapsActivity.this, "Entra a onlocationchanged", Toast.LENGTH_LONG).show();
+                //           Toast.makeText(MapsActivity.this, "Entra a onlocationchanged", Toast.LENGTH_LONG).show();
                 lat = location.getLatitude();
                 log = location.getLongitude();
                 posactual.setLongitude(log);
                 posactual.setLatitude(lat);
                 dist = posactual.distanceTo(posdestino);
-                if (dist <=300){
+                if (dist <= 300) {
                     txvcalculo.setText("LLEGASTEEEEEEE!!!!!!! (se supone que aca deberia sonar algo jaja)");
-                }else{
+                } else {
                     DecimalFormat df = new DecimalFormat("#.00");
                     distFormateada = df.format(dist);
                     txvcalculo.setText("La distancia actual es: " + distFormateada + " Metros.");
                 }
 
-            }else{
+            } else {
                 actualizarUbicacion(location);
             }
         }
@@ -291,15 +288,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .create()
                     .show();
 
-           return;
+            return;
         }
 
 
         Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         actualizarUbicacion(location);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0    , locListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000, 0, locListener);
 
     }
+
     public boolean checkLocationPermission() {
         if (ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION)
@@ -339,7 +337,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case MY_PERMISSIONS_REQUEST_LOCATION: {
@@ -382,6 +380,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void AbrirDialogoConfigRadio() {
         Intent intent = new Intent(this, Configurar_RadioActivity.class);
         startActivity(intent);
+    }
 
     public void IniciarRecorrido() {
 
@@ -393,7 +392,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         dist = posactual.distanceTo(posdestino);
         DecimalFormat df = new DecimalFormat("#.00");
-        distFormateada=df.format(dist);
+        distFormateada = df.format(dist);
         txvcalculo.setText("La distancia actual es: " + distFormateada + " Metros.");
     }
 }
