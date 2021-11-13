@@ -7,6 +7,7 @@
     android:orientation="vertical"
     tools:context=".dialogos.Configurar_ContactoActivity">
     <TextView
+        android:layout_marginTop="5dp"
         android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -35,41 +36,52 @@
         android:id="@+id/textView4"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
         android:text="Escriba el mensaje de aviso de llegada" />
 
     <EditText
         android:id="@+id/txtMensaje"
         android:layout_width="match_parent"
         android:layout_height="249dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/design_default_color_secondary_variant"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine" />
 
     <TextView
         android:id="@+id/textView5"
+        android:layout_marginTop="10dp"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Presione aceptar para elegir un contacto" />
+        android:gravity="center|left"
+        android:text="Presione aceptar para elegir un contacto..." />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:layout_height="144dp"
+        android:layout_marginTop="80dp"
+        android:orientation="horizontal"
+        android:layout_gravity="bottom|center">
 
         <Button
             android:id="@+id/btnCancelarConfCont"
             android:layout_width="wrap_content"
+            android:layout_gravity="bottom|center"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/colorRojo"
+            android:background="@drawable/bg_round"
             android:text="Cancelar" />
 
         <Button
             android:id="@+id/btnAceptarConfCont"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="bottom|center"
+
             android:layout_weight="1"
-            android:background="@color/colorRojo"
+            android:background="@drawable/bg_round"
             android:onClick="ElegirContacto"
             android:text="Aceptar" />
     </LinearLayout>
