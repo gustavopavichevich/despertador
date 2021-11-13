@@ -20,7 +20,7 @@ public class Configurar_ContactoActivity extends AppCompatActivity {
     static final int PICK_CONTACT_REQUEST=1;
     RadioButton _radiow, _radiosms;
     EditText _txtmensaje;
-    String _emailU;
+    private static String _emailU,_poiDestino;
 
 
     @Override
@@ -28,6 +28,7 @@ public class Configurar_ContactoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configurar_contacto);
         _emailU=getIntent().getStringExtra("email");
+        _poiDestino = getIntent().getStringExtra("poidestino");
         _radiow = (RadioButton)findViewById(R.id.radioWhatsApp);
         _radiosms = (RadioButton)findViewById(R.id.radioSMS);
         _txtmensaje = (EditText)findViewById(R.id.txtMensaje);
@@ -60,17 +61,19 @@ public class Configurar_ContactoActivity extends AppCompatActivity {
                     int columnaNumero = cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER);
                     String nombre = cursor.getString(columnaNombre);
                     String numero = cursor.getString(columnaNumero);
-                    Toast.makeText(this, "Registro Seleccionado: " + nombre + " Celular: " + numero, Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(this, "Registro Seleccionado: " + nombre + " Celular: " + numero, Toast.LENGTH_SHORT).show();
                     //grabar los datos del contacto seleccionado en la base
 
 
                     //Voy a configurar Alarma
                     Intent intent = new Intent(this, ConfiguracionAlarmaActivity.class);
                     //paso los valores al siguiente activity
+                    /*intent.putExtra("radiow",_radiow.getText().toString());
+                    intent.putExtra("radiosms",_radiosms.getText().toString());*/
+                    //_emailU=getIntent().getStringExtra("email");
                     intent.putExtra("email",_emailU);
-                    intent.putExtra("radiow",_radiow.getText().toString());
-                    intent.putExtra("radiosms",_radiosms.getText().toString());
-                    intent.putExtra("txtmensaje",_txtmensaje.toString());
+                    intent.putExtra("poidestino",_poiDestino);
+                    intent.putExtra("txtmensaje",_txtmensaje.getText().toString());
                     intent.putExtra("nombre",nombre);
                     intent.putExtra("numero",numero);
                     startActivity(intent);
