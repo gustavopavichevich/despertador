@@ -18,7 +18,7 @@
             android:name=".dialogos.Configurar_ContactoActivity"
             android:exported="false" />
         <activity
-            android:name=".ConfiguracionAlarmaActivity"
+            android:name=".dialogos.ConfiguracionAlarmaActivity"
             android:exported="false" />
         <activity
             android:name=".AgregarCuentaActivity"

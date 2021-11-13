@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import ar.com.despertador.dialogos.ConfiguracionAlarmaActivity;
+
 public class ListadoContactos extends AppCompatActivity {
 
     @Override
