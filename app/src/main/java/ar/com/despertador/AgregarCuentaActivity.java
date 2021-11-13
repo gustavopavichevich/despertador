@@ -6,11 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import java.util.regex.Pattern;
 
 import ar.com.despertador.data.Conexion.DataUsuarioActivity;
 import ar.com.despertador.data.model.Persona;
@@ -37,19 +40,29 @@ public class AgregarCuentaActivity extends AppCompatActivity {
         boton_continuar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String acepta = texto_casilla.isChecked() ? "si" : "no";
-                persona = new Persona();
-                usuario = new Usuario();
-                persona.setApellido(texto_apellido.getText().toString());
-                persona.setNombre(texto_nombre.getText().toString());
-                persona.setTelefono(texto_telefono.getText().toString());
-                persona.setTipo("usuario");
-                persona.setEmail(texto_email.getText().toString());
-                usuario.setContrasenia(texto_contrasena.getText().toString());
-                usuario.setEmail(texto_email.getText().toString());
-                DataUsuarioActivity task = new DataUsuarioActivity("insert",persona, usuario, con);
-                task.execute();
+
+                if (!validarEmail(texto_email.getText().toString())){
+                    Toast.makeText(con, "El Formato de mail es invalido", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    String acepta = texto_casilla.isChecked() ? "si" : "no";
+                    persona = new Persona();
+                    usuario = new Usuario();
+                    persona.setApellido(texto_apellido.getText().toString());
+                    persona.setNombre(texto_nombre.getText().toString());
+                    persona.setTelefono(texto_telefono.getText().toString());
+                    persona.setTipo("usuario");
+                    persona.setEmail(texto_email.getText().toString());
+                    usuario.setContrasenia(texto_contrasena.getText().toString());
+                    usuario.setEmail(texto_email.getText().toString());
+                    DataUsuarioActivity task = new DataUsuarioActivity("insert",persona, usuario, con);
+                    task.execute();
+                }
             }
         });
+    }
+    private boolean validarEmail(String email) {
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        return pattern.matcher(email).matches();
     }
 }

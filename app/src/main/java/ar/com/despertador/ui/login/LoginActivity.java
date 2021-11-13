@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 
 import androidx.annotation.Nullable;
@@ -28,6 +29,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 //import ar.com.despertador.AgregarCuentaActivity;
+import java.util.regex.Pattern;
+
 import ar.com.despertador.AgregarCuentaActivity;
 import ar.com.despertador.MapsActivity;
 import ar.com.despertador.R;
@@ -74,28 +77,36 @@ public class LoginActivity extends AppCompatActivity {
                 persona.setTelefono(texto_telefono.getText().toString());
                 persona.setTipo("usuario");
                 persona.setEmail(texto_email.getText().toString());*/
-                usuario.setContrasenia(texto_contrasenia.getText().toString());
-                usuario.setEmail(texto_email.getText().toString());
-                DataUsuarioActivity task = new DataUsuarioActivity("select", usuario, con);
-                task.execute();
+                if (!validarEmail(texto_email.getText().toString())){
+                    Toast.makeText(con, "El Formato de mail es invalido", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    usuario.setContrasenia(texto_contrasenia.getText().toString());
+                    usuario.setEmail(texto_email.getText().toString());
+                    DataUsuarioActivity task = new DataUsuarioActivity("select", usuario, con);
+                    task.execute();
+                }
+
             }
         });
 
         boton_recordar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!validarEmail(texto_email.getText().toString())){
+                    Toast.makeText(con, "El Formato de mail es invalido", Toast.LENGTH_SHORT).show();
+                }
+                else{
+                    usuario = new Usuario();
+                    String textoUser = texto_email.getText().toString();
+                    usuario.setEmail(textoUser);
+                    DataUsuarioActivity task = new DataUsuarioActivity("selectRecordar", usuario, con);
+                    task.execute();
+                }
+
                 //             persona = new Persona();
-               usuario = new Usuario();
-    //            String textoPass = texto_contrasenia.getText().toString();
-               String textoUser = texto_email.getText().toString();
-               usuario.setEmail(textoUser);
-               if (textoUser.isEmpty()){
-                    Toast.makeText(con, "Completa el campo mail para recordarte la contraseña", Toast.LENGTH_SHORT).show();
-                }else
-               {
-                   DataUsuarioActivity task = new DataUsuarioActivity("selectRecordar", usuario, con);
-                   task.execute();
-               }
+
+
 
 
   /*              persona.setApellido(texto_apellido.getText().toString());
@@ -234,6 +245,10 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }
 */
+      private boolean validarEmail(String email) {
+          Pattern pattern = Patterns.EMAIL_ADDRESS;
+          return pattern.matcher(email).matches();
+      }
     public void Agregar (View view)
     {
         Intent agregar = new Intent( this, AgregarCuentaActivity.class);

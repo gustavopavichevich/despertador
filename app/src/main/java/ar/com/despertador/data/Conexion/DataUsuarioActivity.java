@@ -143,7 +143,7 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
             case "selectRecordar":
 
                 if (usuario.getIdUsuario() > 0) {
-                    new MailJob("appdespertador@gmail.com", "utn123456").execute(new MailJob.Mail("appdespertador@gmail.com", "leo.yermoli@gmail.com", "Contraseña de app Despertador UTN", "La contraseña del usuario " + usuario.getEmail() + " es: " + usuario.getContrasenia()));
+                    new MailJob("appdespertador@gmail.com", "utn123456").execute(new MailJob.Mail("appdespertador@gmail.com", usuario.getEmail().toString(), "Contraseña de app Despertador UTN", "La contraseña del usuario " + usuario.getEmail() + " es: " + usuario.getContrasenia()));
                     Toast.makeText(context, "Contraseña enviada, revise su casilla de correo", Toast.LENGTH_LONG).show();
 
                 } else {
