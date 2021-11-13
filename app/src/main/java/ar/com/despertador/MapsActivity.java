@@ -162,7 +162,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     if (radio >= 1500)
                         zoom = 64;
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
                     mMap.addCircle(new CircleOptions()
                             .center(latLng)
                             .radius(radio)
