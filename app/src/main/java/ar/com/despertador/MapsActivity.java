@@ -45,6 +45,7 @@ import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
 
+import ar.com.despertador.data.services.SoundManager;
 import ar.com.despertador.dialogos.Configurar_ContactoActivity;
 import ar.com.despertador.dialogos.Configurar_RadioActivity;
 
@@ -239,7 +240,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     LocationListener locListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
-
+//            mandarSMS();
+//            SoundManager sound = new SoundManager(getApplicationContext());
+//            // Lee los sonidos que figuran en res/raw
+//            int chicken = sound.load(R.raw.iphone_5_alarm);
+//            sound.play(chicken);
             //actualizarUbicacion(location);
             if (btn_iniciar.getText() != "Iniciar Alarma") {
 
@@ -252,6 +257,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 if (dist <= 300) {
                     txvcalculo.setText("LLEGASTEEEEEEE!!!!!!! (se supone que aca deberia sonar algo jaja)");
                     mandarSMS();
+                    SoundManager sound = new SoundManager(getApplicationContext());
+                    // Lee los sonidos que figuran en res/raw
+                    int chicken = sound.load(R.raw.iphone_5_alarm);
+                    sound.play(chicken);
                 } else {
                     DecimalFormat df = new DecimalFormat("#.00");
                     distFormateada = df.format(dist);
@@ -398,9 +407,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void AbrirDialogoConfigRadio() {
-        getIntent().putExtra("radio", radio);
-        Intent intent = new Intent(this, Configurar_RadioActivity.class);
-        startActivity(intent);
+        if (posdestino.getLatitude() != 0.0 && posdestino.getLongitude() != 0.0) {
+            getIntent().putExtra("radio", radio);
+            Intent intent = new Intent(this, Configurar_RadioActivity.class);
+            startActivity(intent);
+        } else {
+            Toast.makeText(MapsActivity.this, "Debe Buscar su Dirección de Destino", Toast.LENGTH_LONG).show();
+        }
     }
 
     public void IniciarRecorrido() {
