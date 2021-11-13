@@ -3,21 +3,17 @@ package ar.com.despertador.data.Conexion;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
-import java.util.ArrayList;
 
 import ar.com.despertador.MailJob;
 import ar.com.despertador.MapsActivity;
-import ar.com.despertador.data.adapter.UsuarioAdapter;
 import ar.com.despertador.data.model.Persona;
 import ar.com.despertador.data.model.Usuario;
-import ar.com.despertador.dialogos.Configurar_ContactoActivity;
 import ar.com.despertador.ui.login.LoginActivity;
 
 
@@ -31,7 +27,7 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
     private static String result2;
     private int total;
     private int iduser;
-    private String contrasena ;
+    private String contrasena;
 
 
     //Recibe por constructor el textview
@@ -43,7 +39,8 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
         this.accion = accion;
 
     }
-//constructor para el select
+
+    //constructor para el select
     public DataUsuarioActivity(String accion, Usuario usuario, Context ct) {
         this.usuario = usuario;
         this.context = ct;
@@ -78,34 +75,26 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
                     ResultSet rs = st.executeQuery("SELECT idUsuario FROM usuarios where email = '" + usuario.getEmail() +
                             "' and contrasenia = '" + usuario.getContrasenia() + "' ");
 
-                 //   String sql = "SELECT idUsuario FROM usuarios where email = '" + usuario.getEmail() +
-               //             "' and contrasenia = '" + usuario.getContrasenia() + "' ";
-
-
-                   result2 = " ";
-                  total = 0;
-                    while (rs.next()){
-                     iduser = rs.getInt("idUsuario");
+                    result2 = " ";
+                    total = 0;
+                    while (rs.next()) {
+                        iduser = rs.getInt("idUsuario");
                         total++;
                     }
 
-         // Terminamos de cargar el objet
+                    // Terminamos de cargar el objet
                     //
-                if (total == 1){
-                       usuario.setIdUsuario(iduser);
-                       usuario.setEmail(usuario.getEmail());
-                }
+                    if (total == 1) {
+                        usuario.setIdUsuario(iduser);
+                        usuario.setEmail(usuario.getEmail());
+                    }
                     break;
                 case "selectRecordar":
                     ResultSet rs2 = st.executeQuery("SELECT idUsuario, contrasenia FROM usuarios where email = '" + usuario.getEmail() + "' ");
 
-                    //   String sql = "SELECT idUsuario FROM usuarios where email = '" + usuario.getEmail() +
-                    //             "' and contrasenia = '" + usuario.getContrasenia() + "' ";
-
-
                     result2 = " ";
                     total = 0;
-                    while (rs2.next()){
+                    while (rs2.next()) {
                         contrasena = rs2.getString("contrasenia");
                         iduser = rs2.getInt("idUsuario");
                         total++;
@@ -113,7 +102,7 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
 
                     // Terminamos de cargar el objet
                     //
-                    if (total == 1){
+                    if (total == 1) {
                         usuario.setIdUsuario(iduser);
                         usuario.setContrasenia(contrasena);
                     }
@@ -138,20 +127,15 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
                 context.startActivity(new Intent(context, LoginActivity.class));
                 break;
             case "select":
-           //     UsuarioAdapter adapter = new UsuarioAdapter(context, listaUsuarios);
-         //       lvUsuarios.setAdapter(adapter);
-         //       adapter.notifyDataSetChanged();
-         //       ((UsuarioAdapter)lvUsuarios.getAdapter()).notifyDataSetChanged();
                 if (usuario.getIdUsuario() > 0) {
                     Toast.makeText(context, "Logueado con exito", Toast.LENGTH_LONG).show();
-                    Intent intent=new Intent(context, MapsActivity.class);
-                    intent.putExtra("email",usuario.getEmail());
+                    Intent intent = new Intent(context, MapsActivity.class);
+                    intent.putExtra("email", usuario.getEmail());
 
                     context.startActivity(intent);
 
                     //context.startActivity(new Intent(context, MapsActivity.class));
-                }else
-                {
+                } else {
                     Toast.makeText(context, "Usuario o contraseña incorrectos", Toast.LENGTH_LONG).show();
                     context.startActivity(new Intent(context, LoginActivity.class));
                 }
@@ -159,12 +143,10 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
             case "selectRecordar":
 
                 if (usuario.getIdUsuario() > 0) {
-              /*      Toast.makeText(context, "Logueado con exito", Toast.LENGTH_LONG).show();
-                    context.startActivity(new Intent(context, MapsActivity.class));*/
-                    new MailJob("appdespertador@gmail.com", "utn123456").execute(new MailJob.Mail("appdespertador@gmail.com", "leo.yermoli@gmail.com", "Contraseña de app Despertador UTN", "La contraseña del usuario "+ usuario.getEmail().toString() + " es: "+ usuario.getContrasenia().toString()));
+                    new MailJob("appdespertador@gmail.com", "utn123456").execute(new MailJob.Mail("appdespertador@gmail.com", "leo.yermoli@gmail.com", "Contraseña de app Despertador UTN", "La contraseña del usuario " + usuario.getEmail() + " es: " + usuario.getContrasenia()));
                     Toast.makeText(context, "Contraseña enviada, revise su casilla de correo", Toast.LENGTH_LONG).show();
-//usuario.getEmail().toString()
-                }else{
+
+                } else {
                     Toast.makeText(context, "Usuario inexistente", Toast.LENGTH_LONG).show();
                 }
                 break;

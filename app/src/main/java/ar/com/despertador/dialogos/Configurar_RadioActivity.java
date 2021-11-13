@@ -18,6 +18,7 @@ public class Configurar_RadioActivity extends AppCompatActivity implements SeekB
     private TextView mTrackingText;
     private Button btnCancelarConfRadio;
     private Button btn_AceptarConfRadio;
+    private int radio;
 
 
     @Override
@@ -28,18 +29,19 @@ public class Configurar_RadioActivity extends AppCompatActivity implements SeekB
         mSeekBar.setOnSeekBarChangeListener(this);
         mProgressText = (TextView) findViewById(R.id.progress);
         mTrackingText = (TextView) findViewById(R.id.tracking);
+        radio = getIntent().getIntExtra("radio", radio);
         btnCancelarConfRadio = (Button) findViewById(R.id.btnCancelarConfRadio);
         btnCancelarConfRadio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                volver(mProgressText.getText().toString());
+                volver();
             }
         });
         btn_AceptarConfRadio = (Button) findViewById(R.id.btnAceptarConfRadio);
         btn_AceptarConfRadio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                volver(null);
+                volver();
             }
         });
     }
@@ -48,25 +50,26 @@ public class Configurar_RadioActivity extends AppCompatActivity implements SeekB
     public void onProgressChanged(SeekBar seekBar, int progress,
                                   boolean fromUser) {
         // Durante el arrastre, es decir, el valor está cambiando
-        // el progreso es el tamaño del valor actual
-        mProgressText.setText("Valor actual:" + progress);
+        // el progress es el tamaño del valor actual
+        radio = progress;
+        mProgressText.setText("Valor actual:" + radio);
     }
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
         // Este método se llamará durante el arrastre
-        mTrackingText.setText("xh se está ajustando");
+        mTrackingText.setText("¿Cuál es la distancia de radio?");
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
         // Dejar de arrastrar
-        mTrackingText.setText("ajuste de parada xh");
+        mTrackingText.setText("¡Configuremos un nuevo radio!");
     }
 
-    public void volver(String respuesta) {
+    public void volver() {
         Intent intent = new Intent(this, MapsActivity.class);
-        intent.putExtra("progress", respuesta);
+        intent.putExtra("radio",radio);
         startActivity(intent);
     }
 }
