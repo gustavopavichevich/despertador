@@ -1,21 +1,19 @@
-package ar.com.despertador;
-
-import androidx.appcompat.app.AppCompatActivity;
+package ar.com.despertador.dialogos;
 
 import android.content.Context;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.SeekBar;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import ar.com.despertador.R;
 import ar.com.despertador.data.Conexion.DataAlarmaActivity;
-import ar.com.despertador.data.Conexion.DataUsuarioActivity;
 import ar.com.despertador.data.model.Persona;
 import ar.com.despertador.data.model.Usuario;
 
@@ -23,7 +21,7 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
     MediaPlayer mp = new MediaPlayer();
     int position;
     int position2;
-    int s1[] = {
+    int[] s1 = {
             R.raw.classic_whistle,
             R.raw.digital_bell,
             R.raw.dubstep,
@@ -51,7 +49,7 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
     private Usuario usuario;
     private Context con;
 
-    String _emailU,_radiow, _radiosms,_txtmensaje,_nombre,_numero;
+    String _emailU, _radiow, _radiosms, _txtmensaje, _nombre, _numero;
 
 
     @Override
@@ -60,18 +58,17 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_configuracion_alarma);
         boton_aceptar = (Button) findViewById(R.id.btnAceptar);
 
-        _emailU=getIntent().getStringExtra("email");
+        _emailU = getIntent().getStringExtra("email");
         _radiow = getIntent().getStringExtra("radiow");
         _radiosms = getIntent().getStringExtra("_adiosms");
         _txtmensaje = getIntent().getStringExtra("txtmensaje");
         _nombre = getIntent().getStringExtra("nombre");
         _numero = getIntent().getStringExtra("numero");
 
-        if (_txtmensaje!="") {
+        if (_txtmensaje != "") {
             _txtmensajealarma.setText(_txtmensaje);//pongo el mensaje que agrego el usuario
-        }
-        else{
-            _txtmensajealarma.setText(_emailU +  " esta llegando al destino seleccionado, usted es su contacto de aviso.");//pongo el mensaje predeterminado
+        } else {
+            _txtmensajealarma.setText(_emailU + " esta llegando al destino seleccionado, usted es su contacto de aviso.");//pongo el mensaje predeterminado
         }
 
         //Inicio Agrego
@@ -79,7 +76,6 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
 
         ArrayAdapter adaptador = new ArrayAdapter(this, android.R.layout.simple_list_item_1, title);
         list30.setAdapter(adaptador);
-
 
 
         con = this;
@@ -96,7 +92,7 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
                 persona.setEmail(texto_email.getText().toString());
                 usuario.setContrasenia(texto_contrasena.getText().toString());
                 usuario.setEmail(texto_email.getText().toString());*/
-                DataAlarmaActivity task = new DataAlarmaActivity("insert",persona, usuario, con);
+                DataAlarmaActivity task = new DataAlarmaActivity("insert", persona, usuario, con);
                 task.execute();
             }
         });

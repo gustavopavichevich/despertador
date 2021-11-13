@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-import ar.com.despertador.ConfiguracionAlarmaActivity;
 import ar.com.despertador.R;
 
 public class Configurar_ContactoActivity extends AppCompatActivity {

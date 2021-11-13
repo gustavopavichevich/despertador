@@ -14,6 +14,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.SearchView;
@@ -45,6 +46,7 @@ import java.util.List;
 
 import ar.com.despertador.dialogos.Configurar_ContactoActivity;
 import ar.com.despertador.dialogos.Configurar_RadioActivity;
+import android.telephony.SmsManager;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
@@ -89,6 +91,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     if (btn_iniciar.getText() == "Iniciar Alarma") {
                         if (posdestino.getLatitude() == 0.0 && posdestino.getLongitude() == 0.0) {
                             Toast.makeText(MapsActivity.this, "Inicialmente por favor defina un destino", Toast.LENGTH_SHORT).show();
+
                         } else {
                             txvcalculo.setText("La distancia actual es: " + distFormateada + " Metros.");
                             txvcalculo.setVisibility(View.VISIBLE);
@@ -243,6 +246,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 dist = posactual.distanceTo(posdestino);
                 if (dist <= 300) {
                     txvcalculo.setText("LLEGASTEEEEEEE!!!!!!! (se supone que aca deberia sonar algo jaja)");
+                    mandarSMS();
                 } else {
                     DecimalFormat df = new DecimalFormat("#.00");
                     distFormateada = df.format(dist);
@@ -397,5 +401,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         DecimalFormat df = new DecimalFormat("#.00");
         distFormateada = df.format(dist);
         txvcalculo.setText("La distancia actual es: " + distFormateada + " Metros.");
+    }
+
+    public void mandarSMS() {
+        int permissionCheck = ContextCompat.checkSelfPermission(
+                this, Manifest.permission.SEND_SMS);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            Log.i("Mensaje", "No se tiene permiso para enviar SMS.");
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 225);
+        } else {
+
+            String phone = "25172744";
+            String text = "Este mensaje es de Despertar";
+            SmsManager sms = SmsManager.getDefault();
+            sms.sendTextMessage(phone, null, text, null, null);
+            Log.i("Mensaje", "Se tiene permiso para enviar SMS!");
+        }
     }
 }
