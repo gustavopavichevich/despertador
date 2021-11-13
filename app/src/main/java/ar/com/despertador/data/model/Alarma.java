@@ -6,6 +6,7 @@ public class Alarma {
     private String urlTono;
     private String mensaje;
     private int distanciaActivacion;
+    private int volumen;
 
     public Alarma(){
 
@@ -56,5 +57,13 @@ public class Alarma {
 
     public void setDistanciaActivacion(int distanciaActivacion) {
         this.distanciaActivacion = distanciaActivacion;
+    }
+
+    public int getVolumen() {
+        return volumen;
+    }
+
+    public void setVolumen(int volumen) {
+        this.volumen = volumen;
     }
 }

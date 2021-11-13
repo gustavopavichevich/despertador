@@ -1,110 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="55px"
     tools:context=".dialogos.ConfiguracionAlarmaActivity">
 
-    <Button
-        android:id="@+id/btnAceptar"
-        android:layout_width="343dp"
-        android:layout_height="54dp"
-        android:layout_gravity="start"
-        android:layout_marginBottom="64dp"
-        android:background="@color/colorRojo"
-        android:enabled="false"
-        android:text="@string/btnAceptar"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.47"
-        app:layout_constraintStart_toStartOf="parent" />
+    <TextView
+        android:id="@+id/lblNombre"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nombre"
+        android:textColor="@color/colorNaranja"
+        app:layout_constraintTop_toBottomOf="@+id/txtSeleccionar2" />
 
     <EditText
-        android:id="@+id/txtMensajeAlarma"
-        android:layout_width="343dp"
-        android:layout_height="202dp"
-        android:layout_marginBottom="4dp"
-        android:background="@color/colorBlanco"
+        android:id="@+id/txtNombreAlarma"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:ems="10"
-        android:gravity="start|top"
-        android:inputType="textMultiLine"
-        app:layout_constraintBottom_toTopOf="@+id/btnAceptar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.468"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <EditText
-        android:id="@+id/txtBusqueda"
-        android:layout_width="345dp"
-        android:layout_height="45dp"
-        android:ems="10"
+        android:hint="Ingrese el Nombre de la Alarma"
         android:inputType="textPersonName"
-        android:text="Ingrese el Nombre"
-        app:layout_constraintTop_toBottomOf="@+id/lblNombre"
-        tools:layout_editor_absoluteX="33dp" />
-
-    <ListView
-        android:id="@+id/lvAlarmas"
-        android:layout_width="337dp"
-        android:layout_height="156dp"
-        android:layout_marginTop="8dp"
-        android:background="@color/colorGris"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtBusqueda" />
-
-    <ProgressBar
-        android:id="@+id/loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="64dp"
-        android:layout_marginBottom="64dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
-
-    <SeekBar
-        android:id="@+id/seekBarVolumen"
-        android:layout_width="342dp"
-        android:layout_height="35dp"
-        android:layout_marginBottom="32dp"
-        android:max="10"
-        android:scaleX="1"
-        app:layout_constraintBottom_toTopOf="@+id/textView6"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.478"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="348dp"
-        android:layout_height="18dp"
-        android:text="Mensaje"
-        android:textColor="@color/colorNaranja"
-        app:layout_constraintBottom_toTopOf="@+id/txtMensajeAlarma"
-        tools:layout_editor_absoluteX="32dp" />
-
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="348dp"
-        android:layout_height="18dp"
-        android:text="Volumen"
-        android:textColor="@color/colorNaranja"
-        app:layout_constraintBottom_toTopOf="@+id/seekBarVolumen"
-        tools:layout_editor_absoluteX="33dp" />
+        app:layout_constraintTop_toBottomOf="@+id/lblNombre" />
 
     <TextView
         android:id="@+id/txtSeleccionar2"
-        android:layout_width="345dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="24dp"
         android:text="@string/txtAlarma"
         android:textAlignment="center"
         android:textSize="20sp"
@@ -114,15 +40,78 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <ListView
+        android:id="@+id/lvAlarmas"
+        android:layout_width="match_parent"
+        android:layout_height="156dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/colorGris"
+        android:listSelector="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtNombreAlarma" />
+
     <TextView
-        android:id="@+id/lblNombre"
-        android:layout_width="343dp"
-        android:layout_height="17dp"
-        android:layout_marginTop="24dp"
-        android:text="Nombre"
+        android:id="@+id/textView13"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Volumen"
         android:textColor="@color/colorNaranja"
-        app:layout_constraintTop_toBottomOf="@+id/txtSeleccionar2"
-        tools:layout_editor_absoluteX="33dp" />
+        app:layout_constraintBottom_toTopOf="@+id/lvAlarmas"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <SeekBar
+        android:id="@+id/seekBarVolumen"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_marginBottom="36dp"
+        android:max="10"
+        android:progress="4"
+        android:scaleX="1"
+        app:layout_constraintBottom_toTopOf="@+id/textView13"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.55"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Mensaje"
+        android:textColor="@color/colorNaranja"
+        app:layout_constraintBottom_toTopOf="@+id/seekBarVolumen"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.507"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/txtMensajeAlarma"
+        android:layout_width="match_parent"
+        android:layout_height="202dp"
+        android:background="@color/colorGris"
+        android:ems="10"
+        android:gravity="start|top"
+        android:inputType="textMultiLine"
+        app:layout_constraintBottom_toTopOf="@+id/btnAceptar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.468"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnAceptar"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_gravity="start"
+        android:layout_marginBottom="64dp"
+        android:background="@color/colorRojo"
+        android:enabled="true"
+        android:text="@string/btnAceptar"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

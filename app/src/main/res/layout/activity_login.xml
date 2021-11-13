@@ -61,47 +61,32 @@
 
     <Button
         android:id="@+id/login2"
-        android:layout_width="166dp"
-        android:layout_height="55dp"
+        android:layout_width="152dp"
+        android:layout_height="52dp"
         android:layout_gravity="start"
         android:layout_marginTop="32dp"
-        android:layout_marginEnd="16dp"
         android:background="@drawable/boton_redondeado_borde"
         android:enabled="true"
-
         android:onClick="Agregar"
         android:text="@string/action_sign_in_short"
+        android:textSize="12sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnAceptar" />
 
     <Button
         android:id="@+id/login3"
-        android:layout_width="166dp"
-        android:layout_height="55dp"
+        android:layout_width="152dp"
+        android:layout_height="52dp"
         android:layout_gravity="start"
-        android:layout_marginStart="5dp"
         android:layout_marginTop="32dp"
         android:background="@drawable/boton_redondeado_borde"
         android:enabled="true"
         android:text="@string/action_sign_in_rem"
+        android:textSize="12sp"
         app:layout_constraintEnd_toStartOf="@+id/login2"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnAceptar" />
-
-    <ProgressBar
-        android:id="@+id/loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="64dp"
-        android:layout_marginBottom="64dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/password"
-        app:layout_constraintStart_toStartOf="@+id/password"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.3" />
 
     <ImageView
         android:id="@+id/imageView2"

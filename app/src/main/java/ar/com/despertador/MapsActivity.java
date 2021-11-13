@@ -68,11 +68,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     SearchView searchView;
     Location posactual = new Location("localizacion Usuario");
     Location posdestino = new Location("localizacion Destino");
+    private static String _emailU;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+        _emailU=getIntent().getStringExtra("email");
+
         checkLocationPermission();
         posdestino.setLongitude(log);
         posdestino.setLatitude(lat);
@@ -380,8 +384,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void AbrirDialogoCofContacto() {
-        Intent intent = new Intent(this, Configurar_ContactoActivity.class);
-        startActivity(intent);
+        if (posdestino.getLatitude() != 0.0 && posdestino.getLongitude() != 0.0)  {
+            Intent intent = new Intent(this, Configurar_ContactoActivity.class);
+            intent.putExtra("email",_emailU);
+            intent.putExtra("poidestino",posdestino.getLatitude() + "-" + posdestino.getLongitude());
+
+            startActivity(intent);
+        }
+        else {
+            Toast.makeText(MapsActivity.this, "Debe Buscar su Dirección de Destino", Toast.LENGTH_LONG).show();
+        }
+
     }
 
     public void AbrirDialogoConfigRadio() {
