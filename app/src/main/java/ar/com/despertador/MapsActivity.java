@@ -14,6 +14,7 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -46,7 +47,6 @@ import java.util.List;
 
 import ar.com.despertador.dialogos.Configurar_ContactoActivity;
 import ar.com.despertador.dialogos.Configurar_RadioActivity;
-import android.telephony.SmsManager;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
 
@@ -65,6 +65,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     double log = 0.0;
     int radio = 500;
     SupportMapFragment mapFragment;
+    FloatingActionButton AvisaraContacto;
+    FloatingActionButton aplicarRadio;
     SearchView searchView;
     Location posactual = new Location("localizacion Usuario");
     Location posdestino = new Location("localizacion Destino");
@@ -75,7 +77,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
-        _emailU=getIntent().getStringExtra("email");
+        _emailU = getIntent().getStringExtra("email");
 
         checkLocationPermission();
         posdestino.setLongitude(log);
@@ -186,21 +188,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
         mapFragment.getMapAsync(this);
 
-        String emailU;
-        emailU = getIntent().getStringExtra("email");
+        String emailU = getIntent().getStringExtra("email");
 
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        FloatingActionButton AvisaraContacto = (FloatingActionButton) findViewById(R.id.AvisaraContacto);
+        AvisaraContacto = (FloatingActionButton) findViewById(R.id.AvisaraContacto);
         AvisaraContacto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 AbrirDialogoCofContacto();
             }
         });
-        FloatingActionButton aplicarRadio = (FloatingActionButton) findViewById(R.id.DefinirDistancia);
+        aplicarRadio = (FloatingActionButton) findViewById(R.id.DefinirDistancia);
         aplicarRadio.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 AbrirDialogoConfigRadio();
@@ -384,21 +385,20 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void AbrirDialogoCofContacto() {
-        if (posdestino.getLatitude() != 0.0 && posdestino.getLongitude() != 0.0)  {
+        if (posdestino.getLatitude() != 0.0 && posdestino.getLongitude() != 0.0) {
             Intent intent = new Intent(this, Configurar_ContactoActivity.class);
-            intent.putExtra("email",_emailU);
-            intent.putExtra("poidestino",posdestino.getLatitude() + "-" + posdestino.getLongitude());
+            intent.putExtra("email", _emailU);
+            intent.putExtra("poidestino", posdestino.getLatitude() + "-" + posdestino.getLongitude());
 
             startActivity(intent);
-        }
-        else {
+        } else {
             Toast.makeText(MapsActivity.this, "Debe Buscar su Dirección de Destino", Toast.LENGTH_LONG).show();
         }
 
     }
 
     public void AbrirDialogoConfigRadio() {
-        getIntent().putExtra("radio",radio);
+        getIntent().putExtra("radio", radio);
         Intent intent = new Intent(this, Configurar_RadioActivity.class);
         startActivity(intent);
     }
@@ -423,12 +423,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Log.i("Mensaje", "No se tiene permiso para enviar SMS.");
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 225);
         } else {
-
-            String phone = "25172744";
-            String text = "Este mensaje es de Despertar";
-            SmsManager sms = SmsManager.getDefault();
-            sms.sendTextMessage(phone, null, text, null, null);
-            Log.i("Mensaje", "Se tiene permiso para enviar SMS!");
+            String phone = getIntent().getStringExtra("numeroTelefono");
+            String text = null;
+            text = getIntent().getStringExtra("txtMensaje");
+            if (text != null) {
+                SmsManager sms = SmsManager.getDefault();
+                sms.sendTextMessage(phone, null, text, null, null);
+                Log.i("Mensaje", "Se tiene permiso para enviar SMS!");
+            }
         }
     }
 }

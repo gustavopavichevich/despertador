@@ -17,5 +17,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="btnAceptar">Aceptar</string>
     <string name="txtAlarma">Seleccionar Alarma</string>
+    <string name="txtMensaje">txtMensaje</string>
+    <string name="numeroTelefono">numeroTelefono</string>
     <string name="radio">radio</string>
 </resources>

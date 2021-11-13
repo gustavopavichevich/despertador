@@ -122,8 +122,7 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
 
                     break;
                 case "select":
-                    ResultSet rs = st.executeQuery("SELECT idUsuario FROM usuarios where email = '" +
-                            "' and contrasenia = '" + "' ");
+                    ResultSet rs = st.executeQuery("SELECT ");
 
                    result2 = " ";
                   total = 0;

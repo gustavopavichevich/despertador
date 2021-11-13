@@ -76,7 +76,7 @@ public class Configurar_ContactoActivity extends AppCompatActivity {
                     intent.putExtra("nombre",nombre);
                     intent.putExtra("numero",numero);
                     startActivity(intent);
-
+                    this.finish();
                 }
             }
         }

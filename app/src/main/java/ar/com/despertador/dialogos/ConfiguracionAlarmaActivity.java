@@ -1,9 +1,7 @@
-package ar.com.despertador;
-
-import androidx.appcompat.app.AppCompatActivity;
+package ar.com.despertador.dialogos;
 
 import android.content.Context;
-import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -12,23 +10,23 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
+import ar.com.despertador.MapsActivity;
+import ar.com.despertador.R;
 import ar.com.despertador.data.Conexion.DataAlarmaActivity;
-import ar.com.despertador.data.Conexion.DataUsuarioActivity;
 import ar.com.despertador.data.model.Alarma;
 import ar.com.despertador.data.model.Persona;
 import ar.com.despertador.data.model.Ubicacion;
-import ar.com.despertador.data.model.Usuario;
 
 public class ConfiguracionAlarmaActivity extends AppCompatActivity {
     MediaPlayer mp = new MediaPlayer();
     int position;
     int position2;
-    int s1[] = {
+    int[] s1 = {
             R.raw.classic_whistle,
             R.raw.digital_bell,
             R.raw.dubstep,
@@ -57,7 +55,7 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
     private Persona persona;
     private Context con;
 
-    String _emailU,_radiow, _radiosms,_txtmensaje,_nombre,_numero,_poiDestino,_tono;
+    String _emailU, _radiow, _radiosms, _txtmensaje, _nombre, _numero, _poiDestino, _tono;
     Integer _volumen;
 
 
@@ -67,23 +65,22 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
         setContentView(R.layout.activity_configuracion_alarma);
         //Variables del activity
         boton_aceptar = (Button) findViewById(R.id.btnAceptar);
-        _txtnombrealarma=(EditText)findViewById(R.id.txtNombreAlarma);
-        _lvalarmas=(ListView)findViewById(R.id.lvAlarmas);
-        _volalarma=(SeekBar)findViewById(R.id.seekBarVolumen);
-        _txtmensajealarma=(EditText)findViewById(R.id.txtMensajeAlarma);
+        _txtnombrealarma = (EditText) findViewById(R.id.txtNombreAlarma);
+        _lvalarmas = (ListView) findViewById(R.id.lvAlarmas);
+        _volalarma = (SeekBar) findViewById(R.id.seekBarVolumen);
+        _txtmensajealarma = (EditText) findViewById(R.id.txtMensajeAlarma);
 
 
-        _emailU=getIntent().getStringExtra("email");
+        _emailU = getIntent().getStringExtra("email");
         _poiDestino = getIntent().getStringExtra("poidestino");
         _txtmensaje = getIntent().getStringExtra("txtmensaje");
         _nombre = getIntent().getStringExtra("nombre");
         _numero = getIntent().getStringExtra("numero");
 
-        if (_txtmensaje!="") {
+        if (_txtmensaje != "") {
             _txtmensajealarma.setText(_txtmensaje);//pongo el mensaje que agrego el usuario
-        }
-        else{
-            _txtmensajealarma.setText(_emailU +  " esta llegando al destino seleccionado, usted es su contacto de aviso.");//pongo el mensaje predeterminado
+        } else {
+            _txtmensajealarma.setText(_emailU + " esta llegando al destino seleccionado, usted es su contacto de aviso.");//pongo el mensaje predeterminado
         }
         final ListView list30 = (ListView) findViewById(R.id.lvAlarmas);
         ArrayAdapter adaptador = new ArrayAdapter(this, android.R.layout.simple_list_item_1, title);
@@ -103,39 +100,42 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
                 _tono = _lvalarmas.getItemAtPosition(position).toString().trim();
                 //System.out.println("Chosen Country = : " + text);
 
-            }});
+            }
+        });
 
         con = this;
-        boton_aceptar.setOnClickListener(new View.OnClickListener()  {
+        boton_aceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //String acepta = texto_casilla.isChecked() ? "si" : "no";
                 //cargo las clases con los valores recuperado en tre los activitys
-                if (_txtnombrealarma.getText().toString()!="" && _txtmensajealarma.getText().toString()!="" && _tono !=""){
-                    alarma=new Alarma();
-                    ubicacion=new Ubicacion();
+                if (_txtnombrealarma.getText().toString() != "" && _txtmensajealarma.getText().toString() != "" && _tono != "") {
+                    alarma = new Alarma();
+                    ubicacion = new Ubicacion();
                     persona = new Persona();
                     int radio = 300;
-                    radio=getIntent().getIntExtra("radio",radio);
+                    radio = getIntent().getIntExtra("radio", radio);
 
                     persona.setApellido(_nombre);
                     persona.setNombre(_nombre);
                     persona.setTelefono(_numero);
+                    getIntent().putExtra("numeroTelefono", _numero);
                     persona.setTipo("contacto");
                     persona.setEmail(_emailU);
 
                     alarma.setNombre(_txtnombrealarma.getText().toString());
                     alarma.setUrlTono(_tono);
                     alarma.setMensaje(_txtmensajealarma.getText().toString());
+                    getIntent().putExtra("txtMensaje", _txtmensajealarma.getText().toString());
                     alarma.setDistanciaActivacion(radio);//distancia predefinida
                     alarma.setVolumen(_volalarma.getProgress());//obtengo el valor seleccionado
 
                     ubicacion.setPoi(_poiDestino);//la posicion de la busqueda de destino
 
-                    DataAlarmaActivity task = new DataAlarmaActivity("insert",persona, alarma, ubicacion, con);
+                    DataAlarmaActivity task = new DataAlarmaActivity("insert", persona, alarma, ubicacion, con);
                     task.execute();
-                }
-                else{
+                    volver();
+                } else {
                     Toast.makeText(getApplicationContext(), "Verifique que todos los campos esten completos", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -156,9 +156,7 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView parent, View view, int position, long id) {
                 //saveas(RingtoneManager.TYPE_RINGTONE, position);
                 position2 = position; //utilizo position2 porque la this.position es para onItemClick
-
                 final CharSequence[] items = {"Establecer como Ringtone", "Establecer como SMS/Notificación", "Establecer como Alarma"};
-
                 AlertDialog.Builder builder = new AlertDialog.Builder(MyActivity.this);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
@@ -176,7 +174,6 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
                                 Toast.makeText(getApplicationContext(), "Se estableció como Alarma", Toast.LENGTH_SHORT).show();
                                 break;
                         }
-
                         dialog.cancel();
                     }
                 });
@@ -186,6 +183,10 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
             }
         });*/
         //Fin Agrego
+    }
+    public void volver ()
+    {
+        this.finish();
     }
 
 }

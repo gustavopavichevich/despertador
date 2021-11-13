@@ -68,8 +68,6 @@ public class Configurar_RadioActivity extends AppCompatActivity implements SeekB
     }
 
     public void volver() {
-        Intent intent = new Intent(this, MapsActivity.class);
-        intent.putExtra("radio",radio);
-        startActivity(intent);
+        this.finish();
     }
 }
