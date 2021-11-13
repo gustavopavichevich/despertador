@@ -61,7 +61,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Button btn_iniciar;
     double lat = 0.0;
     double log = 0.0;
-    private int radio = 300;
+    int radio = 500;
     SupportMapFragment mapFragment;
     SearchView searchView;
     Location posactual = new Location("localizacion Usuario");
@@ -153,9 +153,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             .position(latLng)
                             .title(location)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.logo2)).anchor(0.0f, 1.04f));
-
-                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+                    radio = getIntent().getIntExtra("radio", radio);
+                    int zoom = 16;
+                    if (radio >= 500)
+                        zoom = 32;
+                    if (radio >= 1000)
+                        zoom = 48;
+                    if (radio >= 1500)
+                        zoom = 64;
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
                     mMap.addCircle(new CircleOptions()
                             .center(latLng)
                             .radius(radio)
@@ -187,7 +194,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 AbrirDialogoCofContacto();
             }
         });
-        radio = getIntent().getIntExtra("radio",radio);
         FloatingActionButton aplicarRadio = (FloatingActionButton) findViewById(R.id.DefinirDistancia);
         aplicarRadio.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -210,12 +216,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.clear();
         mMap.addMarker(new MarkerOptions().position(coordenadas).title("Mi Posicion Actual"));
         mMap.animateCamera(miUbucacion);
-        mMap.addCircle(new CircleOptions()
-                .center(coordenadas)
-                .radius(300)
-                .strokeColor(Color.GRAY)
-                .fillColor(Color.CYAN));
-
     }
 
     private void actualizarUbicacion(Location location) {
@@ -232,6 +232,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     LocationListener locListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
+
             //actualizarUbicacion(location);
             if (btn_iniciar.getText() != "Iniciar Alarma") {
 
@@ -381,6 +382,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     public void AbrirDialogoConfigRadio() {
+        getIntent().putExtra("radio",radio);
         Intent intent = new Intent(this, Configurar_RadioActivity.class);
         startActivity(intent);
     }
