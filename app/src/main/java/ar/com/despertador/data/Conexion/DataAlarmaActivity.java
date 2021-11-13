@@ -12,6 +12,7 @@ import java.sql.Statement;
 
 import ar.com.despertador.MailJob;
 import ar.com.despertador.MapsActivity;
+import ar.com.despertador.data.model.Alarma;
 import ar.com.despertador.data.model.Persona;
 import ar.com.despertador.data.model.Usuario;
 import ar.com.despertador.ui.login.LoginActivity;
@@ -22,7 +23,7 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
 
     private final Context context;
     private Persona persona;
-    private Usuario usuario;
+    private Alarma alarma;
     private String accion;
     private static String result2;
     private int total;
@@ -32,16 +33,16 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
 
     //Recibe por constructor el textview
     //Constructor para el insert
-    public DataAlarmaActivity(String accion, Persona persona, Usuario usuario, Context ct) {
+    public DataAlarmaActivity(String accion, Persona persona, Alarma alarma, Context ct) {
         this.context = ct;
         this.persona = persona;
-        this.usuario = usuario;
+        this.alarma = alarma;
         this.accion = accion;
 
     }
 //constructor para el select
-    public DataAlarmaActivity(String accion, Usuario usuario, Context ct) {
-        this.usuario = usuario;
+    public DataAlarmaActivity(String accion, Alarma alarma, Context ct) {
+        this.alarma = alarma;
         this.context = ct;
         this.accion = accion;
     }
@@ -68,15 +69,11 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
                             + persona.getEmail() + "')");
                     st.executeUpdate("INSERT INTO usuarios(email, contrasenia) VALUES('"
                             + persona.getEmail() + "','"
-                            + usuario.getContrasenia() + "')");
+                             + "')");
                     break;
                 case "select":
-                    ResultSet rs = st.executeQuery("SELECT idUsuario FROM usuarios where email = '" + usuario.getEmail() +
-                            "' and contrasenia = '" + usuario.getContrasenia() + "' ");
-
-                 //   String sql = "SELECT idUsuario FROM usuarios where email = '" + usuario.getEmail() +
-               //             "' and contrasenia = '" + usuario.getContrasenia() + "' ";
-
+                    ResultSet rs = st.executeQuery("SELECT idUsuario FROM usuarios where email = '" +
+                            "' and contrasenia = '" + "' ");
 
                    result2 = " ";
                   total = 0;
@@ -84,19 +81,13 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
                      iduser = rs.getInt("idUsuario");
                         total++;
                     }
-
          // Terminamos de cargar el objet
-                    //
                 if (total == 1){
-                       usuario.setIdUsuario(iduser);
+                    //alarma.setIdUsuario(iduser);
                 }
                     break;
-                case "selectRecordar":
+ /*               case "selectRecordar":
                     ResultSet rs2 = st.executeQuery("SELECT idUsuario, contrasenia FROM usuarios where email = '" + usuario.getEmail() + "' ");
-
-                    //   String sql = "SELECT idUsuario FROM usuarios where email = '" + usuario.getEmail() +
-                    //             "' and contrasenia = '" + usuario.getContrasenia() + "' ";
-
 
                     result2 = " ";
                     total = 0;
@@ -105,14 +96,12 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
                         iduser = rs2.getInt("idUsuario");
                         total++;
                     }
-
                     // Terminamos de cargar el objet
-                    //
                     if (total == 1){
                         usuario.setIdUsuario(iduser);
                         usuario.setContrasenia(contrasena);
                     }
-                    break;
+                    break;*/
                 default:
                     break;
             }
@@ -127,40 +116,32 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String response) {
-        switch (accion) {
-            case "insert":
-                Toast.makeText(context, "insertamos el usuario!!!", Toast.LENGTH_SHORT).show();
-                context.startActivity(new Intent(context, LoginActivity.class));
-                break;
-            case "select":
-           //     UsuarioAdapter adapter = new UsuarioAdapter(context, listaUsuarios);
-         //       lvUsuarios.setAdapter(adapter);
-         //       adapter.notifyDataSetChanged();
-         //       ((UsuarioAdapter)lvUsuarios.getAdapter()).notifyDataSetChanged();
-                if (usuario.getIdUsuario() > 0) {
-                    Toast.makeText(context, "Logueado con exito", Toast.LENGTH_LONG).show();
-                    context.startActivity(new Intent(context, MapsActivity.class));
-                }else
-                {
-                    Toast.makeText(context, "Usuario o contraseña incorrectos", Toast.LENGTH_LONG).show();
-                    context.startActivity(new Intent(context, LoginActivity.class));
-                }
-                break;
-            case "selectRecordar":
-
-                if (usuario.getIdUsuario() > 0) {
-              /*      Toast.makeText(context, "Logueado con exito", Toast.LENGTH_LONG).show();
-                    context.startActivity(new Intent(context, MapsActivity.class));*/
-                    new MailJob("appdespertador@gmail.com", "utn123456").execute(new MailJob.Mail("appdespertador@gmail.com", "leo.yermoli@gmail.com", "Contraseña de app Despertador UTN", "La contraseña del usuario "+ usuario.getEmail().toString() + " es: "+ usuario.getContrasenia().toString()));
-                    Toast.makeText(context, "Contraseña enviada, revise su casilla de correo", Toast.LENGTH_LONG).show();
-//usuario.getEmail().toString()
-                }else{
-                    Toast.makeText(context, "Usuario inexistente", Toast.LENGTH_LONG).show();
-                }
-                break;
-            default:
-                break;
-        }
+//        switch (accion) {
+//            case "insert":
+//                Toast.makeText(context, "insertamos el usuario!!!", Toast.LENGTH_SHORT).show();
+//                context.startActivity(new Intent(context, LoginActivity.class));
+//                break;
+//            case "select":
+//                if (usuario.getIdUsuario() > 0) {
+//                    Toast.makeText(context, "Logueado con exito", Toast.LENGTH_LONG).show();
+//                    context.startActivity(new Intent(context, MapsActivity.class));
+//                }else
+//                {
+//                    Toast.makeText(context, "Usuario o contraseña incorrectos", Toast.LENGTH_LONG).show();
+//                    context.startActivity(new Intent(context, LoginActivity.class));
+//                }
+//                break;
+//            case "selectRecordar":
+//                if (usuario.getIdUsuario() > 0) {
+//                    new MailJob("appdespertador@gmail.com", "utn123456").execute(new MailJob.Mail("appdespertador@gmail.com", "leo.yermoli@gmail.com", "Contraseña de app Despertador UTN", "La contraseña del usuario "+ usuario.getEmail().toString() + " es: "+ usuario.getContrasenia().toString()));
+//                    Toast.makeText(context, "Contraseña enviada, revise su casilla de correo", Toast.LENGTH_LONG).show();
+//                }else{
+//                    Toast.makeText(context, "Usuario inexistente", Toast.LENGTH_LONG).show();
+//                }
+//                break;
+//            default:
+//                break;
+//        }
     }
 }
 

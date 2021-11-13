@@ -16,7 +16,9 @@ import android.widget.SeekBar;
 
 import ar.com.despertador.data.Conexion.DataAlarmaActivity;
 import ar.com.despertador.data.Conexion.DataUsuarioActivity;
+import ar.com.despertador.data.model.Alarma;
 import ar.com.despertador.data.model.Persona;
+import ar.com.despertador.data.model.Ubicacion;
 import ar.com.despertador.data.model.Usuario;
 
 public class ConfiguracionAlarmaActivity extends AppCompatActivity {
@@ -41,28 +43,34 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
             "samsung_galaxy_s3",
             "vampire_call"};
 
-    EditText _txtbusqueda;
-    ListView _lvalarma;
+    EditText _txtnombrealarma;
+    ListView _lvalarmas;
     SeekBar _volalarma;
     EditText _txtmensajealarma;
 
     Button boton_aceptar;
+    private Alarma alarma;
+    private Ubicacion ubicacion;
     private Persona persona;
-    private Usuario usuario;
     private Context con;
 
-    String _emailU,_radiow, _radiosms,_txtmensaje,_nombre,_numero;
+    String _emailU,_radiow, _radiosms,_txtmensaje,_nombre,_numero,_poiDestino;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuracion_alarma);
+        //Variables del activity
         boton_aceptar = (Button) findViewById(R.id.btnAceptar);
+        _txtnombrealarma=(EditText)findViewById(R.id.txtNombreAlarma);
+        _lvalarmas=(ListView)findViewById(R.id.lvAlarmas);
+        _volalarma=(SeekBar)findViewById(R.id.seekBarVolumen);
+        _txtmensajealarma=(EditText)findViewById(R.id.txtMensajeAlarma);
+
 
         _emailU=getIntent().getStringExtra("email");
-        _radiow = getIntent().getStringExtra("radiow");
-        _radiosms = getIntent().getStringExtra("_adiosms");
+        _poiDestino = getIntent().getStringExtra("poidestino");
         _txtmensaje = getIntent().getStringExtra("txtmensaje");
         _nombre = getIntent().getStringExtra("nombre");
         _numero = getIntent().getStringExtra("numero");
@@ -73,30 +81,35 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
         else{
             _txtmensajealarma.setText(_emailU +  " esta llegando al destino seleccionado, usted es su contacto de aviso.");//pongo el mensaje predeterminado
         }
-
-        //Inicio Agrego
         final ListView list30 = (ListView) findViewById(R.id.lvAlarmas);
-
         ArrayAdapter adaptador = new ArrayAdapter(this, android.R.layout.simple_list_item_1, title);
         list30.setAdapter(adaptador);
-
-
 
         con = this;
         boton_aceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*String acepta = texto_casilla.isChecked() ? "si" : "no";
+                //String acepta = texto_casilla.isChecked() ? "si" : "no";
+                //cargo las clases con los valores recuperado en tre los activitys
+                alarma=new Alarma();
+                ubicacion=new Ubicacion();
                 persona = new Persona();
-                usuario = new Usuario();
-                persona.setApellido(texto_apellido.getText().toString());
-                persona.setNombre(texto_nombre.getText().toString());
-                persona.setTelefono(texto_telefono.getText().toString());
-                persona.setTipo("usuario");
-                persona.setEmail(texto_email.getText().toString());
-                usuario.setContrasenia(texto_contrasena.getText().toString());
-                usuario.setEmail(texto_email.getText().toString());*/
-                DataAlarmaActivity task = new DataAlarmaActivity("insert",persona, usuario, con);
+
+                persona.setApellido(_nombre);
+                persona.setNombre(_nombre);
+                persona.setTelefono(_numero);
+                persona.setTipo("contacto");
+                persona.setEmail(_emailU);
+
+                alarma.setNombre(_txtnombrealarma.getText().toString());
+                alarma.setUrlTono(_lvalarmas.getSelectedItem().toString());
+                alarma.setMensaje(_txtnombrealarma.getText().toString());
+                alarma.setDistanciaActivacion(300);//distancia predefinida
+                alarma.setVolumen(_volalarma.getProgress());//obtengo el valor seleccionado
+
+                ubicacion.setPoi(_poiDestino);//la posicion de la busqueda de destino
+
+                DataAlarmaActivity task = new DataAlarmaActivity("insert",persona, alarma, con);
                 task.execute();
             }
         });
