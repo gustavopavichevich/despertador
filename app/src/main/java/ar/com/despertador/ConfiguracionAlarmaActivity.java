@@ -3,6 +3,7 @@ package ar.com.despertador;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +14,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import ar.com.despertador.data.Conexion.DataAlarmaActivity;
 import ar.com.despertador.data.Conexion.DataUsuarioActivity;
@@ -54,7 +57,8 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
     private Persona persona;
     private Context con;
 
-    String _emailU,_radiow, _radiosms,_txtmensaje,_nombre,_numero,_poiDestino;
+    String _emailU,_radiow, _radiosms,_txtmensaje,_nombre,_numero,_poiDestino,_tono;
+    Integer _volumen;
 
 
     @Override
@@ -85,32 +89,55 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
         ArrayAdapter adaptador = new ArrayAdapter(this, android.R.layout.simple_list_item_1, title);
         list30.setAdapter(adaptador);
 
+//        _lvalarmas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            public void onItemClick(AdapterView<?> parent, View view,
+//                                    int position, long id) {
+//                _tono= (String) _lvalarmas.getItemAtPosition(position);
+//                Toast.makeText(getApplicationContext(), "Volumen Asignado= "+ _volumen.toString(), Toast.LENGTH_SHORT).show();
+//            }});
+        _lvalarmas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                //TextView textView = (TextView) view.findViewById(R.id.list_content);
+                _tono = _lvalarmas.getItemAtPosition(position).toString().trim();
+                //System.out.println("Chosen Country = : " + text);
+
+            }});
+
         con = this;
-        boton_aceptar.setOnClickListener(new View.OnClickListener() {
+        boton_aceptar.setOnClickListener(new View.OnClickListener()  {
             @Override
             public void onClick(View v) {
                 //String acepta = texto_casilla.isChecked() ? "si" : "no";
                 //cargo las clases con los valores recuperado en tre los activitys
-                alarma=new Alarma();
-                ubicacion=new Ubicacion();
-                persona = new Persona();
+                if (_txtnombrealarma.getText().toString()!="" && _txtmensajealarma.getText().toString()!="" && _tono !=""){
+                    alarma=new Alarma();
+                    ubicacion=new Ubicacion();
+                    persona = new Persona();
+                    int radio = 300;
+                    radio=getIntent().getIntExtra("radio",radio);
 
-                persona.setApellido(_nombre);
-                persona.setNombre(_nombre);
-                persona.setTelefono(_numero);
-                persona.setTipo("contacto");
-                persona.setEmail(_emailU);
+                    persona.setApellido(_nombre);
+                    persona.setNombre(_nombre);
+                    persona.setTelefono(_numero);
+                    persona.setTipo("contacto");
+                    persona.setEmail(_emailU);
 
-                alarma.setNombre(_txtnombrealarma.getText().toString());
-                alarma.setUrlTono(_lvalarmas.getSelectedItem().toString());
-                alarma.setMensaje(_txtnombrealarma.getText().toString());
-                alarma.setDistanciaActivacion(300);//distancia predefinida
-                alarma.setVolumen(_volalarma.getProgress());//obtengo el valor seleccionado
+                    alarma.setNombre(_txtnombrealarma.getText().toString());
+                    alarma.setUrlTono(_tono);
+                    alarma.setMensaje(_txtmensajealarma.getText().toString());
+                    alarma.setDistanciaActivacion(radio);//distancia predefinida
+                    alarma.setVolumen(_volalarma.getProgress());//obtengo el valor seleccionado
 
-                ubicacion.setPoi(_poiDestino);//la posicion de la busqueda de destino
+                    ubicacion.setPoi(_poiDestino);//la posicion de la busqueda de destino
 
-                DataAlarmaActivity task = new DataAlarmaActivity("insert",persona, alarma, con);
-                task.execute();
+                    DataAlarmaActivity task = new DataAlarmaActivity("insert",persona, alarma, ubicacion, con);
+                    task.execute();
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "Verifique que todos los campos esten completos", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
@@ -160,4 +187,5 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
         });*/
         //Fin Agrego
     }
+
 }

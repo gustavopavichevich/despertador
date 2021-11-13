@@ -72,6 +72,7 @@ public class Configurar_ContactoActivity extends AppCompatActivity {
                     intent.putExtra("radiosms",_radiosms.getText().toString());*/
                     //_emailU=getIntent().getStringExtra("email");
                     intent.putExtra("email",_emailU);
+                    intent.putExtra("poidestino",_poiDestino);
                     intent.putExtra("txtmensaje",_txtmensaje.getText().toString());
                     intent.putExtra("nombre",nombre);
                     intent.putExtra("numero",numero);
