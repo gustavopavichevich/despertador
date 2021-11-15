@@ -31,7 +31,6 @@ public class LoginActivity extends AppCompatActivity {
     private Button boton_ingresar;
     private Button boton_recordar;
     private Usuario usuario;
-    private boolean bandera = false;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     public static final int MY_PERMISSIONS_REQUEST_SMS = 225;
 
@@ -59,7 +58,6 @@ public class LoginActivity extends AppCompatActivity {
                     usuario.setEmail(texto_email.getText().toString());
                     if (checkLocationPermission()) {
                         if (checkPermissionSMS()) {
-                            bandera = true;
                             DataUsuarioActivity task = new DataUsuarioActivity("select", usuario, con);
                             boton_ingresar.setEnabled(false);
                             boton_ingresar.setBackgroundColor(getColor(R.color.colorGris));
