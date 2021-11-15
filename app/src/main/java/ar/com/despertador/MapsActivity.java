@@ -84,9 +84,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         checkLocationPermission();
         posdestino.setLongitude(log);
         posdestino.setLatitude(lat);
-        btn_iniciar = (Button) findViewById(R.id.btn_iniciar);
-        txvcalculo = (TextView) findViewById(R.id.txvcalculo);
-        svbuscar = (SearchView) findViewById(R.id.sv_ubicacion);
+        btn_iniciar = findViewById(R.id.btn_iniciar);
+        txvcalculo = findViewById(R.id.txvcalculo);
+        svbuscar = findViewById(R.id.sv_ubicacion);
         btn_iniciar.setText("Iniciar Alarma");
         txvcalculo.setVisibility(View.INVISIBLE);
         btn_iniciar.setOnClickListener(new View.OnClickListener() {
@@ -198,19 +198,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        AvisaraContacto = (FloatingActionButton) findViewById(R.id.AvisaraContacto);
+        AvisaraContacto = findViewById(R.id.AvisaraContacto);
         AvisaraContacto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 AbrirDialogoCofContacto();
             }
         });
-        aplicarRadio = (FloatingActionButton) findViewById(R.id.DefinirDistancia);
+        aplicarRadio = findViewById(R.id.DefinirDistancia);
         aplicarRadio.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 AbrirDialogoConfigRadio();
             }
         });
-        btnGPSShowLocation = (Button) findViewById(R.id.btnGPSShowLocation);
+        btnGPSShowLocation = findViewById(R.id.btnGPSShowLocation);
         btnGPSShowLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -294,7 +294,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         provider = locationManager.getBestProvider(new Criteria(), false);
 
-        if(!checkLocationPermission())
+        if (!checkLocationPermission())
             return;
 
         Location location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
@@ -430,14 +430,25 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     .show();
             return;
         } else {
-            String phone = getIntent().getStringExtra("numeroTelefono");
+            int control = 1;
+            String phone = getIntent().getStringExtra("numeroTelefono").replaceAll("[-+/ ]", "");
             String text = null;
             text = getIntent().getStringExtra("txtMensaje");
-            if (text != null) {
-                SmsManager sms = SmsManager.getDefault();
-                sms.sendTextMessage(phone, null, text, null, null);
-                Log.i("Mensaje", "Se tiene permiso para enviar SMS!");
+            try {
+                control = Integer.parseUnsignedInt(phone.trim());
+                if (phone.length() > 10) {
+                    Toast.makeText(MapsActivity.this, "Corrija su contacto al formato 00000000", Toast.LENGTH_LONG).show();
+                } else {
+                    SmsManager sms = SmsManager.getDefault();
+                    sms.sendTextMessage(phone, null, text, null, null);
+                    Toast.makeText(MapsActivity.this, "Se enviará SMA al número "+ phone.trim(), Toast.LENGTH_LONG).show();
+                }
+            } catch (NumberFormatException e) {
+                Toast.makeText(MapsActivity.this, "El numero de teléfono contiene valores no numéricos", Toast.LENGTH_LONG).show();
+            } catch (Exception ex) {
+                Toast.makeText(MapsActivity.this, "Corrija su contacto al formato 00000000", Toast.LENGTH_LONG).show();
             }
+            return;
         }
     }
 }

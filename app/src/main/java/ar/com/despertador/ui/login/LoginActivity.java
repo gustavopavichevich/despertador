@@ -39,12 +39,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        do {
-            if (checkPermissionSMS())
-                if (checkLocationPermission())
-                    bandera = true;
-        } while (bandera);
-
 
         con = this;
         boton_ingresar = findViewById(R.id.btnAceptar);
@@ -64,10 +58,19 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     usuario.setContrasenia(texto_contrasenia.getText().toString());
                     usuario.setEmail(texto_email.getText().toString());
-                    DataUsuarioActivity task = new DataUsuarioActivity("select", usuario, con);
-                    task.execute();
+                    if (!bandera) {
+                        if (checkLocationPermission()) {
+                            if (checkPermissionSMS())
+                                bandera = true;
+                        }
+                    } else {
+                        DataUsuarioActivity task = new DataUsuarioActivity("select", usuario, con);
+                        boton_ingresar.setEnabled(false);
+                        boton_ingresar.setBackgroundColor(getColor(R.color.colorGris));
+                        Toast.makeText(con, "Por favor, aguarde hasta que validemos sus datos", Toast.LENGTH_LONG).show();
+                        task.execute();
+                    }
                 }
-
             }
         });
 
