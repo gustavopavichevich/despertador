@@ -201,7 +201,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         AvisaraContacto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 AbrirDialogoCofContacto();
-                mandarSMS();
             }
         });
         aplicarRadio = (FloatingActionButton) findViewById(R.id.DefinirDistancia);
