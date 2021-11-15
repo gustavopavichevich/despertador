@@ -201,6 +201,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         AvisaraContacto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 AbrirDialogoCofContacto();
+                mandarSMS();
             }
         });
         aplicarRadio = (FloatingActionButton) findViewById(R.id.DefinirDistancia);
@@ -434,11 +435,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             String text = null;
             text = getIntent().getStringExtra("txtMensaje");
             try {
+                if(phone.trim().isEmpty())
+                    phone = "1125172744";
                 control = Integer.parseUnsignedInt(phone.trim());
                 if (phone.length() > 10) {
                     Toast.makeText(MapsActivity.this, "Corrija su contacto al formato 00000000", Toast.LENGTH_LONG).show();
                 } else {
                     SmsManager sms = SmsManager.getDefault();
+                    if(text.trim().isEmpty())
+                        text="hola";
                     sms.sendTextMessage(phone, null, text, null, null);
                     Toast.makeText(MapsActivity.this, "Se enviará SMA al número "+ phone.trim(), Toast.LENGTH_LONG).show();
                 }
