@@ -65,7 +65,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Button btn_iniciar;
     double lat = 0.0;
     double log = 0.0;
-    int radio = 500;
+    int radio = 300;
     SupportMapFragment mapFragment;
     FloatingActionButton AvisaraContacto;
     FloatingActionButton aplicarRadio;

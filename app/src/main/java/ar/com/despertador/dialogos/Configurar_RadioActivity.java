@@ -52,19 +52,24 @@ public class Configurar_RadioActivity extends AppCompatActivity implements SeekB
         // Durante el arrastre, es decir, el valor está cambiando
         // el progress es el tamaño del valor actual
         radio = progress;
-        mProgressText.setText("Valor actual:" + radio);
+   //     mProgressText.setText("Valor actual:" + radio);
+        mTrackingText.setText(radio+" Mts.");
     }
 
     @Override
     public void onStartTrackingTouch(SeekBar seekBar) {
         // Este método se llamará durante el arrastre
-        mTrackingText.setText("¿Cuál es la distancia de radio?");
+    //    mTrackingText.setText("¿Cuál es la distancia de radio?");
+        mProgressText.setText("Configuremos un nuevo radio...");
     }
 
     @Override
     public void onStopTrackingTouch(SeekBar seekBar) {
         // Dejar de arrastrar
-        mTrackingText.setText("¡Configuremos un nuevo radio!");
+   //     mTrackingText.setText("¡Configuremos un nuevo radio!");
+
+
+                mProgressText.setText("La alarma sonara cuando se encuentre a: " + radio + " mts. del destino");
     }
 
     public void volver() {
