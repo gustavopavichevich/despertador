@@ -33,7 +33,6 @@
         <activity
             android:name=".dialogos.Configurar_RadioActivity"
             android:exported="true" />
-
         <activity
             android:name=".MapsActivity"
             android:exported="true"
@@ -49,6 +48,5 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
     </application>
-
 
 </manifest>

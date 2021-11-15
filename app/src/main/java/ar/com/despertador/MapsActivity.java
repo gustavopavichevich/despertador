@@ -60,6 +60,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     LocationManager locationManager;
     String provider;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+    public static final int MY_PERMISSIONS_REQUEST_SMS = 225;
     Button btnGPSShowLocation;
     private Button btn_iniciar;
     double lat = 0.0;
@@ -91,7 +92,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         btn_iniciar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (dist <= 300) {
+                mandarSMS();
+                if (dist <= radio) {
                     Toast.makeText(MapsActivity.this, "Ya estas dentro del radio seleccionado", Toast.LENGTH_LONG).show();
 
                 } else {
@@ -254,11 +256,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 posactual.setLongitude(log);
                 posactual.setLatitude(lat);
                 dist = posactual.distanceTo(posdestino);
-                if (dist <= 300) {
+                if (dist <= radio) {
                     txvcalculo.setText("LLEGASTEEEEEEE!!!!!!! (se supone que aca deberia sonar algo jaja)");
-                    mandarSMS();
                     SoundManager sound = new SoundManager(getApplicationContext());
                     // Lee los sonidos que figuran en res/raw
+                    mandarSMS();
                     int chicken = sound.load(R.raw.iphone_5_alarm);
                     sound.play(chicken);
                 } else {
@@ -434,7 +436,22 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 this, Manifest.permission.SEND_SMS);
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             Log.i("Mensaje", "No se tiene permiso para enviar SMS.");
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 225);
+//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 225);
+            new AlertDialog.Builder(this)
+                    .setTitle("Aprobacion de permisos de Envio de SMS")
+                    .setMessage("Por favor habilite el permiso de Envio de SMS para la aplicacion")
+                    .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //Prompt the user once explanation has been shown
+                            ActivityCompat.requestPermissions(MapsActivity.this,
+                                    new String[]{Manifest.permission.SEND_SMS},
+                                    MY_PERMISSIONS_REQUEST_SMS);
+                        }
+                    })
+                    .create()
+                    .show();
+            return;
         } else {
             String phone = getIntent().getStringExtra("numeroTelefono");
             String text = null;

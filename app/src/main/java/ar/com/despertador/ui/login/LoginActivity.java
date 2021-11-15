@@ -1,86 +1,75 @@
 package ar.com.despertador.ui.login;
 
-import android.app.Activity;
-
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
+import android.Manifest;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
-
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
-
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
-//import ar.com.despertador.AgregarCuentaActivity;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import java.util.regex.Pattern;
 
 import ar.com.despertador.AgregarCuentaActivity;
 import ar.com.despertador.MapsActivity;
 import ar.com.despertador.R;
-
-//import ar.com.despertador.databinding.ActivityLoginBinding;
 import ar.com.despertador.data.Conexion.DataUsuarioActivity;
-import ar.com.despertador.data.model.Persona;
 import ar.com.despertador.data.model.Usuario;
-import ar.com.despertador.ui.login.LoginViewModel;
-import ar.com.despertador.ui.login.LoginViewModelFactory;
 
 
 public class LoginActivity extends AppCompatActivity {
 
-  //  private LoginViewModel loginViewModel;
- //   private Button agregar;
-  private Context con;
+    //  private LoginViewModel loginViewModel;
+    //   private Button agregar;
+    private Context con;
     private Button boton_ingresar;
     private Button boton_recordar;
     private Usuario usuario;
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+    public static final int MY_PERMISSIONS_REQUEST_SMS = 225;
 
     //   private ActivityLoginBinding binding;
 
-   // btnAceptar
+    // btnAceptar
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        checkPermissionSMS();
+        checkPermissionLocation();
         setContentView(R.layout.activity_login);
-        boton_ingresar = (Button) findViewById(R.id.btnAceptar);
 
-        boton_recordar = (Button) findViewById(R.id.login3);
 
-        final  EditText texto_email = findViewById(R.id.username);
+        boton_ingresar = findViewById(R.id.btnAceptar);
+
+        boton_recordar = findViewById(R.id.login3);
+
+        final EditText texto_email = findViewById(R.id.username);
         final EditText texto_contrasenia = findViewById(R.id.password);
         con = this;
 
         boton_ingresar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-   //             persona = new Persona();
+                //             persona = new Persona();
                 usuario = new Usuario();
   /*              persona.setApellido(texto_apellido.getText().toString());
                 persona.setNombre(texto_nombre.getText().toString());
                 persona.setTelefono(texto_telefono.getText().toString());
                 persona.setTipo("usuario");
                 persona.setEmail(texto_email.getText().toString());*/
-                if (!validarEmail(texto_email.getText().toString())){
+                if (!validarEmail(texto_email.getText().toString())) {
                     Toast.makeText(con, "El Formato de mail es invalido", Toast.LENGTH_SHORT).show();
-                }
-                else{
+                } else {
                     usuario.setContrasenia(texto_contrasenia.getText().toString());
                     usuario.setEmail(texto_email.getText().toString());
                     DataUsuarioActivity task = new DataUsuarioActivity("select", usuario, con);
@@ -93,10 +82,9 @@ public class LoginActivity extends AppCompatActivity {
         boton_recordar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!validarEmail(texto_email.getText().toString())){
+                if (!validarEmail(texto_email.getText().toString())) {
                     Toast.makeText(con, "El Formato de mail es invalido", Toast.LENGTH_SHORT).show();
-                }
-                else{
+                } else {
                     usuario = new Usuario();
                     String textoUser = texto_email.getText().toString();
                     usuario.setEmail(textoUser);
@@ -114,26 +102,21 @@ public class LoginActivity extends AppCompatActivity {
                 persona.setTelefono(texto_telefono.getText().toString());
                 persona.setTipo("usuario");
                 persona.setEmail(texto_email.getText().toString());*/
-      //          usuario.setContrasenia(texto_contrasenia.getText().toString());
-        //        usuario.setEmail(texto_email.getText().toString());
+                //          usuario.setContrasenia(texto_contrasenia.getText().toString());
+                //        usuario.setEmail(texto_email.getText().toString());
 
             }
         });
 
 
-
-
         // binding = ActivityLoginBinding.inflate(getLayoutInflater());
 
 
+        //   Intent principal = new Intent( this, MapsActivity.class);
+        //  principal.putExtra("email",_email.getText().toString());
 
 
-     //   Intent principal = new Intent( this, MapsActivity.class);
-      //  principal.putExtra("email",_email.getText().toString());
-
-
-
-      //  this.setTitle("llega");
+        //  this.setTitle("llega");
      /*   agregar = (Button) findViewById(R.id.login2);
 
         agregar.setOnClickListener(new View.OnClickListener() {
@@ -145,51 +128,52 @@ public class LoginActivity extends AppCompatActivity {
         });*/
 
     }
-      /*  loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
-                .get(LoginViewModel.class);
 
-       // final EditText usernameEditText = binding.username;
-        //final EditText passwordEditText = binding.password;
-        //final Button loginButton = binding.btnAceptar;
+    /*  loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
+              .get(LoginViewModel.class);
 
-                //findViewById(R.id.login2);
-        //final ProgressBar loadingProgressBar = binding.loading;
+     // final EditText usernameEditText = binding.username;
+      //final EditText passwordEditText = binding.password;
+      //final Button loginButton = binding.btnAceptar;
 
-        loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
-            @Override
-            public void onChanged(@Nullable LoginFormState loginFormState) {
-                if (loginFormState == null) {
-                    return;
-                }
-          //      loginButton.setEnabled(loginFormState.isDataValid());
-                if (loginFormState.getUsernameError() != null) {
-          //          usernameEditText.setError(getString(loginFormState.getUsernameError()));
-                }
-                if (loginFormState.getPasswordError() != null) {
-            //        passwordEditText.setError(getString(loginFormState.getPasswordError()));
-                }
-            }
-        });
+              //findViewById(R.id.login2);
+      //final ProgressBar loadingProgressBar = binding.loading;
 
-        loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
-            @Override
-            public void onChanged(@Nullable LoginResult loginResult) {
-                if (loginResult == null) {
-                    return;
-                }
-                //loadingProgressBar.setVisibility(View.GONE);
-                if (loginResult.getError() != null) {
-                    showLoginFailed(loginResult.getError());
-                }
-                if (loginResult.getSuccess() != null) {
-                    updateUiWithUser(loginResult.getSuccess());
-                }
-                setResult(Activity.RESULT_OK);
+      loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
+          @Override
+          public void onChanged(@Nullable LoginFormState loginFormState) {
+              if (loginFormState == null) {
+                  return;
+              }
+        //      loginButton.setEnabled(loginFormState.isDataValid());
+              if (loginFormState.getUsernameError() != null) {
+        //          usernameEditText.setError(getString(loginFormState.getUsernameError()));
+              }
+              if (loginFormState.getPasswordError() != null) {
+          //        passwordEditText.setError(getString(loginFormState.getPasswordError()));
+              }
+          }
+      });
 
-                //Complete and destroy login activity once successful
-                finish();
-            }
-        });
+      loginViewModel.getLoginResult().observe(this, new Observer<LoginResult>() {
+          @Override
+          public void onChanged(@Nullable LoginResult loginResult) {
+              if (loginResult == null) {
+                  return;
+              }
+              //loadingProgressBar.setVisibility(View.GONE);
+              if (loginResult.getError() != null) {
+                  showLoginFailed(loginResult.getError());
+              }
+              if (loginResult.getSuccess() != null) {
+                  updateUiWithUser(loginResult.getSuccess());
+              }
+              setResult(Activity.RESULT_OK);
+
+              //Complete and destroy login activity once successful
+              finish();
+          }
+      });
 
 *//*        TextWatcher afterTextChangedListener = new TextWatcher() {
             @Override
@@ -228,7 +212,7 @@ public class LoginActivity extends AppCompatActivity {
         //loginButton.setOnClickListener(new View.OnClickListener() {
             //@Override
         *//*    public void onClick(View v) {
-              *//**//*  loadingProgressBar.setVisibility(View.VISIBLE);
+     *//**//*  loadingProgressBar.setVisibility(View.VISIBLE);
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());*//**//*
             }*//*
@@ -245,23 +229,23 @@ public class LoginActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
     }
 */
-      private boolean validarEmail(String email) {
-          Pattern pattern = Patterns.EMAIL_ADDRESS;
-          return pattern.matcher(email).matches();
-      }
-    public void Agregar (View view)
-    {
-        Intent agregar = new Intent( this, AgregarCuentaActivity.class);
+    private boolean validarEmail(String email) {
+        Pattern pattern = Patterns.EMAIL_ADDRESS;
+        return pattern.matcher(email).matches();
+    }
+
+    public void Agregar(View view) {
+        Intent agregar = new Intent(this, AgregarCuentaActivity.class);
         startActivity(agregar);
     }
 
-/*    public void Recordar (View view)
-    {
-        String textoUser = texto_email.getText().toString();
-        String textoPass =  texto_contrasenia.getText().toString();
-       // Intent agregar = new Intent( this, AgregarCuentaActivity.class);
-       // startActivity(agregar);
-    }*/
+    /*    public void Recordar (View view)
+        {
+            String textoUser = texto_email.getText().toString();
+            String textoPass =  texto_contrasenia.getText().toString();
+           // Intent agregar = new Intent( this, AgregarCuentaActivity.class);
+           // startActivity(agregar);
+        }*/
     //Método para el inicio de sesion
 /*    public void IniciarSesion(View view){
 
@@ -272,8 +256,8 @@ public class LoginActivity extends AppCompatActivity {
         DataUsuarioActivity task = new DataUsuarioActivity("select", usuario, this);
         task.execute();
     }*/
-        //    Intent principal = new Intent( this, MapsActivity.class);
-   //     principal.putExtra("email",_email.getText().toString());
+    //    Intent principal = new Intent( this, MapsActivity.class);
+    //     principal.putExtra("email",_email.getText().toString());
     //    startActivity(principal);
         /*AdminSQLiteOpenHelper admin = new AdminSQLiteOpenHelper(this, "administracion", null, 1);
         SQLiteDatabase BaseDeDatabase = admin.getWritableDatabase();
@@ -303,5 +287,47 @@ public class LoginActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Debes introducir los datos, son obligatorios", Toast.LENGTH_SHORT).show();
         }*/
+    public void checkPermissionSMS() {
+        int permissionCheck = ContextCompat.checkSelfPermission(
+                this, Manifest.permission.SEND_SMS);
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            Log.i("Mensaje", "No se tiene permiso para enviar SMS.");
+//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 225);
+            new AlertDialog.Builder(this)
+                    .setTitle("Aprobacion de permisos de Envio de SMS")
+                    .setMessage("Por favor habilite el permiso de Envio de SMS para la aplicacion")
+                    .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //Prompt the user once explanation has been shown
+                            ActivityCompat.requestPermissions(LoginActivity.this,
+                                    new String[]{Manifest.permission.SEND_SMS},
+                                    MY_PERMISSIONS_REQUEST_SMS);
+                        }
+                    })
+                    .create()
+                    .show();
+            return;
+        }
+    }
 
+    public void checkPermissionLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Aprobacion de permisos de ubicacion")
+                    .setMessage("Por favor habilite el permiso de ubicacion para la aplicacion")
+                    .setPositiveButton("Aceptar", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //Prompt the user once explanation has been shown
+                            ActivityCompat.requestPermissions(LoginActivity.this,
+                                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                    MY_PERMISSIONS_REQUEST_LOCATION);
+                        }
+                    })
+                    .create()
+                    .show();
+            return;
+        }
+    }
 }
