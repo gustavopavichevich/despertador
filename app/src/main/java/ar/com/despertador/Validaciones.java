@@ -33,7 +33,7 @@ public class Validaciones {
     public  boolean Vacio(EditText campo){
         String dato = campo.getText().toString().trim();
         if(TextUtils.isEmpty(dato)){
-            campo.setError("Campo Requerido");
+            //campo.setError("Campo Requerido");
             campo.requestFocus();
             return true;
         }
