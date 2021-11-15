@@ -4,7 +4,7 @@
     <string name="btnEnviar">Enviar</string>
     <string name="txtSeleccionar">Seleccionar Contacto</string>
     <string name="title_activity_login">LoginActivity</string>
-    <string name="prompt_user">Usuario</string>
+    <string name="prompt_user">Mail</string>
     <string name="prompt_password">Contraseña</string>
     <string name="action_sign_in">Ingresar</string>
     <string name="action_sign_in_short">Registrarse</string>

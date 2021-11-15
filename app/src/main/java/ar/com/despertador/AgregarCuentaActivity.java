@@ -5,6 +5,7 @@ import static java.security.AccessController.getContext;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
@@ -18,6 +19,7 @@ import java.util.regex.Pattern;
 import ar.com.despertador.data.Conexion.DataUsuarioActivity;
 import ar.com.despertador.data.model.Persona;
 import ar.com.despertador.data.model.Usuario;
+import ar.com.despertador.ui.login.LoginActivity;
 
 public class AgregarCuentaActivity extends AppCompatActivity {
     Button boton_continuar;
@@ -65,4 +67,14 @@ public class AgregarCuentaActivity extends AppCompatActivity {
         Pattern pattern = Patterns.EMAIL_ADDRESS;
         return pattern.matcher(email).matches();
     }
+
+    public void volver() {
+        this.finish();
+    }
+
+    public void IraLogin(View view) {
+        Intent agregar = new Intent(this, LoginActivity.class);
+        startActivity(agregar);
+    }
+
 }

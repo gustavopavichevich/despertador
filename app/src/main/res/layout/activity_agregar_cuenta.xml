@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="44dp"
-        android:layout_marginTop="28dp"
+        android:layout_marginTop="80dp"
         android:text="Crear Cuenta"
         android:textSize="24sp"
         android:textStyle="bold"
@@ -90,7 +90,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Iniciar sesion"
-        android:textStyle="normal|bold|italic"
+        android:onClick="IraLogin"
+        android:textStyle="bold|italic"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.665"
         app:layout_constraintStart_toStartOf="parent"
@@ -143,6 +144,7 @@
         android:layout_marginTop="4dp"
         android:ems="10"
         android:hint="Ingrese su telefono"
+        android:textSize="14sp"
         android:inputType="phone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView8" />
@@ -155,6 +157,7 @@
         android:layout_marginTop="4dp"
         android:ems="10"
         android:hint="Ingrese su contraseña"
+        android:textSize="14sp"
         android:inputType="textPassword"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView10" />
@@ -172,7 +175,7 @@
 
     <Button
         android:id="@+id/button"
-        android:layout_width="wrap_content"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:background="@drawable/boton_redondeado_borde"

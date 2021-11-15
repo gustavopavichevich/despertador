@@ -11,6 +11,7 @@
         android:id="@+id/textView3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textStyle="bold"
         android:text="Seleccione el tipo de mensaje que quiere enviar" />
 
     <RadioGroup
@@ -37,6 +38,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
+        android:textStyle="bold"
         android:text="Escriba el mensaje de aviso de llegada" />
 
     <EditText
@@ -59,8 +61,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="144dp"
-        android:layout_marginTop="80dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="120dp"
         android:orientation="horizontal"
         android:layout_gravity="bottom|center">
 
