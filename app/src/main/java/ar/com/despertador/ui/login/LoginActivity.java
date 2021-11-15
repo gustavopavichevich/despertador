@@ -39,7 +39,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         con = this;
         boton_ingresar = findViewById(R.id.btnAceptar);
         boton_recordar = findViewById(R.id.login3);

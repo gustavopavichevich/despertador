@@ -84,9 +84,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         checkLocationPermission();
         posdestino.setLongitude(log);
         posdestino.setLatitude(lat);
-        btn_iniciar = findViewById(R.id.btn_iniciar);
-        txvcalculo = findViewById(R.id.txvcalculo);
-        svbuscar = findViewById(R.id.sv_ubicacion);
+        btn_iniciar = (Button) findViewById(R.id.btn_iniciar);
+        txvcalculo = (TextView) findViewById(R.id.txvcalculo);
+        svbuscar = (SearchView) findViewById(R.id.sv_ubicacion);
         btn_iniciar.setText("Iniciar Alarma");
         txvcalculo.setVisibility(View.INVISIBLE);
         btn_iniciar.setOnClickListener(new View.OnClickListener() {
@@ -197,19 +197,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        AvisaraContacto = findViewById(R.id.AvisaraContacto);
+        AvisaraContacto = (FloatingActionButton) findViewById(R.id.AvisaraContacto);
         AvisaraContacto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 AbrirDialogoCofContacto();
             }
         });
-        aplicarRadio = findViewById(R.id.DefinirDistancia);
+        aplicarRadio = (FloatingActionButton) findViewById(R.id.DefinirDistancia);
         aplicarRadio.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 AbrirDialogoConfigRadio();
             }
         });
-        btnGPSShowLocation = findViewById(R.id.btnGPSShowLocation);
+        btnGPSShowLocation = (Button) findViewById(R.id.btnGPSShowLocation);
         btnGPSShowLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
