@@ -256,6 +256,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 posactual.setLatitude(lat);
                 dist = posactual.distanceTo(posdestino);
                 if (dist <= radio) {
+                    reproducirTono();
                     txvcalculo.setText("LLEGASTEEEEEEE!!!!!!! (se supone que aca deberia sonar algo jaja)");
                     SoundManager sound = new SoundManager(getApplicationContext());
                     // Lee los sonidos que figuran en res/raw
@@ -288,6 +289,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         }
     };
+
+    private void reproducirTono() {
+        String phone = getIntent().getStringExtra("numeroTelefono").replaceAll("[-+/ ]", "");
+    }
 
     private void miUbucacion() {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
