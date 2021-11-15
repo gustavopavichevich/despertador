@@ -113,7 +113,7 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
                     alarma = new Alarma();
                     ubicacion = new Ubicacion();
                     persona = new Persona();
-                    int radio = 300;
+                    int radio = 500;
                     radio = getIntent().getIntExtra("radio", radio);
 
                     persona.setApellido(_nombre);
