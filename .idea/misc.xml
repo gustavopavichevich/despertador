@@ -4,8 +4,9 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/GitHub/facultad/despertador/app/src/main/res/drawable/ic_llegada_poi_background.xml" value="0.22135416666666666" />
+        <entry key="..\:/GitHub/facultad/despertador/app/src/main/res/layout/activity_configuracion_alarma.xml" value="0.246875" />
         <entry key="..\:/GitHub/facultad/despertador/app/src/main/res/layout/activity_configurar_contacto.xml" value="0.246875" />
-        <entry key="..\:/GitHub/facultad/despertador/app/src/main/res/layout/activity_configurar_radio.xml" value="0.10144927536231885" />
+        <entry key="..\:/GitHub/facultad/despertador/app/src/main/res/layout/activity_configurar_radio.xml" value="0.18" />
         <entry key="..\:/GitHub/facultad/despertador/app/src/main/res/layout/activity_listado_contactos.xml" value="0.12006079027355623" />
         <entry key="..\:/GitHub/facultad/despertador/app/src/main/res/layout/activity_maps.xml" value="0.20520833333333333" />
         <entry key="..\:/GitHub/facultad/despertador/app/src/main/res/layout/fragment_dialogo_configurar_contacto.xml" value="0.246875" />
@@ -17,7 +18,6 @@
         <entry key="..\:/Users/gmam_/AndroidStudioProjects/despertador/app/src/main/res/drawable/ic_launcher_background.xml" value="0.22135416666666666" />
         <entry key="..\:/Users/gmam_/AndroidStudioProjects/despertador/app/src/main/res/layout/activity_agregar_cuenta.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/gmam_/AndroidStudioProjects/despertador/app/src/main/res/layout/activity_configuracion_alarma.xml" value="0.36666666666666664" />
-
         <entry key="..\:/Users/gmam_/AndroidStudioProjects/despertador/app/src/main/res/layout/activity_configurar_contacto.xml" value="0.2520833333333333" />
         <entry key="..\:/Users/gmam_/AndroidStudioProjects/despertador/app/src/main/res/layout/activity_listado_contactos.xml" value="0.33" />
         <entry key="..\:/Users/gmam_/AndroidStudioProjects/despertador/app/src/main/res/layout/activity_login.xml" value="0.36666666666666664" />
