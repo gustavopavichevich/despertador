@@ -92,7 +92,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         btn_iniciar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mandarSMS();
                 if (dist <= radio) {
                     Toast.makeText(MapsActivity.this, "Ya estas dentro del radio seleccionado", Toast.LENGTH_LONG).show();
 
