@@ -24,12 +24,10 @@ import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
-
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -43,11 +41,9 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
-
 import ar.com.despertador.data.services.SoundManager;
 import ar.com.despertador.dialogos.Configurar_ContactoActivity;
 import ar.com.despertador.dialogos.Configurar_RadioActivity;
@@ -68,14 +64,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private Button btn_iniciar;
     double lat = 0.0;
     double log = 0.0;
-    int radio = 300;
+    private int radio = 180;
     SupportMapFragment mapFragment;
     FloatingActionButton AvisaraContacto;
     FloatingActionButton aplicarRadio;
-    SearchView searchView;
+   // SearchView searchView;
     Location posactual = new Location("localizacion Usuario");
     Location posdestino = new Location("localizacion Destino");
     private static String _emailU;
+    private String regrafica ;
+    private String TextoDestino ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +81,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
 
         _emailU = getIntent().getStringExtra("email");
+        regrafica = getIntent().getStringExtra("Regrafica");
 
         checkLocationPermission();
         posdestino.setLongitude(log);
@@ -92,10 +91,17 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         svbuscar = (SearchView) findViewById(R.id.sv_ubicacion);
         btn_iniciar.setText("Iniciar Alarma");
         txvcalculo.setVisibility(View.INVISIBLE);
+        if (regrafica != null) {
+            if (regrafica.equals("si")) {
+                radio = getIntent().getIntExtra("radio", radio);
+                TextoDestino = getIntent().getStringExtra("TextoDestino");
+                svbuscar.setQuery(TextoDestino, true);
+            }
+        }
         btn_iniciar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (dist <= radio) {
+                if (dist <= radio && (posdestino.getLatitude() != 0.0 && posdestino.getLongitude() != 0.0)) {
                     Toast.makeText(MapsActivity.this, "Ya estas dentro del radio seleccionado", Toast.LENGTH_LONG).show();
 
                 } else {
@@ -121,6 +127,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         });
+
+
         LocationServices.getFusedLocationProviderClient(MapsActivity.this).getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
@@ -131,12 +139,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-        searchView = findViewById(R.id.sv_ubicacion);
+      //  searchView = findViewById(R.id.sv_ubicacion);
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        svbuscar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                String location = searchView.getQuery().toString();
+                String location = svbuscar.getQuery().toString();
                 List<Address> addressList = null;
 
                 if (location != null || !location.equals("")) {
@@ -410,7 +418,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        miUbucacion();
+
+                miUbucacion();
+
+
     }
 
     public void AbrirDialogoCofContacto() {
@@ -428,8 +439,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     public void AbrirDialogoConfigRadio() {
         if (posdestino.getLatitude() != 0.0 && posdestino.getLongitude() != 0.0) {
-            getIntent().putExtra("radio", radio);
+
             Intent intent = new Intent(this, Configurar_RadioActivity.class);
+            TextoDestino = svbuscar.getQuery().toString();
+            intent.putExtra("TextoDestino", TextoDestino);
+            intent.putExtra("radio", radio);
+      //      intent.putExtra("desti", posdestino);
             startActivity(intent);
         } else {
             Toast.makeText(MapsActivity.this, "Debe Buscar su Dirección de Destino", Toast.LENGTH_LONG).show();

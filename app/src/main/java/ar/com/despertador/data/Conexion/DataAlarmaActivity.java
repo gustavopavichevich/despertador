@@ -17,6 +17,7 @@ import ar.com.despertador.data.model.Alarma;
 import ar.com.despertador.data.model.Persona;
 import ar.com.despertador.data.model.Ubicacion;
 import ar.com.despertador.data.model.Usuario;
+import ar.com.despertador.dialogos.ConfiguracionAlarmaActivity;
 import ar.com.despertador.ui.login.LoginActivity;
 
 
@@ -165,6 +166,9 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
 
     @Override
     protected void onPostExecute(String response) {
+
+        Intent intent=new Intent(context, MapsActivity.class);
+        context.startActivity(intent);
 //        switch (accion) {
 //            case "insert":
 //                Toast.makeText(context, "insertamos el usuario!!!", Toast.LENGTH_SHORT).show();

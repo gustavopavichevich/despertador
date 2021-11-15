@@ -43,7 +43,7 @@ public class Configurar_ContactoActivity extends AppCompatActivity {
         }
         else
         {
-            Toast.makeText(this, "Verifique que tenga selleccion y mensaje asigano", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Verifique que tenga seleccion y mensaje asignado", Toast.LENGTH_SHORT).show();
         }
     }
     @Override
