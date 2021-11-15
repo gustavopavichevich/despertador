@@ -241,6 +241,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     LocationListener locListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
+            reproducirTono();//solo para probar
 //            mandarSMS();
 //            SoundManager sound = new SoundManager(getApplicationContext());
 //            // Lee los sonidos que figuran en res/raw
@@ -257,12 +258,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 dist = posactual.distanceTo(posdestino);
                 if (dist <= radio) {
                     reproducirTono();
-                    txvcalculo.setText("LLEGASTEEEEEEE!!!!!!! (se supone que aca deberia sonar algo jaja)");
-                    SoundManager sound = new SoundManager(getApplicationContext());
-                    // Lee los sonidos que figuran en res/raw
                     mandarSMS();
-                    int chicken = sound.load(R.raw.iphone_5_alarm);
-                    sound.play(chicken);
                 } else {
                     DecimalFormat df = new DecimalFormat("#.00");
                     distFormateada = df.format(dist);
@@ -291,7 +287,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     };
 
     private void reproducirTono() {
-        String phone = getIntent().getStringExtra("numeroTelefono").replaceAll("[-+/ ]", "");
+        String _tono = getIntent().getStringExtra("tono");
+        String _volumen = getIntent().getStringExtra("volumen");
+
+        SoundManager sound = new SoundManager(getApplicationContext());
+        // Lee los sonidos que figuran en res/raw
+        int chicken = sound.load(R.raw.iphone_5_alarm);
+        sound.play(chicken);
+
     }
 
     private void miUbucacion() {
