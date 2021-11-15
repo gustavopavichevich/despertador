@@ -27,6 +27,7 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
     private static String result2;
     private int total;
     private int iduser;
+    private String fono;
     private String contrasena;
 
 
@@ -87,6 +88,23 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
                     if (total == 1) {
                         usuario.setIdUsuario(iduser);
                         usuario.setEmail(usuario.getEmail());
+                    }
+                    break;
+                case "selectFono":
+                    ResultSet rs3 = st.executeQuery("SELECT telefono FROM personas where email = '" + usuario.getEmail() +
+                            "' and tipo = 'contacto'");
+
+                    result2 = " ";
+                    total = 0;
+                    while (rs3.next()) {
+                        fono = rs3.getString("telefono");
+                        total++;
+                    }
+
+                    // Terminamos de cargar el objet
+                    //
+                    if (total == 1) {
+                        persona.setTelefono(fono);
                     }
                     break;
                 case "selectRecordar":

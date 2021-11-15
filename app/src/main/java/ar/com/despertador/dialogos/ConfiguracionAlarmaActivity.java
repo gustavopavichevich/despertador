@@ -142,7 +142,7 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
 
                     DataAlarmaActivity task = new DataAlarmaActivity("insert", persona, alarma, ubicacion, con);
                     task.execute();
-                    volver();
+         //           volver();
                 } else {
                     Toast.makeText(getApplicationContext(), "Verifique que todos los campos esten completos", Toast.LENGTH_SHORT).show();
                 }

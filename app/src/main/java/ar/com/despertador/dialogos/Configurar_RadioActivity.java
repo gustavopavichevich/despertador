@@ -1,6 +1,7 @@
 package ar.com.despertador.dialogos;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +20,7 @@ public class Configurar_RadioActivity extends AppCompatActivity implements SeekB
     private Button btnCancelarConfRadio;
     private Button btn_AceptarConfRadio;
     private int radio;
+    private String TextoDestino;
 
 
     @Override
@@ -29,7 +31,11 @@ public class Configurar_RadioActivity extends AppCompatActivity implements SeekB
         mSeekBar.setOnSeekBarChangeListener(this);
         mProgressText = (TextView) findViewById(R.id.progress);
         mTrackingText = (TextView) findViewById(R.id.tracking);
-        radio = getIntent().getIntExtra("radio", radio);
+        radio = getIntent().getIntExtra("radio",1);
+        TextoDestino = getIntent().getStringExtra("TextoDestino");
+       // desti = getIntent().getLocationExtra("desti");
+        mSeekBar.setProgress(radio);
+        mTrackingText.setText(radio+" Mts.");
         btnCancelarConfRadio = (Button) findViewById(R.id.btnCancelarConfRadio);
         btnCancelarConfRadio.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,7 +47,12 @@ public class Configurar_RadioActivity extends AppCompatActivity implements SeekB
         btn_AceptarConfRadio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                volver();
+                Intent intent = new Intent(Configurar_RadioActivity.this, MapsActivity.class);
+                intent.putExtra("radio", radio);
+         //       intent.putExtra("desti", desti);
+                intent.putExtra("Regrafica", "si");
+                intent.putExtra("TextoDestino", TextoDestino);
+                startActivity(intent);
             }
         });
     }
@@ -60,7 +71,7 @@ public class Configurar_RadioActivity extends AppCompatActivity implements SeekB
     public void onStartTrackingTouch(SeekBar seekBar) {
         // Este método se llamará durante el arrastre
     //    mTrackingText.setText("¿Cuál es la distancia de radio?");
-        mProgressText.setText("Configuremos un nuevo radio...");
+        mProgressText.setText("Configurando un nuevo radio...");
     }
 
     @Override
