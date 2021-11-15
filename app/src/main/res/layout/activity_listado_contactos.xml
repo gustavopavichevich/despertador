@@ -47,9 +47,9 @@
         android:layout_marginTop="28dp"
         android:layout_marginEnd="33dp"
         android:layout_marginBottom="65dp"
-        android:background="@color/colorRojo"
+        android:background="@drawable/bg_round"
         android:onClick="EnviarContacto"
         android:text="@string/btnEnviar"
-        android:textColor="#000000" />
+        android:textColor="@color/white" />
 
 </RelativeLayout>

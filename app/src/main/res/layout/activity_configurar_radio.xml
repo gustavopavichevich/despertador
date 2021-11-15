@@ -8,7 +8,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="402dp"
+        android:layout_marginTop="20dp"
+        android:layout_height="485dp"
         android:gravity="center"
         android:orientation="vertical"
         android:padding="20dp">
@@ -17,18 +18,21 @@
             android:id="@+id/tvConfigRadio"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:gravity="center"
-            android:text="Seleccione el Radio de alarma:" />
+            android:layout_marginTop="20dp"
+
+            android:gravity="left"
+            android:textStyle="bold"
+            android:text="Seleccione el Radio de alarma:"
+            android:textSize="18sp" />
 
 
         <SeekBar
             android:id="@+id/seek"
             style="@style/Widget.AppCompat.SeekBar.Discrete"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_margin="20dp"
-            android:layout_marginTop="20dp"
+            android:layout_height="69dp"
+
+            android:layout_marginTop="60dp"
             android:background="@drawable/bg_round"
             android:max="2000"
             android:min="100"
@@ -38,29 +42,39 @@
 
         <TextView
             android:id="@+id/tracking"
-            android:layout_marginTop="40dp"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="70dp"
+
+            android:text="500 Mts."
+            android:textAlignment="center"
+            android:textSize="34sp"
+            android:textStyle="italic" />
+
+        />
 
         <TextView
             android:id="@+id/progress"
             android:layout_width="fill_parent"
             android:layout_height="75dp"
-            android:text="300" />
+            android:layout_marginTop="120dp"
+            android:text="La alarma sonara cuando se encuentre a 500 mts. del destino" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="161dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
+        android:layout_marginTop="100dp"
         android:padding="20dp">
 
         <Button
             android:id="@+id/btnCancelarConfRadio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+
             android:layout_weight="1"
             android:background="@drawable/bg_round"
             android:text="Cancelar" />
@@ -69,7 +83,7 @@
             android:id="@+id/btnAceptarConfRadio"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+
             android:layout_weight="1"
             android:background="@drawable/bg_round"
             android:text="Aceptar" />
