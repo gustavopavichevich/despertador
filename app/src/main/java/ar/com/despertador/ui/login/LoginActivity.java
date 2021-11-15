@@ -57,17 +57,15 @@ public class LoginActivity extends AppCompatActivity {
                 } else {
                     usuario.setContrasenia(texto_contrasenia.getText().toString());
                     usuario.setEmail(texto_email.getText().toString());
-                    if (!bandera) {
-                        if (checkLocationPermission()) {
-                            if (checkPermissionSMS())
-                                bandera = true;
+                    if (checkLocationPermission()) {
+                        if (checkPermissionSMS()) {
+                            bandera = true;
+                            DataUsuarioActivity task = new DataUsuarioActivity("select", usuario, con);
+                            boton_ingresar.setEnabled(false);
+                            boton_ingresar.setBackgroundColor(getColor(R.color.colorGris));
+                            Toast.makeText(con, "Por favor, aguarde hasta que validemos sus datos", Toast.LENGTH_LONG).show();
+                            task.execute();
                         }
-                    } else {
-                        DataUsuarioActivity task = new DataUsuarioActivity("select", usuario, con);
-                        boton_ingresar.setEnabled(false);
-                        boton_ingresar.setBackgroundColor(getColor(R.color.colorGris));
-                        Toast.makeText(con, "Por favor, aguarde hasta que validemos sus datos", Toast.LENGTH_LONG).show();
-                        task.execute();
                     }
                 }
             }
