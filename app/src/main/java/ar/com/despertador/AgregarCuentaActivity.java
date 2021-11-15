@@ -26,6 +26,7 @@ public class AgregarCuentaActivity extends AppCompatActivity {
     private Persona persona;
     private Usuario usuario;
     private Context con;
+    Validaciones  objValidar; //objeto de nuestro clase Validaciones
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,11 +40,12 @@ public class AgregarCuentaActivity extends AppCompatActivity {
         final EditText texto_contrasena = findViewById(R.id.editTextTextPassword);
         final CheckBox texto_casilla = findViewById(R.id.checkBox);
         con = this;
+        objValidar = new Validaciones();
         boton_continuar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (!validarEmail(texto_email.getText().toString())){
+                if (!objValidar.isEmail(texto_email.getText().toString())){
                     Toast.makeText(con, "El Formato de mail es invalido", Toast.LENGTH_SHORT).show();
                 }
                 else{
@@ -63,11 +65,6 @@ public class AgregarCuentaActivity extends AppCompatActivity {
             }
         });
     }
-    private boolean validarEmail(String email) {
-        Pattern pattern = Patterns.EMAIL_ADDRESS;
-        return pattern.matcher(email).matches();
-    }
-
     public void volver() {
         this.finish();
     }

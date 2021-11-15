@@ -21,6 +21,7 @@ import java.util.regex.Pattern;
 
 import ar.com.despertador.AgregarCuentaActivity;
 import ar.com.despertador.R;
+import ar.com.despertador.Validaciones;
 import ar.com.despertador.data.Conexion.DataUsuarioActivity;
 import ar.com.despertador.data.model.Usuario;
 
@@ -33,6 +34,7 @@ public class LoginActivity extends AppCompatActivity {
     private Usuario usuario;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     public static final int MY_PERMISSIONS_REQUEST_SMS = 225;
+    Validaciones objValidar; //objeto de nuestro clase Validaciones
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +43,8 @@ public class LoginActivity extends AppCompatActivity {
         con = this;
         boton_ingresar = findViewById(R.id.btnAceptar);
         boton_recordar = findViewById(R.id.login3);
+
+        objValidar = new Validaciones();
 
         final EditText texto_email = findViewById(R.id.username);
         final EditText texto_contrasenia = findViewById(R.id.password);
@@ -51,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 usuario = new Usuario();
 
-                if (!validarEmail(texto_email.getText().toString())) {
+                if (!objValidar.isEmail(texto_email.getText().toString())) {
                     Toast.makeText(con, "El Formato de mail es invalido", Toast.LENGTH_SHORT).show();
                 } else {
                     usuario.setContrasenia(texto_contrasenia.getText().toString());
@@ -72,7 +76,7 @@ public class LoginActivity extends AppCompatActivity {
         boton_recordar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!validarEmail(texto_email.getText().toString())) {
+                if (!objValidar.isEmail(texto_email.getText().toString())) {
                     Toast.makeText(con, "El Formato de mail es invalido", Toast.LENGTH_SHORT).show();
                 } else {
                     usuario = new Usuario();
@@ -83,11 +87,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    private boolean validarEmail(String email) {
-        Pattern pattern = Patterns.EMAIL_ADDRESS;
-        return pattern.matcher(email).matches();
     }
 
     public void Agregar(View view) {
