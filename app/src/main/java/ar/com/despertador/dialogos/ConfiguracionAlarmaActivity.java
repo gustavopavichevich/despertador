@@ -125,10 +125,12 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
 
                     alarma.setNombre(_txtnombrealarma.getText().toString());
                     alarma.setUrlTono(_tono);
+                    getIntent().putExtra("tono", _numero);
                     alarma.setMensaje(_txtmensajealarma.getText().toString());
                     getIntent().putExtra("txtMensaje", _txtmensajealarma.getText().toString());
                     alarma.setDistanciaActivacion(radio);//distancia predefinida
                     alarma.setVolumen(_volalarma.getProgress());//obtengo el valor seleccionado
+                    getIntent().putExtra("volumen", _numero);
 
                     ubicacion.setPoi(_poiDestino);//la posicion de la busqueda de destino
 

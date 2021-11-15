@@ -13,6 +13,9 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.util.Log;
@@ -256,12 +259,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 posactual.setLatitude(lat);
                 dist = posactual.distanceTo(posdestino);
                 if (dist <= radio) {
-                    txvcalculo.setText("LLEGASTEEEEEEE!!!!!!! (se supone que aca deberia sonar algo jaja)");
-                    SoundManager sound = new SoundManager(getApplicationContext());
-                    // Lee los sonidos que figuran en res/raw
+                    reproducirTono();
                     mandarSMS();
-                    int chicken = sound.load(R.raw.iphone_5_alarm);
-                    sound.play(chicken);
                 } else {
                     DecimalFormat df = new DecimalFormat("#.00");
                     distFormateada = df.format(dist);
@@ -288,6 +287,56 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         }
     };
+
+    private void reproducirTono() {
+        String _tono = getIntent().getStringExtra("tono");
+        Integer _volumen = 20;
+        _volumen= getIntent().getIntExtra("volumen",_volumen);
+        MediaPlayer mp;
+
+        //Configuracion del tono seleecionado
+        // Lee los sonidos que figuran en res/raw
+        int sonido_de_Reproduccion;
+        if (_tono==null)
+            _tono="dubstep";
+        switch (_tono) {
+            case "classic_whistle":
+                mp = MediaPlayer.create(this, R.raw.classic_whistle);
+                break;
+            case "digital_bell":
+                mp = MediaPlayer.create(this, R.raw.digital_bell);
+                break;
+            case "dubstep":
+                mp = MediaPlayer.create(this, R.raw.dubstep);
+                break;
+            case "iphone_5_alarm":
+                mp = MediaPlayer.create(this, R.raw.iphone_5_alarm);
+                break;
+            case "iphone_sms":
+                mp = MediaPlayer.create(this, R.raw.iphone_sms);
+                break;
+            case "vampire_call":
+                mp = MediaPlayer.create(this, R.raw.vampire_call);
+                break;
+            default:
+                mp = MediaPlayer.create(this, R.raw.samsung_galaxy_s3);
+                break;
+        }
+        //Configuro el volumen al valor elegido por el usuario
+        AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
+        int streamType = AudioManager.STREAM_MUSIC;
+        //Configuracion de volumen
+        for(int j=0;j<20;j++){//lo dejo en 0
+            audioManager.adjustStreamVolume(streamType,
+                    AudioManager.ADJUST_LOWER, AudioManager.FLAG_PLAY_SOUND);
+        }
+        int vo;
+        for (vo = 0; vo < _volumen;vo++) {//lo incremento por lo seleccionado
+            audioManager.adjustStreamVolume(streamType,
+                    AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND);
+        }
+        mp.start();
+    }
 
     private void miUbucacion() {
         locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
