@@ -60,6 +60,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private MediaPlayer mp;
     LocationManager locationManager;
     String provider;
+    int flagLlego = 0;
     public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
     public static final int MY_PERMISSIONS_REQUEST_SMS = 225;
     Button btnGPSShowLocation;
@@ -112,6 +113,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             Toast.makeText(MapsActivity.this, "Inicialmente por favor defina un destino", Toast.LENGTH_SHORT).show();
                         } else {
                             txvcalculo.setText("La distancia actual es: " + distFormateada + " Metros.");
+                            flagLlego = 0;
                             txvcalculo.setVisibility(View.VISIBLE);
                             btn_iniciar.setText("CANCELAR Alarma");
                         }
@@ -123,7 +125,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         svbuscar.clearFocus();
                         posdestino.setLatitude(0.0);
                         posdestino.setLongitude(0.0);
-                        if (mp.isPlaying()){mp.stop();}
+        //                if (mp.isPlaying()){mp.stop();}
                         btn_iniciar.setText("Iniciar Alarma");
                     }
                 }
@@ -166,13 +168,13 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             .title(location)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.logo2)).anchor(0.0f, 1.04f));
                     radio = getIntent().getIntExtra("radio", radio);
-                    int zoom = 16;
+                    int zoom = 20;
                     if (radio >= 500)
-                        zoom = 32;
+                        zoom = 15;
                     if (radio >= 1000)
-                        zoom = 48;
+                        zoom = 14;
                     if (radio >= 1500)
-                        zoom = 64;
+                        zoom = 13;
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, zoom));
                     mMap.addCircle(new CircleOptions()
                             .center(latLng)
@@ -241,24 +243,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //            int chicken = sound.load(R.raw.iphone_5_alarm);
 //            sound.play(chicken);
             //actualizarUbicacion(location);
-            if (btn_iniciar.getText() != "Iniciar Alarma") {
-                //           Toast.makeText(MapsActivity.this, "Entra a onlocationchanged", Toast.LENGTH_LONG).show();
-                lat = location.getLatitude();
-                log = location.getLongitude();
-                posactual.setLongitude(log);
-                posactual.setLatitude(lat);
-                dist = posactual.distanceTo(posdestino) - radio;
-                if (dist <= 1000) {
-                  //  txvcalculo.setText("Llegaste a tu destino!");
-                    //            reproducirTono();
-                    mandarSMS();
+            if (flagLlego == 0) {
+                if (btn_iniciar.getText() != "Iniciar Alarma") {
+                    //           Toast.makeText(MapsActivity.this, "Entra a onlocationchanged", Toast.LENGTH_LONG).show();
+                    lat = location.getLatitude();
+
+                    log = location.getLongitude();
+                    posactual.setLongitude(log);
+                    posactual.setLatitude(lat);
+                    dist = posactual.distanceTo(posdestino) - radio;
+                    if (dist <= 1000) {
+                        txvcalculo.setText("Llegaste a tu destino!");
+                        //            reproducirTono();
+                        mandarSMS();
+                        flagLlego = 1;
+                    } else {
+                        DecimalFormat df = new DecimalFormat("#.00");
+                        distFormateada = df.format(dist);
+                        txvcalculo.setText("La distancia actual es: " + distFormateada + " Metros.");
+                    }
                 } else {
-                    DecimalFormat df = new DecimalFormat("#.00");
-                    distFormateada = df.format(dist);
-                    txvcalculo.setText("La distancia actual es: " + distFormateada + " Metros.");
+                    //  actualizarUbicacion(location);
                 }
-            } else {
-              //  actualizarUbicacion(location);
             }
         }
         @Override
