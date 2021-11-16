@@ -116,6 +116,9 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
                 //String acepta = texto_casilla.isChecked() ? "si" : "no";
                 //cargo las clases con los valores recuperado en tre los activitys
                 if (!objValidar.Vacio( _txtnombrealarma) && !objValidar.Vacio(_txtmensajealarma) && _tono != "") {
+                    boton_aceptar.setEnabled(false);
+                    boton_aceptar.setBackgroundColor(getColor(R.color.colorGris));
+                    Toast.makeText(getApplicationContext(), "Grabando información de alerta", Toast.LENGTH_SHORT).show();
                     alarma = new Alarma();
                     ubicacion = new Ubicacion();
                     persona = new Persona();
@@ -148,48 +151,6 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-        /*list30.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView parent, View view, int position, long id) {
-                method(position);
-            }
-        });*/
-        //list.setAdapter(adapter);
-        //Log.i("ramiro", "llego al final");
-
-        /*list30.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView parent, View view, int position, long id) {
-                //saveas(RingtoneManager.TYPE_RINGTONE, position);
-                position2 = position; //utilizo position2 porque la this.position es para onItemClick
-                final CharSequence[] items = {"Establecer como Ringtone", "Establecer como SMS/Notificación", "Establecer como Alarma"};
-                AlertDialog.Builder builder = new AlertDialog.Builder(MyActivity.this);
-                builder.setItems(items, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        switch (item){
-                            case 0:
-                                saveas(RingtoneManager.TYPE_RINGTONE, position2);
-                                Toast.makeText(getApplicationContext(), "Se estableció como Ringtone", Toast.LENGTH_SHORT).show();
-                                break;
-                            case 1:
-                                saveas(RingtoneManager.TYPE_NOTIFICATION, position2);
-                                Toast.makeText(getApplicationContext(), "Se estableció como SMS/Notificación", Toast.LENGTH_SHORT).show();
-                                break;
-                            case 2:
-                                saveas(RingtoneManager.TYPE_ALARM, position2);
-                                Toast.makeText(getApplicationContext(), "Se estableció como Alarma", Toast.LENGTH_SHORT).show();
-                                break;
-                        }
-                        dialog.cancel();
-                    }
-                });
-                AlertDialog alert = builder.create();
-                alert.show();
-                return false;
-            }
-        });*/
         //Fin Agrego
     }
     public void volver ()
