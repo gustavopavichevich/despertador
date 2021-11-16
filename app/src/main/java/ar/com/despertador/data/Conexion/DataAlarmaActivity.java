@@ -134,7 +134,7 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
                     st.executeUpdate(QueryAlarma);
                     break;
                 case "selectSMS":
-                    if (!persona.getEmail().isEmpty()) {
+
                         ResultSet rsSMS = st.executeQuery("SELECT * FROM personas WHERE tipo = 'contacto' and email = '" + persona.getEmail() + "'");
 
                         result2 = " ";
@@ -158,7 +158,7 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
                                 alarma.setVolumen(rsSMS2.getInt("volumen"));
                             }
                         }
-                    }
+
                     break;
                 default:
                     break;
@@ -176,11 +176,11 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
 
         switch (accion) {
            case "selectSMS":
-               if (!persona.getTelefono().isEmpty()) {
+               if (!persona.getTelefono().trim().isEmpty()) {
                    String phone = persona.getTelefono().replaceAll("[-+/ ]", "").trim();
                    String text = alarma.getMensaje().trim();
                    try {
-                       int control = Integer.parseUnsignedInt(phone);
+      //                 int control = Integer.parseUnsignedInt(phone);
                        if (phone.length() > 10) {
                            phone = phone.substring(phone.length() - 10);
                        } else {

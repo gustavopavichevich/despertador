@@ -62,15 +62,26 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
             Statement st = con.createStatement();
             switch (accion) {
                 case "insert":
-                    st.executeUpdate("INSERT INTO personas(apellido, nombre, telefono, tipo, email) VALUES ('"
-                            + persona.getApellido() + "','"
-                            + persona.getNombre() + "','"
-                            + persona.getTelefono() + "','"
-                            + persona.getTipo() + "','"
-                            + persona.getEmail() + "')");
-                    st.executeUpdate("INSERT INTO usuarios(email, contrasenia) VALUES('"
-                            + persona.getEmail() + "','"
-                            + usuario.getContrasenia() + "')");
+                    ResultSet rsChequeo = st.executeQuery("SELECT idUsuario FROM usuarios where email = '" + usuario.getEmail() +
+                            "'" );
+                    result2 = " ";
+                    total = 0;
+                    while (rsChequeo.next()) {
+                        iduser = rsChequeo.getInt("idUsuario");
+                        total++;
+                    }
+
+                    if (total <=0 ) {
+                        st.executeUpdate("INSERT INTO personas(apellido, nombre, telefono, tipo, email) VALUES ('"
+                                + persona.getApellido() + "','"
+                                + persona.getNombre() + "','"
+                                + persona.getTelefono() + "','"
+                                + persona.getTipo() + "','"
+                                + persona.getEmail() + "')");
+                        st.executeUpdate("INSERT INTO usuarios(email, contrasenia) VALUES('"
+                                + persona.getEmail() + "','"
+                                + usuario.getContrasenia() + "')");
+                    }
                     break;
                 case "select":
                     ResultSet rs = st.executeQuery("SELECT idUsuario FROM usuarios where email = '" + usuario.getEmail() +
@@ -141,7 +152,11 @@ public class DataUsuarioActivity extends AsyncTask<String, Void, String> {
     protected void onPostExecute(String response) {
         switch (accion) {
             case "insert":
-                Toast.makeText(context, "insertamos el usuario!!!", Toast.LENGTH_SHORT).show();
+                if (total <=0) {
+                    Toast.makeText(context, "Se ha creado el usuario", Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(context, "Ya existe el usuario", Toast.LENGTH_SHORT).show();
+                }
                 context.startActivity(new Intent(context, LoginActivity.class));
                 break;
             case "select":

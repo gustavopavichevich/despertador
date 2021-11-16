@@ -98,12 +98,7 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
         ArrayAdapter adaptador = new ArrayAdapter(this, android.R.layout.simple_list_item_1, title);
         list30.setAdapter(adaptador);
 
-//        _lvalarmas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            public void onItemClick(AdapterView<?> parent, View view,
-//                                    int position, long id) {
-//                _tono= (String) _lvalarmas.getItemAtPosition(position);
-//                Toast.makeText(getApplicationContext(), "Volumen Asignado= "+ _volumen.toString(), Toast.LENGTH_SHORT).show();
-//            }});
+
         _lvalarmas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             public void onItemClick(AdapterView<?> parent, View view,
