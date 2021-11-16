@@ -121,29 +121,31 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
                     st.executeUpdate(QueryAlarma);
                     break;
                 case "selectSMS":
-                    ResultSet rsSMS = st.executeQuery("SELECT * FROM personas WHERE tipo = 'contacto' and email = '" + persona.getEmail() + "'");
+                    if (!persona.getEmail().isEmpty()) {
+                        ResultSet rsSMS = st.executeQuery("SELECT * FROM personas WHERE tipo = 'contacto' and email = '" + persona.getEmail() + "'");
 
-                    result2 = " ";
-                    while (rsSMS.next()) {
-                        persona.setIdPersona(rsSMS.getInt("idPersona"));
-                        persona.setApellido(rsSMS.getString("apellido"));
-                        persona.setNombre(rsSMS.getString("nombre"));
-                        persona.setTelefono(rsSMS.getString("telefono"));
-                        persona.setTipo(rsSMS.getString("tipo"));
-                        persona.setEmail(rsSMS.getString("email"));
+                        result2 = " ";
+                        while (rsSMS.next()) {
+                            persona.setIdPersona(rsSMS.getInt("idPersona"));
+                            persona.setApellido(rsSMS.getString("apellido"));
+                            persona.setNombre(rsSMS.getString("nombre"));
+                            persona.setTelefono(rsSMS.getString("telefono"));
+                            persona.setTipo(rsSMS.getString("tipo"));
+                            persona.setEmail(rsSMS.getString("email"));
+                        }
+                        if (persona.getIdPersona() >= 0) {
+                            ResultSet rsSMS2 = st.executeQuery("SELECT idAlarma, nombre, urlTono, mensaje, distanciaActivacion, volumen FROM alarmas WHERE idPersona = '" + persona.getIdPersona() + "'");
+
+                            while (rsSMS2.next()) {
+                                alarma.setIdAlarma(rsSMS2.getInt("idAlarma"));
+                                alarma.setNombre(rsSMS2.getString("nombre"));
+                                alarma.setUrlTono(rsSMS2.getString("urlTono"));
+                                alarma.setMensaje(rsSMS2.getString("mensaje"));
+                                alarma.setDistanciaActivacion(rsSMS2.getInt("distanciaActivacion"));
+                                alarma.setVolumen(rsSMS2.getInt("volumen"));
+                            }
+                        }
                     }
-
-                    ResultSet rsSMS2 = st.executeQuery("SELECT idAlarma, nombre, urlTono, mensaje, distanciaActivacion, volumen FROM alarmas WHERE idPersona = '" + persona.getIdPersona() + "'");
-
-                    while (rsSMS2.next()) {
-                        alarma.setIdAlarma(rsSMS2.getInt("idAlarma"));
-                        alarma.setNombre(rsSMS2.getString("nombre"));
-                        alarma.setUrlTono(rsSMS2.getString("urlTono"));
-                        alarma.setMensaje(rsSMS2.getString("mensaje"));
-                        alarma.setDistanciaActivacion(rsSMS2.getInt("distanciaActivacion"));
-                        alarma.setVolumen(rsSMS2.getInt("volumen"));
-                    }
-
                     break;
  /*               case "selectRecordar":
                     ResultSet rs2 = st.executeQuery("SELECT idUsuario, contrasenia FROM usuarios where email = '" + usuario.getEmail() + "' ");
@@ -177,24 +179,26 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
      //   context.startActivity(intent);
         switch (accion) {
            case "selectSMS":
-               String phone = persona.getTelefono().replaceAll("[-+/ ]", "").trim();
-               String text = alarma.getMensaje().trim();
-               try {
-                   int control = Integer.parseUnsignedInt(phone);
-                   if (phone.length() > 10) {
-                       phone = phone.substring(phone.length() - 10);
-                   } else {
-                       SmsManager sms = SmsManager.getDefault();
-                       sms.sendTextMessage(phone, null, text, null, null);
-                       Toast.makeText(context, "Se enviará SMS al número " + phone.trim(), Toast.LENGTH_LONG).show();
+               if (!persona.getTelefono().isEmpty()) {
+                   String phone = persona.getTelefono().replaceAll("[-+/ ]", "").trim();
+                   String text = alarma.getMensaje().trim();
+                   try {
+                       int control = Integer.parseUnsignedInt(phone);
+                       if (phone.length() > 10) {
+                           phone = phone.substring(phone.length() - 10);
+                       } else {
+                           SmsManager sms = SmsManager.getDefault();
+                           sms.sendTextMessage(phone, null, text, null, null);
+                           Toast.makeText(context, "Se enviará SMS al número " + phone.trim(), Toast.LENGTH_LONG).show();
+                       }
+                   } catch (NumberFormatException e) {
+                       Toast.makeText(context, "El numero de teléfono contiene valores no numéricos", Toast.LENGTH_LONG).show();
+                   } catch (Exception ex) {
+                       Toast.makeText(context, "Corrija su contacto al formato 00000000", Toast.LENGTH_LONG).show();
                    }
-               } catch (NumberFormatException e) {
-                   Toast.makeText(context, "El numero de teléfono contiene valores no numéricos", Toast.LENGTH_LONG).show();
-               } catch (Exception ex) {
-                   Toast.makeText(context, "Corrija su contacto al formato 00000000", Toast.LENGTH_LONG).show();
-               }
 //                Toast.makeText(context, "insertamos el usuario!!!", Toast.LENGTH_SHORT).show();
 //                context.startActivity(new Intent(context, LoginActivity.class));
+               }
            break;
 //            case "select":
 //                if (usuario.getIdUsuario() > 0) {
