@@ -3,7 +3,6 @@ package ar.com.despertador.data.Conexion;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -11,14 +10,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import ar.com.despertador.MailJob;
 import ar.com.despertador.MapsActivity;
 import ar.com.despertador.data.model.Alarma;
 import ar.com.despertador.data.model.Persona;
 import ar.com.despertador.data.model.Ubicacion;
-import ar.com.despertador.data.model.Usuario;
-import ar.com.despertador.dialogos.ConfiguracionAlarmaActivity;
-import ar.com.despertador.ui.login.LoginActivity;
 
 
 public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
@@ -32,7 +27,6 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
     private static String result2;
     private int total;
     private int iduser;
-    private String contrasena ;
 
 
     //Recibe por constructor el textview
@@ -45,10 +39,19 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
         this.accion = accion;
 
     }
-//constructor para el select
+
+    //constructor para el select
     public DataAlarmaActivity(String accion, Alarma alarma, Ubicacion ubicacion, Context ct) {
         this.alarma = alarma;
         this.ubicacion = ubicacion;
+        this.context = ct;
+        this.accion = accion;
+    }
+
+    //constructor para el select
+    public DataAlarmaActivity(String accion, Persona persona, Alarma alarma, Context ct) {
+        this.persona = persona;
+        this.alarma = alarma;
         this.context = ct;
         this.accion = accion;
     }
@@ -69,14 +72,14 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
                 case "insert":
                     //inserto los datos de la persona7contacto para la alarma generada
                     ResultSet rs2 = st.executeQuery("SELECT idPersona, apellido, nombre, telefono, tipo, email " +
-                            "FROM sozsu9g190okokyf.personas where telefono='" + persona.getTelefono().toString() + "'");
+                            "FROM sozsu9g190okokyf.personas where telefono='" + persona.getTelefono() + "'");
                     result2 = " ";
                     try {
                         boolean ultimo = rs2.last();
                         int total = 0;
                         if (ultimo) {
                             rs2.first();
-                            while (rs2.next()){
+                            while (rs2.next()) {
                                 persona.setIdPersona(rs2.getInt("idPersona"));
                                 persona.setApellido(rs2.getString("apellido"));
                                 persona.setNombre(rs2.getString("nombre"));
@@ -87,8 +90,7 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
 
                             st.executeQuery("DELETE FROM sozsu9g190okokyf.ubicaciones where idPersona='" + persona.getIdPersona() + "'");
                             st.executeQuery("DELETE FROM sozsu9g190okokyf.alarmas where idPersona='" + persona.getIdPersona() + "'");
-                        }
-                        else{
+                        } else {
                             st.executeUpdate("INSERT INTO sozsu9g190okokyf.personas(apellido, nombre, telefono, tipo, email) VALUES ('"
                                     + persona.getApellido() + "','"
                                     + persona.getNombre() + "','"
@@ -96,15 +98,15 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
                                     + persona.getTipo() + "','"
                                     + persona.getEmail() + "')");
                             ResultSet rs3 = st.executeQuery("SELECT idPersona " +
-                                    "FROM sozsu9g190okokyf.personas where telefono='" + persona.getTelefono().toString() + "'");
-                            while (rs3.next()){
+                                    "FROM sozsu9g190okokyf.personas where telefono='" + persona.getTelefono() + "'");
+                            while (rs3.next()) {
                                 persona.setIdPersona(rs3.getInt("idPersona"));
                             }
                         }
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-                    
+
                     //inserto la ubicacion de destino de para la alarma del usuario
 
                     st.executeUpdate("INSERT INTO sozsu9g190okokyf.ubicaciones(idPersona, poi)" +
@@ -112,29 +114,39 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
 
                     //inserto la alarma
                     String QueryAlarma;
-                    QueryAlarma="INSERT INTO sozsu9g190okokyf.alarmas(idPersona, nombre, urlTono, mensaje, distanciaActivacion, volumen)" +
-                            "VALUES(" + persona.getIdPersona() + ",'"+
+                    QueryAlarma = "INSERT INTO sozsu9g190okokyf.alarmas(idPersona, nombre, urlTono, mensaje, distanciaActivacion, volumen)" +
+                            "VALUES(" + persona.getIdPersona() + ",'" +
                             alarma.getNombre() + "', '" +
                             alarma.getUrlTono() + "', '" +
                             alarma.getMensaje() + "', " +
                             alarma.getDistanciaActivacion() + ", " +
                             alarma.getVolumen() + ");";
                     st.executeUpdate(QueryAlarma);
-
                     break;
-                case "select":
-                    ResultSet rs = st.executeQuery("SELECT ");
+                case "selectSMS":
+                    ResultSet rs = st.executeQuery("SELECT * FROM personas WHERE tipo = 'contacto' and email = '" + persona.getEmail() + "'");
 
-                   result2 = " ";
-                  total = 0;
-                    while (rs.next()){
-                     iduser = rs.getInt("idUsuario");
-                        total++;
+                    result2 = " ";
+                    while (rs.next()) {
+                        persona.setIdPersona(rs.getInt("idPersona"));
+                        persona.setApellido(rs.getString("apellido"));
+                        persona.setNombre(rs.getString("nombre"));
+                        persona.setTelefono(rs.getString("telefono"));
+                        persona.setTipo(rs.getString("tipo"));
+                        persona.setEmail(rs.getString("email"));
                     }
-         // Terminamos de cargar el objet
-                if (total == 1){
-                    //alarma.setIdUsuario(iduser);
-                }
+
+                    rs = st.executeQuery("SELECT idAlarma, nombre, urlTono, mensaje, distanciaActivacion, volumen FROM alarmas WHERE idPersona = '" + persona.getIdPersona() + "'");
+
+                    while (rs.next()) {
+                        alarma.setIdAlarma(rs.getInt("idAlarma"));
+                        alarma.setNombre(rs.getString("nombre"));
+                        alarma.setUrlTono(rs.getString("urlTono"));
+                        alarma.setMensaje(rs.getString("mensaje"));
+                        alarma.setDistanciaActivacion(rs.getInt("distanciaActivacion"));
+                        alarma.setVolumen(rs.getInt("volumen"));
+                    }
+                    rs.close();
                     break;
  /*               case "selectRecordar":
                     ResultSet rs2 = st.executeQuery("SELECT idUsuario, contrasenia FROM usuarios where email = '" + usuario.getEmail() + "' ");
@@ -167,7 +179,7 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String response) {
 
-        Intent intent=new Intent(context, MapsActivity.class);
+        Intent intent = new Intent(context, MapsActivity.class);
         context.startActivity(intent);
 //        switch (accion) {
 //            case "insert":
