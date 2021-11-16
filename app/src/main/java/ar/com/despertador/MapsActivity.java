@@ -131,7 +131,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         svbuscar.clearFocus();
                         posdestino.setLatitude(0.0);
                         posdestino.setLongitude(0.0);
-        //                if (mp.isPlaying()){mp.stop();}
+                        if (mp.isPlaying()){mp.stop();}
                         btn_iniciar.setText("Iniciar Alarma");
                     }
                 }
@@ -176,7 +176,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                             .title(location)
                             .icon(BitmapDescriptorFactory.fromResource(R.drawable.logo2)).anchor(0.0f, 1.04f));
                     radio = getIntent().getIntExtra("radio", radio);
-                    int zoom = 20;
+                    int zoom = 16;
                     if (radio >= 500)
                         zoom = 15;
                     if (radio >= 1000)
@@ -245,12 +245,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     LocationListener locListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
-//            mandarSMS();
-//            SoundManager sound = new SoundManager(getApplicationContext());
-//            // Lee los sonidos que figuran en res/raw
-//            int chicken = sound.load(R.raw.iphone_5_alarm);
-//            sound.play(chicken);
-            //actualizarUbicacion(location);
+
             if (flagLlego == 0) {
                 if (btn_iniciar.getText() != "Iniciar Alarma") {
                     //           Toast.makeText(MapsActivity.this, "Entra a onlocationchanged", Toast.LENGTH_LONG).show();
@@ -262,7 +257,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     dist = posactual.distanceTo(posdestino) - radio;
                     if (dist <= 1000) {
                         txvcalculo.setText("Llegaste a tu destino!");
-                        //            reproducirTono();
+                        btn_iniciar.setText("Finalizar Alarma");
+                        reproducirTono();
                         mandarSMS();
                         flagLlego = 1;
                     } else {
@@ -295,7 +291,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Lee los sonidos que figuran en res/raw
         int sonido_de_Reproduccion;
         if (_tono == null)
-            _tono = "dubstep";
+            _tono = "iphone_sms";
         switch (_tono) {
             case "classic_whistle":
                 mp = MediaPlayer.create(this, R.raw.classic_whistle);
@@ -403,9 +399,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                 } else {
 
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
-
                 }
                 return;
             }
@@ -445,8 +438,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Toast.makeText(MapsActivity.this, "Debe Buscar su Dirección de Destino", Toast.LENGTH_LONG).show();
            }
     }
-    public void IniciarRecorrido() {
-    }
+
     @Override
     public void onLocationChanged(@NonNull Location location) {
         //   Toast.makeText(MapsActivity.this, "Entra a onlocationchanged", Toast.LENGTH_LONG).show();
@@ -482,22 +474,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             alarma = new Alarma();
             DataAlarmaActivity task = new DataAlarmaActivity("selectSMS", persona, alarma, this);
             task.execute();
-          /*  String phone = persona.getTelefono().replaceAll("[-+/ ]", "").trim();
-            String text = alarma.getMensaje().trim();
-            try {
-                control = Integer.parseUnsignedInt(phone);
-                if (phone.length() > 10) {
-                    phone = phone.substring(phone.length() - 10);
-                } else {
-                    SmsManager sms = SmsManager.getDefault();
-                    sms.sendTextMessage(phone, null, text, null, null);
-                    Toast.makeText(MapsActivity.this, "Se enviará SMA al número " + phone.trim(), Toast.LENGTH_LONG).show();
-                }
-            } catch (NumberFormatException e) {
-                Toast.makeText(MapsActivity.this, "El numero de teléfono contiene valores no numéricos", Toast.LENGTH_LONG).show();
-            } catch (Exception ex) {
-                Toast.makeText(MapsActivity.this, "Corrija su contacto al formato 00000000", Toast.LENGTH_LONG).show();
-            }*/
+
             return;
         }
     }
