@@ -26,6 +26,8 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
     private static String result2;
     private int total;
     private int iduser;
+    private String TextoDestino;
+    private Integer radio;
 
 
     //Recibe por constructor el textview
@@ -38,6 +40,17 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
         this.accion = accion;
 
     }
+    public DataAlarmaActivity(String accion, Persona persona, Alarma alarma, Ubicacion ubicacion, Context ct, String txtDestino, Integer rad) {
+        this.context = ct;
+        this.persona = persona;
+        this.alarma = alarma;
+        this.ubicacion = ubicacion;
+        this.accion = accion;
+        TextoDestino = txtDestino;
+        radio = rad;
+
+    }
+
 
     //constructor para el select
     public DataAlarmaActivity(String accion, Alarma alarma, Ubicacion ubicacion, Context ct) {
@@ -185,7 +198,10 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
                }
            break;
            case "insert":
+
                    Intent intent = new Intent(context, MapsActivity.class);
+                     intent.putExtra("TextoDestino", TextoDestino);
+                     intent.putExtra("radio", radio);
                   context.startActivity(intent);
                 break;
          default:

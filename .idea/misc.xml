@@ -37,8 +37,13 @@
         <entry key="..\:/Users/u583011/AndroidStudioProjects/despertador2/app/src/main/res/layout-w1240dp/activity_login.xml" value="0.1" />
         <entry key="..\:/Users/u583011/AndroidStudioProjects/despertador2/app/src/main/res/layout-w936dp/activity_login.xml" value="0.1" />
         <entry key="..\:/Users/u583011/AndroidStudioProjects/despertador2/app/src/main/res/layout/activity_agregar_cuenta.xml" value="0.25" />
-        <entry key="..\:/Users/u583011/AndroidStudioProjects/despertador2/app/src/main/res/layout/activity_listado_contactos.xml" value="0.18115942028985507" />
-        <entry key="..\:/Users/u583011/AndroidStudioProjects/despertador2/app/src/main/res/layout/activity_login.xml" value="0.5" />
+
+        <entry key="..\:/Users/u583011/AndroidStudioProjects/despertador2/app/src/main/res/layout/activity_configuracion_alarma.xml" value="0.22" />
+        <entry key="..\:/Users/u583011/AndroidStudioProjects/despertador2/app/src/main/res/layout/activity_configurar_contacto.xml" value="0.16" />
+        <entry key="..\:/Users/u583011/AndroidStudioProjects/despertador2/app/src/main/res/layout/activity_configurar_radio.xml" value="0.22" />
+        <entry key="..\:/Users/u583011/AndroidStudioProjects/despertador2/app/src/main/res/layout/activity_listado_contactos.xml" value="0.5" />
+        <entry key="..\:/Users/u583011/AndroidStudioProjects/despertador2/app/src/main/res/layout/activity_login.xml" value="0.25" />
+
         <entry key="..\:/Users/u583011/AndroidStudioProjects/despertador2/app/src/main/res/layout/activity_maps.xml" value="0.1408514492753623" />
         <entry key="..\:/Users/u583011/AndroidStudioProjects/despertador2/app/src/main/res/layout/fragment_dialogo_configurar_contacto.xml" value="0.18115942028985507" />
       </map>

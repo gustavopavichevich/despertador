@@ -76,7 +76,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     Location posdestino = new Location("localizacion Destino");
     private static String _emailU;
     private String regrafica;
-    private String TextoDestino;
+    private String TextoDestino="";
     private Persona persona;
     private Alarma alarma;
 
@@ -86,6 +86,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         setContentView(R.layout.activity_maps);
         _emailU = getIntent().getStringExtra("email");
         regrafica = getIntent().getStringExtra("Regrafica");
+        TextoDestino =  getIntent().getStringExtra("TextoDestino");
+        radio = getIntent().getIntExtra("radio",radio);
         checkLocationPermission();
         posdestino.setLongitude(log);
         posdestino.setLatitude(lat);
@@ -94,6 +96,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         svbuscar = findViewById(R.id.sv_ubicacion);
         btn_iniciar.setText("Iniciar Alarma");
         txvcalculo.setVisibility(View.INVISIBLE);
+
+        if (TextoDestino != null){
+            svbuscar.setQuery(TextoDestino.toString(),true);
+        }
         if (regrafica != null) {
             if (regrafica.equals("si")) {
                 radio = getIntent().getIntExtra("radio", radio);
@@ -160,7 +166,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     posdestino.setLatitude(address.getLatitude());
                     posdestino.setLongitude(address.getLongitude());
                     dist = posactual.distanceTo(posdestino) - radio;
+                    TextoDestino = svbuscar.getQuery().toString();
                     DecimalFormat df = new DecimalFormat("#.00");
+                    svbuscar.clearFocus();
                     distFormateada = df.format(dist);
                     mMap.clear();
                     marcador = mMap.addMarker(new MarkerOptions()
@@ -417,6 +425,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             Intent intent = new Intent(this, Configurar_ContactoActivity.class);
             intent.putExtra("email", _emailU);
             intent.putExtra("poidestino", posdestino.getLatitude() + "-" + posdestino.getLongitude());
+            intent.putExtra("TextoDestino", TextoDestino);
+            intent.putExtra("radio", radio);
             startActivity(intent);
         } else {
             Toast.makeText(MapsActivity.this, "Debe Buscar su Dirección de Destino", Toast.LENGTH_LONG).show();
