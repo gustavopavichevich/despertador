@@ -15,7 +15,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
-import android.media.SoundPool;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.util.Log;
@@ -24,10 +23,12 @@ import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
+
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -41,10 +42,14 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
-import ar.com.despertador.data.services.SoundManager;
+
+import ar.com.despertador.data.Conexion.DataAlarmaActivity;
+import ar.com.despertador.data.model.Alarma;
+import ar.com.despertador.data.model.Persona;
 import ar.com.despertador.dialogos.Configurar_ContactoActivity;
 import ar.com.despertador.dialogos.Configurar_RadioActivity;
 
@@ -70,12 +75,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     SupportMapFragment mapFragment;
     FloatingActionButton AvisaraContacto;
     FloatingActionButton aplicarRadio;
-   // SearchView searchView;
+    // SearchView searchView;
     Location posactual = new Location("localizacion Usuario");
     Location posdestino = new Location("localizacion Destino");
     private static String _emailU;
-    private String regrafica ;
-    private String TextoDestino ;
+    private String regrafica;
+    private String TextoDestino;
+    private Persona persona;
+    private Alarma alarma;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,17 +95,19 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         checkLocationPermission();
         posdestino.setLongitude(log);
         posdestino.setLatitude(lat);
-        btn_iniciar = (Button) findViewById(R.id.btn_iniciar);
-        txvcalculo = (TextView) findViewById(R.id.txvcalculo);
-        svbuscar = (SearchView) findViewById(R.id.sv_ubicacion);
+        btn_iniciar = findViewById(R.id.btn_iniciar);
+        txvcalculo = findViewById(R.id.txvcalculo);
+        svbuscar = findViewById(R.id.sv_ubicacion);
         btn_iniciar.setText("Iniciar Alarma");
         txvcalculo.setVisibility(View.INVISIBLE);
         if (regrafica != null) {
             if (regrafica.equals("si")) {
                 radio = getIntent().getIntExtra("radio", radio);
                 TextoDestino = getIntent().getStringExtra("TextoDestino");
-                svbuscar.setQuery(TextoDestino, false);
-       //         svbuscar.clearFocus();
+
+                svbuscar.setQuery(TextoDestino, true);
+                svbuscar.onWindowFocusChanged(true);
+
             }
         }
         btn_iniciar.setOnClickListener(new View.OnClickListener() {
@@ -143,7 +152,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             }
         });
 
-      //  searchView = findViewById(R.id.sv_ubicacion);
+        //  searchView = findViewById(R.id.sv_ubicacion);
         mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         svbuscar.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -206,7 +215,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
 
 
-       AvisaraContacto = (FloatingActionButton) findViewById(R.id.AvisaraContacto);
+        AvisaraContacto = findViewById(R.id.AvisaraContacto);
+
         AvisaraContacto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 AbrirDialogoCofContacto();
@@ -214,15 +224,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         });
 
 
-        aplicarRadio = (FloatingActionButton) findViewById(R.id.DefinirDistancia);
+        aplicarRadio = findViewById(R.id.DefinirDistancia);
+
         aplicarRadio.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 AbrirDialogoConfigRadio();
             }
         });
 
+        btnGPSShowLocation = findViewById(R.id.btnGPSShowLocation);
 
-        btnGPSShowLocation = (Button) findViewById(R.id.btnGPSShowLocation);
         btnGPSShowLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -304,14 +315,16 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private void reproducirTono() {
         String _tono = getIntent().getStringExtra("tono");
         Integer _volumen = 20;
+
         _volumen= getIntent().getIntExtra("volumen",_volumen);
       //  MediaPlayer mp;
+
 
         //Configuracion del tono seleecionado
         // Lee los sonidos que figuran en res/raw
         int sonido_de_Reproduccion;
-        if (_tono==null)
-            _tono="dubstep";
+        if (_tono == null)
+            _tono = "dubstep";
         switch (_tono) {
             case "classic_whistle":
                 mp = MediaPlayer.create(this, R.raw.classic_whistle);
@@ -339,12 +352,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         AudioManager audioManager = (AudioManager) getApplicationContext().getSystemService(Context.AUDIO_SERVICE);
         int streamType = AudioManager.STREAM_MUSIC;
         //Configuracion de volumen
-        for(int j=0;j<20;j++){//lo dejo en 0
+        for (int j = 0; j < 20; j++) {//lo dejo en 0
             audioManager.adjustStreamVolume(streamType,
                     AudioManager.ADJUST_LOWER, AudioManager.FLAG_PLAY_SOUND);
         }
         int vo;
-        for (vo = 0; vo < _volumen;vo++) {//lo incremento por lo seleccionado
+        for (vo = 0; vo < _volumen; vo++) {//lo incremento por lo seleccionado
             audioManager.adjustStreamVolume(streamType,
                     AudioManager.ADJUST_RAISE, AudioManager.FLAG_PLAY_SOUND);
         }
@@ -432,7 +445,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-                miUbucacion();
+        miUbucacion();
 
 
     }
@@ -457,7 +470,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             TextoDestino = svbuscar.getQuery().toString();
             intent.putExtra("TextoDestino", TextoDestino);
             intent.putExtra("radio", radio);
-      //      intent.putExtra("desti", posdestino);
+            //      intent.putExtra("desti", posdestino);
             startActivity(intent);
      //   } else {
     //        Toast.makeText(MapsActivity.this, "Debe Buscar su Dirección de Destino", Toast.LENGTH_LONG).show();
@@ -482,7 +495,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 this, Manifest.permission.SEND_SMS);
         if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
             Log.i("Mensaje", "No se tiene permiso para enviar SMS.");
-//            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.SEND_SMS}, 225);
             new AlertDialog.Builder(this)
                     .setTitle("Aprobacion de permisos de Envio de SMS")
                     .setMessage("Por favor habilite el permiso de Envio de SMS para la aplicacion")
@@ -500,21 +512,21 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             return;
         } else {
             int control = 1;
-            String phone = getIntent().getStringExtra("numeroTelefono").replaceAll("[-+/ ]", "");
-            String text = null;
-            text = getIntent().getStringExtra("txtMensaje");
+            persona = new Persona();
+            persona.setEmail(_emailU);
+            alarma = new Alarma();
+            DataAlarmaActivity task = new DataAlarmaActivity("selectSMS", persona, alarma, this);
+            task.execute();
+            String phone = persona.getTelefono().replaceAll("[-+/ ]", "").trim();
+            String text = alarma.getMensaje().trim();
             try {
-                if(phone.trim().isEmpty())
-                    phone = "1125172744";
-                control = Integer.parseUnsignedInt(phone.trim());
+                control = Integer.parseUnsignedInt(phone);
                 if (phone.length() > 10) {
-                    Toast.makeText(MapsActivity.this, "Corrija su contacto al formato 00000000", Toast.LENGTH_LONG).show();
+                    phone = phone.substring(phone.length() - 10);
                 } else {
                     SmsManager sms = SmsManager.getDefault();
-                    if(text.trim().isEmpty())
-                        text="hola";
                     sms.sendTextMessage(phone, null, text, null, null);
-                    Toast.makeText(MapsActivity.this, "Se enviará SMA al número "+ phone.trim(), Toast.LENGTH_LONG).show();
+                    Toast.makeText(MapsActivity.this, "Se enviará SMA al número " + phone.trim(), Toast.LENGTH_LONG).show();
                 }
             } catch (NumberFormatException e) {
                 Toast.makeText(MapsActivity.this, "El numero de teléfono contiene valores no numéricos", Toast.LENGTH_LONG).show();
