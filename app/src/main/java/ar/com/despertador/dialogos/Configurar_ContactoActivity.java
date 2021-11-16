@@ -86,4 +86,7 @@ public class Configurar_ContactoActivity extends AppCompatActivity {
             }
         }
     }
+    public void volver(View v) {
+        this.finish();
+    }
 }

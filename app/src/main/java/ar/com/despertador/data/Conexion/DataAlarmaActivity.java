@@ -81,14 +81,14 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
             switch (accion) {
                 case "insert":
                     //inserto los datos de la persona7contacto para la alarma generada
-                    ResultSet rs2 = st.executeQuery("SELECT idPersona, apellido, nombre, telefono, tipo, email " +
-                            "FROM sozsu9g190okokyf.personas where telefono='" + persona.getTelefono() + "'");
+                    String QuerySelect="SELECT idPersona, apellido, nombre, telefono, tipo, email " +
+                            "FROM sozsu9g190okokyf.personas where telefono='" + persona.getTelefono().toString() + "'";
+                    ResultSet rs2 = st.executeQuery(QuerySelect);
                     result2 = " ";
                     try {
-                        boolean ultimo = rs2.last();
-                        int total = 0;
-                        if (ultimo) {
-                            rs2.first();
+                        //boolean ultimo = rs2.last();
+                        if (rs2.isBeforeFirst()) {
+                            //rs2.first();
                             while (rs2.next()) {
                                 persona.setIdPersona(rs2.getInt("idPersona"));
                                 persona.setApellido(rs2.getString("apellido"));
@@ -98,8 +98,8 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
                                 persona.setEmail(rs2.getString("email"));
                             }
 
-                            st.executeQuery("DELETE FROM sozsu9g190okokyf.ubicaciones where idPersona='" + persona.getIdPersona() + "'");
-                            st.executeQuery("DELETE FROM sozsu9g190okokyf.alarmas where idPersona='" + persona.getIdPersona() + "'");
+                            st.executeQuery("DELETE FROM sozsu9g190okokyf.ubicaciones where idPersona=" + persona.getIdPersona() + "");
+                            st.executeQuery("DELETE FROM sozsu9g190okokyf.alarmas where idPersona=" + persona.getIdPersona() + "");
                         } else {
                             st.executeUpdate("INSERT INTO sozsu9g190okokyf.personas(apellido, nombre, telefono, tipo, email) VALUES ('"
                                     + persona.getApellido() + "','"
@@ -147,7 +147,7 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
                             persona.setEmail(rsSMS.getString("email"));
                         }
                         if (persona.getIdPersona() >= 0) {
-                            ResultSet rsSMS2 = st.executeQuery("SELECT idAlarma, nombre, urlTono, mensaje, distanciaActivacion, volumen FROM alarmas WHERE idPersona = '" + persona.getIdPersona() + "'");
+                            ResultSet rsSMS2 = st.executeQuery("SELECT idAlarma, nombre, urlTono, mensaje, distanciaActivacion, volumen FROM alarmas WHERE idPersona = " + persona.getIdPersona() + "");
 
                             while (rsSMS2.next()) {
                                 alarma.setIdAlarma(rsSMS2.getInt("idAlarma"));
