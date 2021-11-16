@@ -1,5 +1,4 @@
 package ar.com.despertador;
-
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -15,6 +14,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.Bundle;
 import android.telephony.SmsManager;
 import android.util.Log;
@@ -23,12 +23,10 @@ import android.widget.Button;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
-
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -42,11 +40,10 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.List;
-
+import ar.com.despertador.data.services.SoundManager;
 import ar.com.despertador.data.Conexion.DataAlarmaActivity;
 import ar.com.despertador.data.model.Alarma;
 import ar.com.despertador.data.model.Persona;
@@ -54,7 +51,6 @@ import ar.com.despertador.dialogos.Configurar_ContactoActivity;
 import ar.com.despertador.dialogos.Configurar_RadioActivity;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback, LocationListener {
-
     private GoogleMap mMap;
     private Marker marcador;
     private TextView txvcalculo;
@@ -71,7 +67,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     double lat = 0.0;
     double log = 0.0;
     private int radio = 0;
-    //leo
     SupportMapFragment mapFragment;
     FloatingActionButton AvisaraContacto;
     FloatingActionButton aplicarRadio;
@@ -88,10 +83,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
-
         _emailU = getIntent().getStringExtra("email");
         regrafica = getIntent().getStringExtra("Regrafica");
-
         checkLocationPermission();
         posdestino.setLongitude(log);
         posdestino.setLatitude(lat);
@@ -104,10 +97,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             if (regrafica.equals("si")) {
                 radio = getIntent().getIntExtra("radio", radio);
                 TextoDestino = getIntent().getStringExtra("TextoDestino");
-
                 svbuscar.setQuery(TextoDestino, true);
-                svbuscar.onWindowFocusChanged(true);
-
+    //            svbuscar.onWindowFocusChanged(true);
             }
         }
         btn_iniciar.setOnClickListener(new View.OnClickListener() {
@@ -115,12 +106,10 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public void onClick(View v) {
                 if (dist <= 0 && (posdestino.getLatitude() != 0.0 && posdestino.getLongitude() != 0.0)) {
                     Toast.makeText(MapsActivity.this, "Ya estas dentro del radio seleccionado", Toast.LENGTH_LONG).show();
-
                 } else {
                     if (btn_iniciar.getText() == "Iniciar Alarma") {
                         if (posdestino.getLatitude() == 0.0 && posdestino.getLongitude() == 0.0) {
                             Toast.makeText(MapsActivity.this, "Inicialmente por favor defina un destino", Toast.LENGTH_SHORT).show();
-
                         } else {
                             txvcalculo.setText("La distancia actual es: " + distFormateada + " Metros.");
                             txvcalculo.setVisibility(View.VISIBLE);
@@ -140,8 +129,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             }
         });
-
-
         LocationServices.getFusedLocationProviderClient(MapsActivity.this).getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
@@ -159,7 +146,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             public boolean onQueryTextSubmit(String query) {
                 String location = svbuscar.getQuery().toString();
                 List<Address> addressList = null;
-
                 if (location != null || !location.equals("")) {
                     Geocoder geocoder = new Geocoder(MapsActivity.this);
                     try {
@@ -174,9 +160,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     dist = posactual.distanceTo(posdestino) - radio;
                     DecimalFormat df = new DecimalFormat("#.00");
                     distFormateada = df.format(dist);
-
                     mMap.clear();
-
                     marcador = mMap.addMarker(new MarkerOptions()
                             .position(latLng)
                             .title(location)
@@ -199,51 +183,37 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
                 return true;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
             }
         });
         mapFragment.getMapAsync(this);
-
         String emailU = getIntent().getStringExtra("email");
-
-
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
         AvisaraContacto = findViewById(R.id.AvisaraContacto);
-
         AvisaraContacto.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 AbrirDialogoCofContacto();
             }
         });
-
-
         aplicarRadio = findViewById(R.id.DefinirDistancia);
-
         aplicarRadio.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 AbrirDialogoConfigRadio();
             }
         });
-
         btnGPSShowLocation = findViewById(R.id.btnGPSShowLocation);
-
         btnGPSShowLocation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 miUbucacion();
             }
         });
-
-
     }
-
     private void agregarMarcador(double lat, double log) {
         LatLng coordenadas = new LatLng(lat, log);
         CameraUpdate miUbucacion = CameraUpdateFactory.newLatLngZoom(coordenadas, 16);
@@ -252,7 +222,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap.addMarker(new MarkerOptions().position(coordenadas).title("Mi Posicion Actual"));
         mMap.animateCamera(miUbucacion);
     }
-
     private void actualizarUbicacion(Location location) {
         if (location != null) {
             lat = location.getLatitude();
@@ -263,7 +232,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             agregarMarcador(lat, log);
         }
     }
-
     LocationListener locListener = new LocationListener() {
         @Override
         public void onLocationChanged(Location location) {
@@ -274,51 +242,40 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 //            sound.play(chicken);
             //actualizarUbicacion(location);
             if (btn_iniciar.getText() != "Iniciar Alarma") {
-
                 //           Toast.makeText(MapsActivity.this, "Entra a onlocationchanged", Toast.LENGTH_LONG).show();
                 lat = location.getLatitude();
                 log = location.getLongitude();
                 posactual.setLongitude(log);
                 posactual.setLatitude(lat);
                 dist = posactual.distanceTo(posdestino) - radio;
-                if (dist <= 0) {
-                    txvcalculo.setText("Llegaste a tu destino!");
-                    reproducirTono();
+                if (dist <= 1000) {
+                  //  txvcalculo.setText("Llegaste a tu destino!");
+                    //            reproducirTono();
                     mandarSMS();
                 } else {
                     DecimalFormat df = new DecimalFormat("#.00");
                     distFormateada = df.format(dist);
                     txvcalculo.setText("La distancia actual es: " + distFormateada + " Metros.");
                 }
-
             } else {
-                actualizarUbicacion(location);
+              //  actualizarUbicacion(location);
             }
         }
-
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
-
         }
-
         @Override
         public void onProviderEnabled(@NonNull String provider) {
-
         }
-
         @Override
         public void onProviderDisabled(@NonNull String provider) {
-
         }
     };
-
     private void reproducirTono() {
         String _tono = getIntent().getStringExtra("tono");
         Integer _volumen = 20;
-
-        _volumen= getIntent().getIntExtra("volumen",_volumen);
-      //  MediaPlayer mp;
-
+        _volumen = getIntent().getIntExtra("volumen", _volumen);
+        //  MediaPlayer mp;
 
         //Configuracion del tono seleecionado
         // Lee los sonidos que figuran en res/raw
@@ -449,47 +406,39 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
     }
-
     public void AbrirDialogoCofContacto() {
         if (posdestino.getLatitude() != 0.0 && posdestino.getLongitude() != 0.0) {
             Intent intent = new Intent(this, Configurar_ContactoActivity.class);
             intent.putExtra("email", _emailU);
             intent.putExtra("poidestino", posdestino.getLatitude() + "-" + posdestino.getLongitude());
-
             startActivity(intent);
         } else {
             Toast.makeText(MapsActivity.this, "Debe Buscar su Dirección de Destino", Toast.LENGTH_LONG).show();
         }
-
     }
-
     public void AbrirDialogoConfigRadio() {
-    //    if (posdestino.getLatitude() != 0.0 && posdestino.getLongitude() != 0.0) {
-
-            Intent intent = new Intent(this, Configurar_RadioActivity.class);
-            TextoDestino = svbuscar.getQuery().toString();
-            intent.putExtra("TextoDestino", TextoDestino);
-            intent.putExtra("radio", radio);
-            //      intent.putExtra("desti", posdestino);
-            startActivity(intent);
-     //   } else {
-    //        Toast.makeText(MapsActivity.this, "Debe Buscar su Dirección de Destino", Toast.LENGTH_LONG).show();
-     //   }
+            if (posdestino.getLatitude() != 0.0 && posdestino.getLongitude() != 0.0) {
+        Intent intent = new Intent(this, Configurar_RadioActivity.class);
+        TextoDestino = svbuscar.getQuery().toString();
+        intent.putExtra("TextoDestino", TextoDestino);
+                intent.putExtra("email", _emailU);
+        intent.putExtra("radio", radio);
+        //      intent.putExtra("desti", posdestino);
+        startActivity(intent);
+           } else {
+                Toast.makeText(MapsActivity.this, "Debe Buscar su Dirección de Destino", Toast.LENGTH_LONG).show();
+           }
     }
-
     public void IniciarRecorrido() {
-
     }
-
     @Override
     public void onLocationChanged(@NonNull Location location) {
-     //   Toast.makeText(MapsActivity.this, "Entra a onlocationchanged", Toast.LENGTH_LONG).show();
+        //   Toast.makeText(MapsActivity.this, "Entra a onlocationchanged", Toast.LENGTH_LONG).show();
         dist = posactual.distanceTo(posdestino) - radio;
         DecimalFormat df = new DecimalFormat("#.00");
         distFormateada = df.format(dist);
         txvcalculo.setText("La distancia actual es: " + distFormateada + " Metros.");
     }
-
     public void mandarSMS() {
         int permissionCheck = ContextCompat.checkSelfPermission(
                 this, Manifest.permission.SEND_SMS);
@@ -517,7 +466,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
             alarma = new Alarma();
             DataAlarmaActivity task = new DataAlarmaActivity("selectSMS", persona, alarma, this);
             task.execute();
-            String phone = persona.getTelefono().replaceAll("[-+/ ]", "").trim();
+          /*  String phone = persona.getTelefono().replaceAll("[-+/ ]", "").trim();
             String text = alarma.getMensaje().trim();
             try {
                 control = Integer.parseUnsignedInt(phone);
@@ -532,7 +481,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 Toast.makeText(MapsActivity.this, "El numero de teléfono contiene valores no numéricos", Toast.LENGTH_LONG).show();
             } catch (Exception ex) {
                 Toast.makeText(MapsActivity.this, "Corrija su contacto al formato 00000000", Toast.LENGTH_LONG).show();
-            }
+            }*/
             return;
         }
     }

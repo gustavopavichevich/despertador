@@ -1,8 +1,9 @@
 package ar.com.despertador.data.Conexion;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.telephony.SmsManager;
+import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -17,8 +18,6 @@ import ar.com.despertador.data.model.Ubicacion;
 
 
 public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
-
-
     private final Context context;
     private Persona persona;
     private Alarma alarma;
@@ -59,11 +58,9 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
     public DataAlarmaActivity(Context ct) {
         this.context = ct;
     }
-
     @Override
     protected String doInBackground(String... urls) {
         String response = "";
-
         try {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection(DataBD.urlMySQL, DataBD.user, DataBD.pass);
@@ -124,33 +121,32 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
                     st.executeUpdate(QueryAlarma);
                     break;
                 case "selectSMS":
-                    ResultSet rs = st.executeQuery("SELECT * FROM personas WHERE tipo = 'contacto' and email = '" + persona.getEmail() + "'");
+                    ResultSet rsSMS = st.executeQuery("SELECT * FROM personas WHERE tipo = 'contacto' and email = '" + persona.getEmail() + "'");
 
                     result2 = " ";
-                    while (rs.next()) {
-                        persona.setIdPersona(rs.getInt("idPersona"));
-                        persona.setApellido(rs.getString("apellido"));
-                        persona.setNombre(rs.getString("nombre"));
-                        persona.setTelefono(rs.getString("telefono"));
-                        persona.setTipo(rs.getString("tipo"));
-                        persona.setEmail(rs.getString("email"));
+                    while (rsSMS.next()) {
+                        persona.setIdPersona(rsSMS.getInt("idPersona"));
+                        persona.setApellido(rsSMS.getString("apellido"));
+                        persona.setNombre(rsSMS.getString("nombre"));
+                        persona.setTelefono(rsSMS.getString("telefono"));
+                        persona.setTipo(rsSMS.getString("tipo"));
+                        persona.setEmail(rsSMS.getString("email"));
                     }
 
-                    rs = st.executeQuery("SELECT idAlarma, nombre, urlTono, mensaje, distanciaActivacion, volumen FROM alarmas WHERE idPersona = '" + persona.getIdPersona() + "'");
+                    ResultSet rsSMS2 = st.executeQuery("SELECT idAlarma, nombre, urlTono, mensaje, distanciaActivacion, volumen FROM alarmas WHERE idPersona = '" + persona.getIdPersona() + "'");
 
-                    while (rs.next()) {
-                        alarma.setIdAlarma(rs.getInt("idAlarma"));
-                        alarma.setNombre(rs.getString("nombre"));
-                        alarma.setUrlTono(rs.getString("urlTono"));
-                        alarma.setMensaje(rs.getString("mensaje"));
-                        alarma.setDistanciaActivacion(rs.getInt("distanciaActivacion"));
-                        alarma.setVolumen(rs.getInt("volumen"));
+                    while (rsSMS2.next()) {
+                        alarma.setIdAlarma(rsSMS2.getInt("idAlarma"));
+                        alarma.setNombre(rsSMS2.getString("nombre"));
+                        alarma.setUrlTono(rsSMS2.getString("urlTono"));
+                        alarma.setMensaje(rsSMS2.getString("mensaje"));
+                        alarma.setDistanciaActivacion(rsSMS2.getInt("distanciaActivacion"));
+                        alarma.setVolumen(rsSMS2.getInt("volumen"));
                     }
-                    rs.close();
+
                     break;
  /*               case "selectRecordar":
                     ResultSet rs2 = st.executeQuery("SELECT idUsuario, contrasenia FROM usuarios where email = '" + usuario.getEmail() + "' ");
-
                     result2 = " ";
                     total = 0;
                     while (rs2.next()){
@@ -168,24 +164,38 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
                     break;
             }
             response = "Conexion exitosa";
-
         } catch (Exception e) {
             e.printStackTrace();
             result2 = "Conexion no exitosa";
         }
         return response;
     }
-
     @Override
     protected void onPostExecute(String response) {
 
-        Intent intent = new Intent(context, MapsActivity.class);
-        context.startActivity(intent);
-//        switch (accion) {
-//            case "insert":
+    //    Intent intent = new Intent(context, MapsActivity.class);
+     //   context.startActivity(intent);
+        switch (accion) {
+           case "selectSMS":
+               String phone = persona.getTelefono().replaceAll("[-+/ ]", "").trim();
+               String text = alarma.getMensaje().trim();
+               try {
+                   int control = Integer.parseUnsignedInt(phone);
+                   if (phone.length() > 10) {
+                       phone = phone.substring(phone.length() - 10);
+                   } else {
+                       SmsManager sms = SmsManager.getDefault();
+                       sms.sendTextMessage(phone, null, text, null, null);
+                       Toast.makeText(context, "Se enviará SMS al número " + phone.trim(), Toast.LENGTH_LONG).show();
+                   }
+               } catch (NumberFormatException e) {
+                   Toast.makeText(context, "El numero de teléfono contiene valores no numéricos", Toast.LENGTH_LONG).show();
+               } catch (Exception ex) {
+                   Toast.makeText(context, "Corrija su contacto al formato 00000000", Toast.LENGTH_LONG).show();
+               }
 //                Toast.makeText(context, "insertamos el usuario!!!", Toast.LENGTH_SHORT).show();
 //                context.startActivity(new Intent(context, LoginActivity.class));
-//                break;
+           break;
 //            case "select":
 //                if (usuario.getIdUsuario() > 0) {
 //                    Toast.makeText(context, "Logueado con exito", Toast.LENGTH_LONG).show();
@@ -204,9 +214,8 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
 //                    Toast.makeText(context, "Usuario inexistente", Toast.LENGTH_LONG).show();
 //                }
 //                break;
-//            default:
-//                break;
-//        }
+         default:
+              break;
+       }
     }
 }
-
