@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import ar.com.despertador.MapsActivity;
 import ar.com.despertador.R;
 import ar.com.despertador.Validaciones;
 
@@ -23,11 +24,16 @@ public class Configurar_ContactoActivity extends AppCompatActivity {
     EditText _txtmensaje;
     private static String _emailU,_poiDestino;
     Validaciones objValidar; //objeto de nuestro clase Validaciones
-
+    private String TextoDestino;
+    private Integer radio= 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configurar_contacto);
+        radio = getIntent().getIntExtra("radio", radio);
+       TextoDestino = getIntent().getStringExtra("TextoDestino");
+
+
         _emailU=getIntent().getStringExtra("email");
         _poiDestino = getIntent().getStringExtra("poidestino");
         _radiow = (RadioButton)findViewById(R.id.radioWhatsApp);
@@ -40,6 +46,13 @@ public class Configurar_ContactoActivity extends AppCompatActivity {
             Intent selectContactoIntent = new Intent(Intent.ACTION_PICK, Uri.parse("content://contactas"));
             selectContactoIntent.setType(ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE);
             startActivityForResult(selectContactoIntent,PICK_CONTACT_REQUEST);
+    }
+    public void cancelar (View v){
+        Intent intent = new Intent(Configurar_ContactoActivity.this, MapsActivity.class);
+        intent.putExtra("TextoDestino", TextoDestino);
+        intent.putExtra("radio", radio);
+        this.startActivity(intent);
+
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -65,6 +78,8 @@ public class Configurar_ContactoActivity extends AppCompatActivity {
                     intent.putExtra("txtmensaje",_txtmensaje.getText().toString());
                     intent.putExtra("nombre",nombre);
                     intent.putExtra("numero",numero);
+                    intent.putExtra("TextoDestino", TextoDestino);
+                    intent.putExtra("radio", radio);
                     startActivity(intent);
                     this.finish();
                 }

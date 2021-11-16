@@ -49,8 +49,11 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
     ListView _lvalarmas;
     SeekBar _volalarma;
     EditText _txtmensajealarma;
+    private String TextoDestino;
+    private Integer radio = 0;
 
     Button boton_aceptar;
+    Button boton_cancelar;
     private Alarma alarma;
     private Ubicacion ubicacion;
     private Persona persona;
@@ -66,7 +69,10 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_configuracion_alarma);
         //Variables del activity
+        radio = getIntent().getIntExtra("radio", radio);
+        TextoDestino = getIntent().getStringExtra("TextoDestino");
         boton_aceptar = (Button) findViewById(R.id.btnAceptar);
+        boton_cancelar = (Button) findViewById(R.id.btnCancelarConfAlarm);
         _txtnombrealarma = (EditText) findViewById(R.id.txtNombreAlarma);
         _lvalarmas = (ListView) findViewById(R.id.lvAlarmas);
         _volalarma = (SeekBar) findViewById(R.id.seekBarVolumen);
@@ -119,8 +125,8 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
                     alarma = new Alarma();
                     ubicacion = new Ubicacion();
                     persona = new Persona();
-                    int radio = 500;
-                    radio = getIntent().getIntExtra("radio", radio);
+           //         int radio = 500;
+                //    radio = getIntent().getIntExtra("radio", radio);
 
                     persona.setApellido(_nombre);
                     persona.setNombre(_nombre);
@@ -140,7 +146,7 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
 
                     ubicacion.setPoi(_poiDestino);//la posicion de la busqueda de destino
 
-                    DataAlarmaActivity task = new DataAlarmaActivity("insert", persona, alarma, ubicacion, con);
+                    DataAlarmaActivity task = new DataAlarmaActivity("insert", persona, alarma, ubicacion, con,TextoDestino, radio);
                     task.execute();
          //           volver();
                 } else {
@@ -191,6 +197,14 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
             }
         });*/
         //Fin Agrego
+    }
+
+    public void cancelar (View v){
+        Intent intent = new Intent(ConfiguracionAlarmaActivity.this, MapsActivity.class);
+        intent.putExtra("TextoDestino", TextoDestino);
+        intent.putExtra("radio", radio);
+        this.startActivity(intent);
+
     }
     public void volver ()
     {
