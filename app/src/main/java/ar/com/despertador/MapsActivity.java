@@ -255,7 +255,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                     posactual.setLongitude(log);
                     posactual.setLatitude(lat);
                     dist = posactual.distanceTo(posdestino) - radio;
-                    if (dist <= 1000) {
+                    if (dist <= 0) {
                         txvcalculo.setText("Llegaste a tu destino!");
                         btn_iniciar.setText("Finalizar Alarma");
                         reproducirTono();
