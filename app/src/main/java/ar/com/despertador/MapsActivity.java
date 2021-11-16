@@ -66,6 +66,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     double lat = 0.0;
     double log = 0.0;
     private int radio = 0;
+    //leo
     SupportMapFragment mapFragment;
     FloatingActionButton AvisaraContacto;
     FloatingActionButton aplicarRadio;
