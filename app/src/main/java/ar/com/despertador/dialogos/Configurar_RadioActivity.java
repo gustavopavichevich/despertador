@@ -20,6 +20,7 @@ public class Configurar_RadioActivity extends AppCompatActivity implements SeekB
     private Button btnCancelarConfRadio;
     private Button btn_AceptarConfRadio;
     private int radio;
+    private String _emailU;
     private String TextoDestino;
 
 
@@ -32,6 +33,8 @@ public class Configurar_RadioActivity extends AppCompatActivity implements SeekB
         mProgressText = (TextView) findViewById(R.id.progress);
         mTrackingText = (TextView) findViewById(R.id.tracking);
         radio = getIntent().getIntExtra("radio",1);
+        _emailU = getIntent().getStringExtra("email");
+
         TextoDestino = getIntent().getStringExtra("TextoDestino");
        // desti = getIntent().getLocationExtra("desti");
         mSeekBar.setProgress(radio);
@@ -51,6 +54,8 @@ public class Configurar_RadioActivity extends AppCompatActivity implements SeekB
                 intent.putExtra("radio", radio);
          //       intent.putExtra("desti", desti);
                 intent.putExtra("Regrafica", "si");
+
+                intent.putExtra("email", _emailU);
                 intent.putExtra("TextoDestino", TextoDestino);
                 startActivity(intent);
             }
