@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import ar.com.despertador.MapsActivity;
 import ar.com.despertador.R;
+import ar.com.despertador.Validaciones;
 import ar.com.despertador.data.Conexion.DataAlarmaActivity;
 import ar.com.despertador.data.model.Alarma;
 import ar.com.despertador.data.model.Persona;
@@ -58,6 +59,7 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
     String _emailU, _radiow, _radiosms, _txtmensaje, _nombre, _numero, _poiDestino, _tono;
     Integer _volumen;
 
+    Validaciones objValidar; //objeto de nuestro clase Validaciones
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +72,7 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
         _volalarma = (SeekBar) findViewById(R.id.seekBarVolumen);
         _txtmensajealarma = (EditText) findViewById(R.id.txtMensajeAlarma);
 
+        objValidar = new Validaciones();
 
         _emailU = getIntent().getStringExtra("email");
         _poiDestino = getIntent().getStringExtra("poidestino");
@@ -77,10 +80,13 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
         _nombre = getIntent().getStringExtra("nombre");
         _numero = getIntent().getStringExtra("numero");
 
-        if (_txtmensaje != "") {
+        _txtmensajealarma.setText(_txtmensaje);
+        if (!objValidar.Vacio(_txtmensajealarma)) {
+            _txtmensajealarma.setError("");
             _txtmensajealarma.setText(_txtmensaje);//pongo el mensaje que agrego el usuario
         } else {
-            _txtmensajealarma.setText(_emailU + " esta llegando al destino seleccionado, usted es su contacto de aviso.");//pongo el mensaje predeterminado
+            _txtmensajealarma.setError("");
+            _txtmensajealarma.setText(_emailU + " Esta llegando al destino seleccionado, usted es su contacto de aviso.");//pongo el mensaje predeterminado
         }
         final ListView list30 = (ListView) findViewById(R.id.lvAlarmas);
         ArrayAdapter adaptador = new ArrayAdapter(this, android.R.layout.simple_list_item_1, title);
@@ -109,7 +115,7 @@ public class ConfiguracionAlarmaActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //String acepta = texto_casilla.isChecked() ? "si" : "no";
                 //cargo las clases con los valores recuperado en tre los activitys
-                if (_txtnombrealarma.getText().toString() != "" && _txtmensajealarma.getText().toString() != "" && _tono != "") {
+                if (!objValidar.Vacio( _txtnombrealarma) && !objValidar.Vacio(_txtmensajealarma) && _tono != "") {
                     alarma = new Alarma();
                     ubicacion = new Ubicacion();
                     persona = new Persona();
