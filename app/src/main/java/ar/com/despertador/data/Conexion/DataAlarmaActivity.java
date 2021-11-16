@@ -147,21 +147,6 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
                         }
                     }
                     break;
- /*               case "selectRecordar":
-                    ResultSet rs2 = st.executeQuery("SELECT idUsuario, contrasenia FROM usuarios where email = '" + usuario.getEmail() + "' ");
-                    result2 = " ";
-                    total = 0;
-                    while (rs2.next()){
-                        contrasena = rs2.getString("contrasenia");
-                        iduser = rs2.getInt("idUsuario");
-                        total++;
-                    }
-                    // Terminamos de cargar el objet
-                    if (total == 1){
-                        usuario.setIdUsuario(iduser);
-                        usuario.setContrasenia(contrasena);
-                    }
-                    break;*/
                 default:
                     break;
             }
@@ -175,8 +160,7 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
     @Override
     protected void onPostExecute(String response) {
 
-    //    Intent intent = new Intent(context, MapsActivity.class);
-     //   context.startActivity(intent);
+
         switch (accion) {
            case "selectSMS":
                if (!persona.getTelefono().isEmpty()) {
@@ -200,24 +184,10 @@ public class DataAlarmaActivity extends AsyncTask<String, Void, String> {
 //                context.startActivity(new Intent(context, LoginActivity.class));
                }
            break;
-//            case "select":
-//                if (usuario.getIdUsuario() > 0) {
-//                    Toast.makeText(context, "Logueado con exito", Toast.LENGTH_LONG).show();
-//                    context.startActivity(new Intent(context, MapsActivity.class));
-//                }else
-//                {
-//                    Toast.makeText(context, "Usuario o contraseña incorrectos", Toast.LENGTH_LONG).show();
-//                    context.startActivity(new Intent(context, LoginActivity.class));
-//                }
-//                break;
-//            case "selectRecordar":
-//                if (usuario.getIdUsuario() > 0) {
-//                    new MailJob("appdespertador@gmail.com", "utn123456").execute(new MailJob.Mail("appdespertador@gmail.com", "leo.yermoli@gmail.com", "Contraseña de app Despertador UTN", "La contraseña del usuario "+ usuario.getEmail().toString() + " es: "+ usuario.getContrasenia().toString()));
-//                    Toast.makeText(context, "Contraseña enviada, revise su casilla de correo", Toast.LENGTH_LONG).show();
-//                }else{
-//                    Toast.makeText(context, "Usuario inexistente", Toast.LENGTH_LONG).show();
-//                }
-//                break;
+           case "insert":
+                   Intent intent = new Intent(context, MapsActivity.class);
+                  context.startActivity(intent);
+                break;
          default:
               break;
        }
